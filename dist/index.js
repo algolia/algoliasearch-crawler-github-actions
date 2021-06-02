@@ -59,20 +59,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core = require('@actions/core');
 var crawler_api_client_1 = require("./crawler-api-client");
-// // CREDENTIALS
-// const CRAWLER_USER_ID = "00000000-0000-4000-a000-000000000001";
-// const CRAWLER_API_KEY = "14mn074r34l4p1k3yd0n7u53m31npr0d";
-// const CRAWLER_API_BASE_URL = "http://localhost:7900/api/1/";
-// // CREDENTIALS
-// const CRAWLER_USER_ID = "478e6f93-7550-4850-9f3e-91ea853fa13d";
-// const CRAWLER_API_KEY = "d4bc8f523e6f126c88ec07bb7da3611d";
-// const CRAWLER_API_BASE_URL = "https://crawler-dev.algolia.com/api/1/";
-//
-// // CRAWLER CONFIGURATION
-// const CRAWLER_NAME = 'damcou/simple-page/master'.replace(/\//g, '-');
-// const ALGOLIA_APP_ID = 'Y34K42BB0X';
-// const ALGOLIA_API_KEY = '64b0f8f5892b676971d5e1da39f0604a';
-// const SITE_URL = 'https://crawler.algolia.com/test-website/';
 // CREDENTIALS
 var CRAWLER_USER_ID = core.getInput('crawler-user-id');
 var CRAWLER_API_KEY = core.getInput('crawler-api-key');
