@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "downlevelIteration": true,
+  },
+  "files": [
+    "./src/index.ts",
+    "./src/crawler-api-client.ts",
+  ],
+  "exclude": []
+}
+  

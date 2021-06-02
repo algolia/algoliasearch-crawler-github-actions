@@ -1,0 +1,32 @@
+name: 'Algolia Crawler Reindex'
+description: 'Algolia Crawler reindexing'
+inputs:
+  # CREDENTIALS
+  crawler-user-id:
+    description: 'Crawler user ID'
+    required: true
+  crawler-api-key:
+    description: 'Crawler API key'
+    required: true
+  crawler-api-base-url:
+    description: 'Crawler API URL'
+    required: false
+    default: 'https://crawler.algolia.com/api/1/'
+
+  # CRAWLER CONFIGURATION
+  crawler-name:
+    description: 'Name of the crawler'
+    required: true
+  algolia-app-id:
+    description: 'Algolia Application ID'
+    required: true
+  algolia-api-key:
+    description: 'Algolia API key'
+    required: true
+  site-url:
+    description: 'url of the site to crawl'
+    required: true
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

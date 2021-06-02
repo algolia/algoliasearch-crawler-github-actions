@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "name": "algoliasearch-crawler-github-actions",
+  "version": "0.0.0",
+  "description": "Github action for Algolia crawler indexing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/algolia/algoliasearch-crawler-github-actions.git"
+  },
+  "keywords": [
+    "Crawler",
+    "Algolia",
+    "Github",
+    "Action"
+  ],
+  "author": {
+    "name": "Algolia, Inc.",
+    "url": "https://www.algolia.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/algolia/algoliasearch-crawler-github-actions/issues"
+  },
+  "homepage": "https://github.com/algolia/algoliasearch-crawler-github-actions#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.6.1",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "ts-jest": "^27.0.2"
+  }
+}
