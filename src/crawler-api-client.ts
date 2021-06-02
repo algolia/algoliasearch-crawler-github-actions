@@ -1,4 +1,4 @@
-/* const fetch = require('node-fetch'); */
+const fetch = require('node-fetch');
 
 type SearchParams = { [key: string]: string | number | null };
 
