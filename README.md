@@ -2,7 +2,7 @@
 
 ## How to use
 
-- On your repository, create a `.github/workflows/mail.yml` file
+- On your repository, create a `.github/workflows/main.yml` file
 - Add the following code when needed in your flow:
 
 ```yaml
@@ -33,7 +33,7 @@ jobs:
           crawler-name: ${{ github.repository }}-${{ github.ref }}
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
-          site-url: 'https://crawler.algolia.com/test-website/'`
+          site-url: 'https://crawler.algolia.com/test-website/'
 ```
 
 - More for information about Github actions [here](https://docs.github.com/en/actions)
@@ -50,6 +50,6 @@ jobs:
 ## Create the following Github secrets on your repository (in Settings > Secrets)
 - `ALGOLIA_API_KEY`: Algolia Application ID 
 - `ALGOLIA_APP_ID`: Algolia API Key
-- `CRAWLER_API_KEY`: Api Key of your crawner account
+- `CRAWLER_API_KEY`: Api Key of your crawler account
 - `CRAWLER_USER_ID`: User Id of your crawler account
 - `GIT_HUB_TOKEN`: Github token (to use the action as long it's a private repository)
