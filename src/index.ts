@@ -1,5 +1,8 @@
-const core = require('@actions/core');
-import { CrawlerApiClient }  from './crawler-api-client';
+/* eslint-disable no-console */
+import * as core from '@actions/core';
+
+import { CrawlerApiClient } from './crawler-api-client';
+import type { ConfigJson } from './types/configJson';
 
 // CREDENTIALS
 const CRAWLER_USER_ID = core.getInput('crawler-user-id');
@@ -15,10 +18,10 @@ const SITE_URL = core.getInput('site-url');
 const client = new CrawlerApiClient({
   crawlerApiBaseUrl: CRAWLER_API_BASE_URL,
   crawlerUserId: CRAWLER_USER_ID,
-  crawlerApiKey: CRAWLER_API_KEY
+  crawlerApiKey: CRAWLER_API_KEY,
 });
 
-function getConfig() {
+function getConfig(): ConfigJson {
   return {
     appId: ALGOLIA_APP_ID,
     apiKey: ALGOLIA_API_KEY,
@@ -32,7 +35,7 @@ function getConfig() {
     ignoreRobotsTxtRules: false,
     actions: [
       {
-        indexName : CRAWLER_NAME + '_index',
+        indexName: `${CRAWLER_NAME}_index`,
         pathsToMatch: [`${SITE_URL}**`],
         recordExtractor: {
           __type: 'function',
@@ -43,13 +46,13 @@ function getConfig() {
   };
 }
 
-function getRecordExtractorSource() {
+function getRecordExtractorSource(): string {
   return `({ helpers }) => {
   return helpers.netlifyExtractor({ template: 'default' });
 }`;
 }
 
-async function crawlerReindex() {
+async function crawlerReindex(): Promise<void> {
   const filteredCrawlers = [];
   let crawlerId = '';
   let currentPage = 1;
@@ -58,10 +61,11 @@ async function crawlerReindex() {
 
   // Searching for the crawler, based on the name
   do {
-    crawlers = await client.getCrawlers(100, currentPage++)
+    crawlers = await client
+      .getCrawlers(100, currentPage++)
       .catch((error) => console.log(error));
 
-    if (typeof crawlers === "undefined") {
+    if (typeof crawlers === 'undefined') {
       break;
     }
 
@@ -77,27 +81,18 @@ async function crawlerReindex() {
     // If the crawler exists : update it
     crawlerId = filteredCrawlers[0].id;
     const config = getConfig();
-    const res = await client.updateConfig(
-      crawlerId,
-      config
-    );
-    if (res.error) {
-      console.error(res.error.message);
-      console.error(JSON.stringify(res.error.errors));
-      throw new Error(res.error.message);
-    }
+    await client.updateConfig(crawlerId, config);
   } else {
     // If it doesn't exist yet: create it
     const crawler = await client.createCrawler(CRAWLER_NAME, getConfig());
     crawlerId = crawler.id;
   }
 
-  console.log("---------- Reindexing crawler " + crawlerId + " ----------");
+  console.log(`---------- Reindexing crawler ${crawlerId} ----------`);
   await client.reindex(crawlerId);
 }
 
-console.log("---------CRAWLER CONFIG---------");
-console.log("CRAWLER_NAME : " + CRAWLER_NAME);
+console.log('---------CRAWLER CONFIG---------');
+console.log(`CRAWLER_NAME : ${CRAWLER_NAME}`);
 
-crawlerReindex()
-  .catch((error) => console.log(error));
+crawlerReindex().catch((error) => console.log(error));

@@ -57,7 +57,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
     return to;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core = require('@actions/core');
+/* eslint-disable no-console */
+var core = require("@actions/core");
 var crawler_api_client_1 = require("./crawler-api-client");
 // CREDENTIALS
 var CRAWLER_USER_ID = core.getInput('crawler-user-id');
@@ -71,7 +72,7 @@ var SITE_URL = core.getInput('site-url');
 var client = new crawler_api_client_1.CrawlerApiClient({
     crawlerApiBaseUrl: CRAWLER_API_BASE_URL,
     crawlerUserId: CRAWLER_USER_ID,
-    crawlerApiKey: CRAWLER_API_KEY
+    crawlerApiKey: CRAWLER_API_KEY,
 });
 function getConfig() {
     return {
@@ -87,7 +88,7 @@ function getConfig() {
         ignoreRobotsTxtRules: false,
         actions: [
             {
-                indexName: CRAWLER_NAME + '_index',
+                indexName: CRAWLER_NAME + "_index",
                 pathsToMatch: [SITE_URL + "**"],
                 recordExtractor: {
                     __type: 'function',
@@ -102,7 +103,7 @@ function getRecordExtractorSource() {
 }
 function crawlerReindex() {
     return __awaiter(this, void 0, void 0, function () {
-        var filteredCrawlers, crawlerId, currentPage, nbFetchedCrawlers, crawlers, config, res, crawler;
+        var filteredCrawlers, crawlerId, currentPage, nbFetchedCrawlers, crawlers, config, crawler;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -111,11 +112,12 @@ function crawlerReindex() {
                     currentPage = 1;
                     nbFetchedCrawlers = 0;
                     _a.label = 1;
-                case 1: return [4 /*yield*/, client.getCrawlers(100, currentPage++)
+                case 1: return [4 /*yield*/, client
+                        .getCrawlers(100, currentPage++)
                         .catch(function (error) { return console.log(error); })];
                 case 2:
                     crawlers = _a.sent();
-                    if (typeof crawlers === "undefined") {
+                    if (typeof crawlers === 'undefined') {
                         return [3 /*break*/, 4];
                     }
                     nbFetchedCrawlers += crawlers.items.length;
@@ -134,12 +136,7 @@ function crawlerReindex() {
                     config = getConfig();
                     return [4 /*yield*/, client.updateConfig(crawlerId, config)];
                 case 5:
-                    res = _a.sent();
-                    if (res.error) {
-                        console.error(res.error.message);
-                        console.error(JSON.stringify(res.error.errors));
-                        throw new Error(res.error.message);
-                    }
+                    _a.sent();
                     return [3 /*break*/, 8];
                 case 6: return [4 /*yield*/, client.createCrawler(CRAWLER_NAME, getConfig())];
                 case 7:
@@ -156,7 +153,6 @@ function crawlerReindex() {
         });
     });
 }
-console.log("---------CRAWLER CONFIG---------");
+console.log('---------CRAWLER CONFIG---------');
 console.log("CRAWLER_NAME : " + CRAWLER_NAME);
-crawlerReindex()
-    .catch(function (error) { return console.log(error); });
+crawlerReindex().catch(function (error) { return console.log(error); });

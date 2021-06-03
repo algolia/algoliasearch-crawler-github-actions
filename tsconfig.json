@@ -6,10 +6,6 @@
     "outDir": "./dist",
     "downlevelIteration": true,
   },
-  "files": [
-    "./src/index.ts",
-    "./src/crawler-api-client.ts",
-  ],
   "exclude": []
 }
   
