@@ -30,10 +30,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
+    "types": ["node", "jest"],
   },
-  "exclude": [],
+  "exclude": ["node_modules","**/*.test.ts"],
   "include": [
     "src/**/*",
-  ]
+  ],
+  "typeRoots": ["node_modules/@types"]
 }
   
