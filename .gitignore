@@ -2,5 +2,5 @@
 .DS_Store
 .vscode
 .scannerwork
-dist
-node_modules
+dist/
+node_modules/
