@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -57,14 +56,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
     return to;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* eslint-disable no-console */
 var core = require("@actions/core");
 var crawler_api_client_1 = require("./crawler-api-client");
-// CREDENTIALS
 var CRAWLER_USER_ID = core.getInput('crawler-user-id');
 var CRAWLER_API_KEY = core.getInput('crawler-api-key');
 var CRAWLER_API_BASE_URL = core.getInput('crawler-api-base-url');
-// CRAWLER CONFIGURATION
 var CRAWLER_NAME = core.getInput('crawler-name').replace(/\//g, '-');
 var ALGOLIA_APP_ID = core.getInput('algolia-app-id');
 var ALGOLIA_API_KEY = core.getInput('algolia-api-key');
@@ -112,13 +108,11 @@ function crawlerReindex() {
                     currentPage = 1;
                     nbFetchedCrawlers = 0;
                     _a.label = 1;
-                case 1: return [4 /*yield*/, client
-                        .getCrawlers(100, currentPage++)
-                        .catch(function (error) { return console.log(error); })];
+                case 1: return [4, client.getCrawlers(100, currentPage++)];
                 case 2:
                     crawlers = _a.sent();
                     if (typeof crawlers === 'undefined') {
-                        return [3 /*break*/, 4];
+                        return [3, 4];
                     }
                     nbFetchedCrawlers += crawlers.items.length;
                     filteredCrawlers.push.apply(filteredCrawlers, __spreadArray([], __read(crawlers.items.filter(function (_a) {
@@ -127,28 +121,27 @@ function crawlerReindex() {
                     }))));
                     _a.label = 3;
                 case 3:
-                    if (crawlers.total > nbFetchedCrawlers) return [3 /*break*/, 1];
+                    if (crawlers.total > nbFetchedCrawlers) return [3, 1];
                     _a.label = 4;
                 case 4:
-                    if (!(filteredCrawlers.length !== 0)) return [3 /*break*/, 6];
-                    // If the crawler exists : update it
+                    if (!(filteredCrawlers.length !== 0)) return [3, 6];
                     crawlerId = filteredCrawlers[0].id;
                     config = getConfig();
-                    return [4 /*yield*/, client.updateConfig(crawlerId, config)];
+                    return [4, client.updateConfig(crawlerId, config)];
                 case 5:
                     _a.sent();
-                    return [3 /*break*/, 8];
-                case 6: return [4 /*yield*/, client.createCrawler(CRAWLER_NAME, getConfig())];
+                    return [3, 8];
+                case 6: return [4, client.createCrawler(CRAWLER_NAME, getConfig())];
                 case 7:
                     crawler = _a.sent();
                     crawlerId = crawler.id;
                     _a.label = 8;
                 case 8:
                     console.log("---------- Reindexing crawler " + crawlerId + " ----------");
-                    return [4 /*yield*/, client.reindex(crawlerId)];
+                    return [4, client.reindex(crawlerId)];
                 case 9:
                     _a.sent();
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     });

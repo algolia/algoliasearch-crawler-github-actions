@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,18 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CrawlerApiClient = void 0;
 var node_fetch_1 = require("node-fetch");
-/**
- * Example of class that can be used to hit the Crawler API.
- *
- * @example
- * const client = new CrawlerApiClient({
- *   crawlerApiBaseUrl: 'https://crawler.algolia.com/api/1/',
- *   crawlerUserId: 'test_user@algolia.com',
- *   crawlerApiKey: 'crawler_api_key'
- * });
- * await client.reindex('crawler_id');
- */
-var CrawlerApiClient = /** @class */ (function () {
+var CrawlerApiClient = (function () {
     function CrawlerApiClient(_a) {
         var crawlerUserId = _a.crawlerUserId, crawlerApiBaseUrl = _a.crawlerApiBaseUrl, crawlerApiKey = _a.crawlerApiKey;
         this.crawlerUserId = crawlerUserId;
@@ -57,11 +45,6 @@ var CrawlerApiClient = /** @class */ (function () {
         this.crawlerApiBaseUrl = crawlerApiBaseUrl;
     }
     Object.defineProperty(CrawlerApiClient.prototype, "basicAuthToken", {
-        /**
-         * Get Basic Auth token, base64 encoded.
-         *
-         * @returns - Basic Auth Token.
-         */
         get: function () {
             return "Basic " + Buffer.from(this.crawlerUserId + ":" + this.crawlerApiKey).toString('base64');
         },
@@ -74,10 +57,10 @@ var CrawlerApiClient = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!res.ok) return [3 /*break*/, 2];
-                        return [4 /*yield*/, res.json()];
-                    case 1: return [2 /*return*/, _a.sent()];
-                    case 2: return [4 /*yield*/, res.json()];
+                        if (!res.ok) return [3, 2];
+                        return [4, res.json()];
+                    case 1: return [2, _a.sent()];
+                    case 2: return [4, res.json()];
                     case 3:
                         error = _a.sent();
                         throw new Error(res.status + ": " + res.statusText + "\n" + (error ? JSON.stringify(error) : ''));
@@ -85,13 +68,6 @@ var CrawlerApiClient = /** @class */ (function () {
             });
         });
     };
-    /**
-     * Create a new Crawler.
-     *
-     * @param name - The crawler's name.
-     * @param jsonConfig - The crawler configuration, in JSON format.
-     * @returns A promise that will resolve with an object containing the crawler's id: `{ id: 'crawler_id' }`.
-     */
     CrawlerApiClient.prototype.createCrawler = function (name, jsonConfig) {
         return __awaiter(this, void 0, void 0, function () {
             var body, res;
@@ -102,7 +78,7 @@ var CrawlerApiClient = /** @class */ (function () {
                             name: name,
                             config: jsonConfig,
                         };
-                        return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers", {
+                        return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers", {
                                 method: 'POST',
                                 headers: {
                                     Authorization: this.basicAuthToken,
@@ -112,21 +88,11 @@ var CrawlerApiClient = /** @class */ (function () {
                             })];
                     case 1:
                         res = _a.sent();
-                        return [2 /*return*/, CrawlerApiClient.__handleResponse(res)];
+                        return [2, CrawlerApiClient.__handleResponse(res)];
                 }
             });
         });
     };
-    /**
-     * Update a Crawler.
-     *
-     * @param p - Params.
-     * @param p.id - Identifier of the crawler to update.
-     * @param p.name - (optional) The new name of the crawler.
-     * @param p.jsonConfig - (optional) The new configuration of the crawler. It must be a complete config as it
-     * will completely override the existing one.
-     * @returns A promise that will resolve with an object containing a taskId: `{ taskId: 'task_id' }`.
-     */
     CrawlerApiClient.prototype.updateCrawler = function (_a) {
         var id = _a.id, name = _a.name, jsonConfig = _a.jsonConfig;
         return __awaiter(this, void 0, void 0, function () {
@@ -138,7 +104,7 @@ var CrawlerApiClient = /** @class */ (function () {
                             name: name,
                             config: jsonConfig,
                         };
-                        return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id, {
+                        return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id, {
                                 method: 'PATCH',
                                 headers: {
                                     Authorization: this.basicAuthToken,
@@ -148,28 +114,12 @@ var CrawlerApiClient = /** @class */ (function () {
                             })];
                     case 1:
                         res = _b.sent();
-                        return [2 /*return*/, CrawlerApiClient.__handleResponse(res)];
+                        return [2, CrawlerApiClient.__handleResponse(res)];
                 }
             });
         });
     };
-    /**
-     * List all Crawlers.
-     *
-     * @param itemsPerPage - The number of crawlers to return per page.
-     * @param page - The page to fetch.
-     * @returns A promise that will resolve with an object looking like:
-     * {
-     * items: [{ id: 'crawler_1_id', name: 'crawler_1_name' },  { id: 'crawler_2_id, ... }],
-     * itemsPerPage: 20,
-     * page: 1,
-     * total: 5
-     * }
-     * .
-     */
     CrawlerApiClient.prototype.getCrawlers = function (itemsPerPage, page) {
-        if (itemsPerPage === void 0) { itemsPerPage = undefined; }
-        if (page === void 0) { page = undefined; }
         return __awaiter(this, void 0, void 0, function () {
             var searchParams, qs, res;
             return __generator(this, function (_a) {
@@ -183,37 +133,24 @@ var CrawlerApiClient = /** @class */ (function () {
                         qs = Object.keys(searchParams)
                             .map(function (k) { return encodeURIComponent(k) + "=" + encodeURIComponent(searchParams[k]); })
                             .join('&');
-                        return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers" + (qs ? "?" + qs : ''), {
+                        return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers" + (qs ? "?" + qs : ''), {
                                 headers: {
                                     Authorization: this.basicAuthToken,
                                 },
                             })];
                     case 1:
                         res = _a.sent();
-                        return [2 /*return*/, CrawlerApiClient.__handleResponse(res)];
+                        return [2, CrawlerApiClient.__handleResponse(res)];
                 }
             });
         });
     };
-    /**
-     * Update a Crawler's configuration.
-     *
-     * @param id - Identifier of the crawler configuration to update.
-     * @param partialJsonConfig - The config object that will be merged with the current configuration.
-     * @example
-     * The merge will be done on top-level properties:
-     *   const newConfig = {
-     *     ...currentConfigInDB,
-     *     ...partialJsonConfig,
-     *   }
-     * @returns A promise that will resolve with an object containing a taskId: `{ taskId: 'task_id' }`.
-     */
     CrawlerApiClient.prototype.updateConfig = function (id, partialJsonConfig) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id + "/config", {
+                    case 0: return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id + "/config", {
                             method: 'PATCH',
                             headers: {
                                 Authorization: this.basicAuthToken,
@@ -223,126 +160,88 @@ var CrawlerApiClient = /** @class */ (function () {
                         })];
                     case 1:
                         res = _a.sent();
-                        return [2 /*return*/, CrawlerApiClient.__handleResponse(res)];
+                        return [2, CrawlerApiClient.__handleResponse(res)];
                 }
             });
         });
     };
-    /**
-     * Get the crawler's configuration.
-     *
-     * @param id - Identifier of the Crawler.
-     * @returns A promise that will resolve with the crawler's config (in JSON format).
-     */
     CrawlerApiClient.prototype.getConfig = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id + "?withConfig=true", {
+                    case 0: return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id + "?withConfig=true", {
                             headers: {
                                 Authorization: this.basicAuthToken,
                             },
                         })];
                     case 1:
                         res = _a.sent();
-                        /*     const { config } = await CrawlerApiClient.__handleResponse(res);
-                        return config; */
-                        return [2 /*return*/, CrawlerApiClient.__handleResponse(res)];
+                        return [2, CrawlerApiClient.__handleResponse(res)];
                 }
             });
         });
     };
-    /**
-     * Get the status of a crawler.
-     *
-     * @param id - The id of the crawler.
-     * @returns A promise that will resolve with an object containing the status of the crawler.
-     */
     CrawlerApiClient.prototype.getStatus = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id, {
+                    case 0: return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id, {
                             headers: {
                                 Authorization: this.basicAuthToken,
                             },
                         })];
                     case 1:
                         res = _a.sent();
-                        return [2 /*return*/, CrawlerApiClient.__handleResponse(res)];
+                        return [2, CrawlerApiClient.__handleResponse(res)];
                 }
             });
         });
     };
-    /**
-     * Get statistics of the last reindex a crawler.
-     *
-     * @param id - The id of the crawler.
-     * @returns A promise that will resolve with an object containing some statistics about the last reindex.
-     */
     CrawlerApiClient.prototype.getURLStats = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id + "/stats/urls", {
+                    case 0: return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + id + "/stats/urls", {
                             headers: {
                                 Authorization: this.basicAuthToken,
                             },
                         })];
                     case 1:
                         res = _a.sent();
-                        return [2 /*return*/, CrawlerApiClient.__handleResponse(res)];
+                        return [2, CrawlerApiClient.__handleResponse(res)];
                 }
             });
         });
     };
-    /**
-     * Trigger a reindex on a crawler.
-     *
-     * @param id - Identifier of the Crawler.
-     * @returns A promise that will resolve with an object containing a `taskId`.
-     */
     CrawlerApiClient.prototype.reindex = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.__triggerAction({ crawlerId: id, actionName: 'reindex' })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4, this.__triggerAction({ crawlerId: id, actionName: 'reindex' })];
+                    case 1: return [2, _a.sent()];
                 }
             });
         });
     };
-    /**
-     * Trigger a run on a crawler.
-     *
-     * @param id - Identifier of the Crawler.
-     * @returns A promise that will resolve with an object containing a `taskId`.
-     */
     CrawlerApiClient.prototype.run = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.__triggerAction({ crawlerId: id, actionName: 'run' })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4, this.__triggerAction({ crawlerId: id, actionName: 'run' })];
+                    case 1: return [2, _a.sent()];
                 }
             });
         });
     };
-    /**
-     * Trigger a pause on a crawler.
-     *
-     * @param id - Identifier of the Crawler.
-     * @returns A promise that will resolve with an object containing a `taskId`.
-     */
     CrawlerApiClient.prototype.pause = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.__triggerAction({ crawlerId: id, actionName: 'pause' })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4, this.__triggerAction({ crawlerId: id, actionName: 'pause' })];
+                    case 1: return [2, _a.sent()];
                 }
             });
         });
@@ -353,7 +252,7 @@ var CrawlerApiClient = /** @class */ (function () {
             var res;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + crawlerId + "/" + actionName, {
+                    case 0: return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + crawlerId + "/" + actionName, {
                             method: 'POST',
                             headers: {
                                 Authorization: this.basicAuthToken,
@@ -362,71 +261,49 @@ var CrawlerApiClient = /** @class */ (function () {
                         })];
                     case 1:
                         res = _b.sent();
-                        return [2 /*return*/, CrawlerApiClient.__handleResponse(res)];
+                        return [2, CrawlerApiClient.__handleResponse(res)];
                 }
             });
         });
     };
-    /**
-     * Wait for a task to complete. This method will poll the specified crawler every second
-     * until the given task is not in `pending` state.
-     *
-     * @param p - Params.
-     * @param p.crawlerId - The id of the crawler the task has been triggered on.
-     * @param p.taskId - The id of the task.
-     * @returns A promise that will resolve when the task has been executed.
-     */
     CrawlerApiClient.prototype.waitForTaskToComplete = function (_a) {
         var crawlerId = _a.crawlerId, taskId = _a.taskId;
         return __awaiter(this, void 0, void 0, function () {
             var res, pending;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + crawlerId + "/tasks/" + taskId, {
+                    case 0: return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + crawlerId + "/tasks/" + taskId, {
                             headers: {
                                 Authorization: this.basicAuthToken,
                             },
                         })];
                     case 1:
                         res = _b.sent();
-                        return [4 /*yield*/, res.json()];
+                        return [4, res.json()];
                     case 2:
                         pending = (_b.sent()).pending;
-                        if (!pending) return [3 /*break*/, 5];
-                        // console.log(`Task ${taskId} is pending, waiting...`);
-                        return [4 /*yield*/, new Promise(function (resolve) {
+                        if (!pending) return [3, 5];
+                        return [4, new Promise(function (resolve) {
                                 setTimeout(resolve, 1000);
                             })];
                     case 3:
-                        // console.log(`Task ${taskId} is pending, waiting...`);
                         _b.sent();
-                        return [4 /*yield*/, this.waitForTaskToComplete({ crawlerId: crawlerId, taskId: taskId })];
+                        return [4, this.waitForTaskToComplete({ crawlerId: crawlerId, taskId: taskId })];
                     case 4:
                         _b.sent();
                         _b.label = 5;
-                    case 5: return [2 /*return*/];
+                    case 5: return [2];
                 }
             });
         });
     };
-    /**
-     * Test a crawler config against an URL.
-     *
-     * @param p - Params.
-     * @param p.crawlerId - The id of the crawler's config to test against.
-     * @param p.url - The URL to test.
-     * @param   p.config - (optional) A partial configuration, that will be merged with the existing configuration
-     * before testing the URL (the resulting configuration is only used for the test and not saved in DB).
-     * This permit you to test modifications on a configuration before saving them.
-     * @returns A promise that will resolve with an object containing the results of the test.
-     */
     CrawlerApiClient.prototype.testUrl = function (_a) {
         var crawlerId = _a.crawlerId, url = _a.url, config = _a.config;
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + crawlerId + "/test", {
+                    case 0: return [4, node_fetch_1.default(this.crawlerApiBaseUrl + "/crawlers/" + crawlerId + "/test", {
                             method: 'POST',
                             headers: {
                                 Authorization: this.basicAuthToken,
@@ -436,8 +313,8 @@ var CrawlerApiClient = /** @class */ (function () {
                         })];
                     case 1:
                         res = _b.sent();
-                        return [4 /*yield*/, res.json()];
-                    case 2: return [2 /*return*/, _b.sent()];
+                        return [4, res.json()];
+                    case 2: return [2, _b.sent()];
                 }
             });
         });

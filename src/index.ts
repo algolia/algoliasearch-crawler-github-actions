@@ -3,6 +3,7 @@ import * as core from '@actions/core';
 
 import { CrawlerApiClient } from './crawler-api-client';
 import type { ConfigJson } from './types/configJson';
+import type { GetCrawlersResponseBody } from './types/publicApiJsonResponses';
 
 // CREDENTIALS
 const CRAWLER_USER_ID = core.getInput('crawler-user-id');
@@ -57,13 +58,11 @@ async function crawlerReindex(): Promise<void> {
   let crawlerId = '';
   let currentPage = 1;
   let nbFetchedCrawlers = 0;
-  let crawlers;
+  let crawlers: GetCrawlersResponseBody | undefined;
 
   // Searching for the crawler, based on the name
   do {
-    crawlers = await client
-      .getCrawlers(100, currentPage++)
-      .catch((error) => console.log(error));
+    crawlers = await client.getCrawlers(100, currentPage++);
 
     if (typeof crawlers === 'undefined') {
       break;

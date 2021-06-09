@@ -1,8 +1,46 @@
 import fetch from 'node-fetch';
+import type { Response } from 'node-fetch';
 
-import type { AlgoliaResponseJson } from './types/algoliaResponseJson';
+import type { ConfigJson } from './types/configJson';
+import type {
+  GetCrawlersResponseBody,
+  CreatedCrawlerResponseBody,
+  UpdateConfigResponseBody,
+  CrawlerStatusResponseBody,
+  GetUrlStatsResponseBody,
+  TaskResponseBody,
+  UrlTestResponseBody,
+} from './types/publicApiJsonResponses';
 
-type SearchParams = { [key: string]: string | number | null };
+type SearchParams = { [key: string]: string | number | boolean };
+
+export interface ClientParams {
+  crawlerUserId: string;
+  crawlerApiBaseUrl: string;
+  crawlerApiKey: string;
+}
+
+export interface CrawlerParams {
+  id: string;
+  name: string;
+  jsonConfig: ConfigJson;
+}
+
+export interface ActionParams {
+  crawlerId: string;
+  actionName: string;
+}
+
+export interface TaskParams {
+  crawlerId: string;
+  taskId: string;
+}
+
+export interface TestUrlParams {
+  crawlerId: string;
+  url: string;
+  config?: JSON;
+}
 
 /**
  * Example of class that can be used to hit the Crawler API.
@@ -20,7 +58,11 @@ class CrawlerApiClient {
   crawlerApiKey: string;
   crawlerApiBaseUrl: string;
 
-  constructor({ crawlerUserId, crawlerApiBaseUrl, crawlerApiKey }) {
+  constructor({
+    crawlerUserId,
+    crawlerApiBaseUrl,
+    crawlerApiKey,
+  }: ClientParams) {
     this.crawlerUserId = crawlerUserId;
     this.crawlerApiKey = crawlerApiKey;
     this.crawlerApiBaseUrl = crawlerApiBaseUrl;
@@ -37,7 +79,7 @@ class CrawlerApiClient {
     ).toString('base64')}`;
   }
 
-  static async __handleResponse(res): Promise<AlgoliaResponseJson> {
+  static async __handleResponse<TBody>(res: Response): Promise<TBody> {
     if (res.ok) {
       return await res.json();
     }
@@ -54,7 +96,10 @@ class CrawlerApiClient {
    * @param jsonConfig - The crawler configuration, in JSON format.
    * @returns A promise that will resolve with an object containing the crawler's id: `{ id: 'crawler_id' }`.
    */
-  async createCrawler(name, jsonConfig): Promise<AlgoliaResponseJson> {
+  async createCrawler(
+    name: string,
+    jsonConfig: ConfigJson
+  ): Promise<CreatedCrawlerResponseBody> {
     const body = {
       name,
       config: jsonConfig,
@@ -68,7 +113,7 @@ class CrawlerApiClient {
       body: JSON.stringify(body),
     });
 
-    return CrawlerApiClient.__handleResponse(res);
+    return CrawlerApiClient.__handleResponse<CreatedCrawlerResponseBody>(res);
   }
 
   /**
@@ -81,7 +126,11 @@ class CrawlerApiClient {
    * will completely override the existing one.
    * @returns A promise that will resolve with an object containing a taskId: `{ taskId: 'task_id' }`.
    */
-  async updateCrawler({ id, name, jsonConfig }): Promise<AlgoliaResponseJson> {
+  async updateCrawler({
+    id,
+    name,
+    jsonConfig,
+  }: CrawlerParams): Promise<TaskResponseBody> {
     const body = {
       name,
       config: jsonConfig,
@@ -94,7 +143,7 @@ class CrawlerApiClient {
       },
       body: JSON.stringify(body),
     });
-    return CrawlerApiClient.__handleResponse(res);
+    return CrawlerApiClient.__handleResponse<TaskResponseBody>(res);
   }
 
   /**
@@ -112,9 +161,9 @@ class CrawlerApiClient {
    * .
    */
   async getCrawlers(
-    itemsPerPage = undefined,
-    page = undefined
-  ): Promise<AlgoliaResponseJson> {
+    itemsPerPage: number,
+    page: number
+  ): Promise<GetCrawlersResponseBody> {
     const searchParams: SearchParams = {};
     if (itemsPerPage) searchParams.itemsPerPage = itemsPerPage;
     if (page) searchParams.page = page;
@@ -131,7 +180,7 @@ class CrawlerApiClient {
         },
       }
     );
-    return CrawlerApiClient.__handleResponse(res);
+    return CrawlerApiClient.__handleResponse<GetCrawlersResponseBody>(res);
   }
 
   /**
@@ -147,7 +196,10 @@ class CrawlerApiClient {
    *   }
    * @returns A promise that will resolve with an object containing a taskId: `{ taskId: 'task_id' }`.
    */
-  async updateConfig(id, partialJsonConfig): Promise<AlgoliaResponseJson> {
+  async updateConfig(
+    id: string,
+    partialJsonConfig: ConfigJson
+  ): Promise<UpdateConfigResponseBody> {
     const res = await fetch(`${this.crawlerApiBaseUrl}/crawlers/${id}/config`, {
       method: 'PATCH',
       headers: {
@@ -156,7 +208,7 @@ class CrawlerApiClient {
       },
       body: JSON.stringify(partialJsonConfig),
     });
-    return CrawlerApiClient.__handleResponse(res);
+    return CrawlerApiClient.__handleResponse<UpdateConfigResponseBody>(res);
   }
 
   /**
@@ -165,7 +217,7 @@ class CrawlerApiClient {
    * @param id - Identifier of the Crawler.
    * @returns A promise that will resolve with the crawler's config (in JSON format).
    */
-  async getConfig(id): Promise<AlgoliaResponseJson> {
+  async getConfig(id: string): Promise<CrawlerStatusResponseBody> {
     const res = await fetch(
       `${this.crawlerApiBaseUrl}/crawlers/${id}?withConfig=true`,
       {
@@ -176,7 +228,7 @@ class CrawlerApiClient {
     );
     /*     const { config } = await CrawlerApiClient.__handleResponse(res);
     return config; */
-    return CrawlerApiClient.__handleResponse(res);
+    return CrawlerApiClient.__handleResponse<CrawlerStatusResponseBody>(res);
   }
 
   /**
@@ -185,13 +237,13 @@ class CrawlerApiClient {
    * @param id - The id of the crawler.
    * @returns A promise that will resolve with an object containing the status of the crawler.
    */
-  async getStatus(id): Promise<AlgoliaResponseJson> {
+  async getStatus(id: string): Promise<CrawlerStatusResponseBody> {
     const res = await fetch(`${this.crawlerApiBaseUrl}/crawlers/${id}`, {
       headers: {
         Authorization: this.basicAuthToken,
       },
     });
-    return CrawlerApiClient.__handleResponse(res);
+    return CrawlerApiClient.__handleResponse<CrawlerStatusResponseBody>(res);
   }
 
   /**
@@ -200,7 +252,7 @@ class CrawlerApiClient {
    * @param id - The id of the crawler.
    * @returns A promise that will resolve with an object containing some statistics about the last reindex.
    */
-  async getURLStats(id): Promise<AlgoliaResponseJson> {
+  async getURLStats(id: string): Promise<GetUrlStatsResponseBody> {
     const res = await fetch(
       `${this.crawlerApiBaseUrl}/crawlers/${id}/stats/urls`,
       {
@@ -209,7 +261,7 @@ class CrawlerApiClient {
         },
       }
     );
-    return CrawlerApiClient.__handleResponse(res);
+    return CrawlerApiClient.__handleResponse<GetUrlStatsResponseBody>(res);
   }
 
   /**
@@ -218,7 +270,7 @@ class CrawlerApiClient {
    * @param id - Identifier of the Crawler.
    * @returns A promise that will resolve with an object containing a `taskId`.
    */
-  async reindex(id): Promise<AlgoliaResponseJson> {
+  async reindex(id: string): Promise<TaskResponseBody> {
     return await this.__triggerAction({ crawlerId: id, actionName: 'reindex' });
   }
   /**
@@ -227,7 +279,7 @@ class CrawlerApiClient {
    * @param id - Identifier of the Crawler.
    * @returns A promise that will resolve with an object containing a `taskId`.
    */
-  async run(id): Promise<AlgoliaResponseJson> {
+  async run(id: string): Promise<TaskResponseBody> {
     return await this.__triggerAction({ crawlerId: id, actionName: 'run' });
   }
   /**
@@ -236,14 +288,14 @@ class CrawlerApiClient {
    * @param id - Identifier of the Crawler.
    * @returns A promise that will resolve with an object containing a `taskId`.
    */
-  async pause(id): Promise<AlgoliaResponseJson> {
+  async pause(id: string): Promise<TaskResponseBody> {
     return await this.__triggerAction({ crawlerId: id, actionName: 'pause' });
   }
 
   async __triggerAction({
     crawlerId,
     actionName,
-  }): Promise<AlgoliaResponseJson> {
+  }: ActionParams): Promise<TaskResponseBody> {
     const res = await fetch(
       `${this.crawlerApiBaseUrl}/crawlers/${crawlerId}/${actionName}`,
       {
@@ -254,7 +306,7 @@ class CrawlerApiClient {
         },
       }
     );
-    return CrawlerApiClient.__handleResponse(res);
+    return CrawlerApiClient.__handleResponse<TaskResponseBody>(res);
   }
 
   /**
@@ -266,7 +318,10 @@ class CrawlerApiClient {
    * @param p.taskId - The id of the task.
    * @returns A promise that will resolve when the task has been executed.
    */
-  async waitForTaskToComplete({ crawlerId, taskId }): Promise<void> {
+  async waitForTaskToComplete({
+    crawlerId,
+    taskId,
+  }: TaskParams): Promise<void> {
     const res = await fetch(
       `${this.crawlerApiBaseUrl}/crawlers/${crawlerId}/tasks/${taskId}`,
       {
@@ -291,12 +346,16 @@ class CrawlerApiClient {
    * @param p - Params.
    * @param p.crawlerId - The id of the crawler's config to test against.
    * @param p.url - The URL to test.
-   * @param   p.config - (optional) A partial configuration, that will be merged with the existing configuration
+   * @param p.config - (optional) A partial configuration, that will be merged with the existing configuration
    * before testing the URL (the resulting configuration is only used for the test and not saved in DB).
    * This permit you to test modifications on a configuration before saving them.
    * @returns A promise that will resolve with an object containing the results of the test.
    */
-  async testUrl({ crawlerId, url, config }): Promise<AlgoliaResponseJson> {
+  async testUrl({
+    crawlerId,
+    url,
+    config,
+  }: TestUrlParams): Promise<UrlTestResponseBody> {
     const res = await fetch(
       `${this.crawlerApiBaseUrl}/crawlers/${crawlerId}/test`,
       {

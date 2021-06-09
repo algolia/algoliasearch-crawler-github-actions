@@ -1,11 +1,39 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "rootDir": "./src",
     "outDir": "./dist",
     "downlevelIteration": true,
+    "incremental": false,
+    "sourceMap": false,
+    "removeComments": true,
+    "allowJs": true,
+    "noImplicitUseStrict": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "composite": false,
+    "preserveConstEnums": true,
+    "noEmitOnError": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "alwaysStrict": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
   },
-  "exclude": []
+  "exclude": [],
+  "include": [
+    "src/**/*",
+  ]
 }
   
