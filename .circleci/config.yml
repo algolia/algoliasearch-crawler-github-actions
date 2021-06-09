@@ -17,7 +17,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/project
 
-version: 1
+version: 2
 
 jobs:
   checkout:
@@ -55,7 +55,7 @@ jobs:
       - run: yarn build && yarn semantic-release
 
 workflows:
-  version: 1
+  version: 2
   suite:
     jobs:
       - checkout
