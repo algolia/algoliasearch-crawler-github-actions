@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "config:js-app",
+    "algolia",
+    ":prHourlyLimitNone"
+  ],
+  "reviewers": ["sbellone", "bodinsamuel", "damcou"],
+  "semanticCommitType": "chore"
+}
