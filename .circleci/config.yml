@@ -52,7 +52,7 @@ jobs:
       - image: cimg/node:14.17.0
     steps:
       - attach-workspace: *attach-work-dir
-      - run: yarn build && yarn semantic-release
+      - run: yarn build && yarn compile && yarn semantic-release
 
 workflows:
   version: 2
