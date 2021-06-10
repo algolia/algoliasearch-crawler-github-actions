@@ -65,10 +65,10 @@ workflows:
       - lint:
           requires:
             - checkout
-#      - release:
-#          requires:
-#            - test
-#           - lint
-#          filters:
-#            branches:
-#              only: main
+      - release:
+          requires:
+            - test
+            - lint
+          filters:
+            branches:
+              only: main
