@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "config:js-app",
+    "algolia",
+    ":prHourlyLimitNone"
+  ],
+  "dependencyDashboard": true,
+  "semanticCommitType": "chore"
+}
