@@ -1,0 +1,34 @@
+name: Close Pull Request
+
+# only trigger on pull request closed events
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  algolia_reindex:
+    # this job will only run if the PR has been merged
+    if: github.event.pull_request.merged == true
+    name: Algolia Reindex
+    runs-on: ubuntu-latest
+    steps:
+      # checkout this repo
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      # checkout the private repo containing the action to run
+      - name: Checkout GitHub Action Repo
+        uses: actions/checkout@v2
+        with:
+          repository: algolia/algoliasearch-crawler-github-actions 
+          ref: v0.4.2
+      - name: Algolia crawler creation and reindex
+        uses: ./
+        id: crawler
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          crawler-api-base-url: 'https://crawler-dev.algolia.com/api/1/'
+          crawler-name: ${{ github.repository }}-${{ github.ref }}
+          algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
+          algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
+          site-url: 'https://algolia-ga-actions-netlify.netlify.app/'
