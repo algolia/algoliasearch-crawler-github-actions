@@ -2,7 +2,7 @@ name: Pull Request
 
 on:
   check_suite:
-    types: [ rerequested, completed ]
+    types: [ completed ]
 
 jobs:
   algolia_reindex:
