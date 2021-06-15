@@ -1,8 +1,7 @@
 name: Pull Request
 
 on:
-  check_run:
-    name: "deploy/netlify"
+  check_suite:
     types: [ rerequested, completed ]
 
 jobs:
