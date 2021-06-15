@@ -1,8 +1,8 @@
 name: Pull Request
 
 on:
-  workflow_run:
-    workflows: ["deploy/netlify"]
+  check_run:
+    name: "deploy/netlify"
     types: [ rerequested, completed ]
 
 jobs:
