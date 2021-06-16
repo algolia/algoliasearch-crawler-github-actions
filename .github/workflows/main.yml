@@ -24,7 +24,7 @@ jobs:
       - name: Algolia crawler creation and reindex on preview (Pull Request)
         if: github.ref != 'refs/heads/main'
         uses: ./
-        id: crawler
+        id: crawler_pr
         with:
           crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
           crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
@@ -36,7 +36,7 @@ jobs:
       - name: Algolia crawler creation and reindex (Push on Main branch)
         if: github.ref == 'refs/heads/main'
         uses: ./
-        id: crawler
+        id: crawler_push
         with:
           crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
           crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
