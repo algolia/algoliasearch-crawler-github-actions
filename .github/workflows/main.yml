@@ -1,6 +1,9 @@
 name: Pull Request
 on:
+  push:
+    branches: [ main ]
   pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize']
 
 jobs:
   algolia_reindex:
@@ -18,7 +21,8 @@ jobs:
           ref: v0.4.2
       - name: Sleep for 30s
         run: sleep 30
-      - name: Algolia crawler creation and reindex
+      - name: Algolia crawler creation and reindex on preview (Pull Request)
+        if: github.ref != 'refs/heads/main'
         uses: ./
         id: crawler
         with:
@@ -29,3 +33,16 @@ jobs:
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
           site-url: 'https://deploy-preview-${{ github.event.pull_request.number }}--algolia-ga-actions-netlify.netlify.app/'
+      - name: Algolia crawler creation and reindex (Push on Main branch)
+        if: github.ref == 'refs/heads/main'
+        uses: ./
+        id: crawler
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          crawler-api-base-url: 'https://crawler-dev.algolia.com/api/1/'
+          crawler-name: ${{ github.repository }}-${{ github.ref }}
+          algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
+          algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
+          site-url: 'https://algolia-ga-actions-netlify.netlify.app/'
+
