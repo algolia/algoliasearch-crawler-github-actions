@@ -1,9 +1,7 @@
 name: Vercel automatic reindexing with Algolia Crawler
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    types: ['opened', 'edited', 'reopened', 'synchronize']
+  issue_comment:
+    types: [edited]
 
 jobs:
   algolia_reindex:
@@ -22,12 +20,13 @@ jobs:
       - name: Sleep for 30s
         run: sleep 30
       - name: Capture Vercel preview URL
+        if: github.event.comment.author == 'vercel'
         id: vercel_preview_url
         uses: aaimio/vercel-preview-url-action@master
         with:
           GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
       - name: Vercel-PR => Algolia crawler creation and reindex on preview (Pull Request)
-        if: github.ref != 'refs/heads/main'
+      if: github.event.comment.author == 'vercel'
         uses: ./
         id: crawler_pr
         with:
