@@ -23,7 +23,7 @@ jobs:
         run: sleep 30
       - name: Capture Vercel preview URL
         id: vercel_preview_url
-        uses: aaron-binary/vercel-preview-url-action@v0.0.3
+        uses: aaimio/vercel-preview-url-action@master
         with:
           GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
       - name: Vercel-PR => Algolia crawler creation and reindex on preview (Pull Request)
