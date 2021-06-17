@@ -25,7 +25,7 @@ jobs:
         id: vercel_preview_url
         uses: aaron-binary/vercel-preview-url-action@v0.0.3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
       - name: Vercel-PR => Algolia crawler creation and reindex on preview (Pull Request)
         if: github.ref != 'refs/heads/main'
         uses: ./
