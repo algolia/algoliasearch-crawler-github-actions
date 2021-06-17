@@ -26,7 +26,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
       - name: Vercel-PR => Algolia crawler creation and reindex on preview (Pull Request)
-      if: github.event.comment.author == 'vercel'
+        if: github.event.comment.author == 'vercel'
         uses: ./
         id: crawler_pr
         with:
