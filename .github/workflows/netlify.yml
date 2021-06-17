@@ -1,4 +1,4 @@
-name: Pull Request
+name: Netlify automatic reindexing with Algolia Crawler
 on:
   push:
     branches: [ main ]

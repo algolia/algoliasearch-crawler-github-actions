@@ -3,7 +3,7 @@
 
 <head>
   <title>Algoliasearch Netlify Test Website</title>
-  <meta name="description" content="Algolia x Netlify testing website." />
+  <meta name="description" content="Algolia x Vercel testing website." />
 
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/necolas/normalize.css@8.0.1/normalize.css" />
@@ -106,7 +106,7 @@
 </head>
 
 <body>
-  <h1>Algoliasearch Netlify Test Website</h1>
+  <h1>Algoliasearch Vercel Test Website</h1>
 
   <div id="search">
     <div id="searchBig"></div>
@@ -150,210 +150,6 @@
     </li>
   </ul>
   </p>
-
-  <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.12/src-min-noconflict/ace.js"
-    type="text/javascript"></script>
-  <script type="text/javascript">
-    const DEFAULT_SOURCE = `
-        algoliasearchNetlify({
-          appId: '4C7VLPQA76',
-          apiKey: 'a9cfed5acb56143690b612167d89a1b5',
-          selector: '#searchBig',
-          siteId: '9209706f-d5b7-46e2-bb88-5d6bedd2823f',
-          branch: 'master',
-          hitsPerPage: 3,
-        });
-        algoliasearchNetlify({
-          appId: '4C7VLPQA76',
-          apiKey: 'a9cfed5acb56143690b612167d89a1b5',
-          selector: '#searchSmall',
-          siteId: '9209706f-d5b7-46e2-bb88-5d6bedd2823f',
-          branch: 'master',
-          placeholder: 'Detached Input',
-          poweredBy: false,
-          theme: {
-            mark: '#fff',
-            background: '#23263b',
-            selected: '#111432',
-            text: '#d6d6e7',
-            colorSourceIcon: '#d6d6e7'
-          },
-          detached: { mediaQuery: '(max-width: 900px)' },
-          debug: true,
-        });`
-      .split('\n')
-      .map((l) => l.replace(/^\s{8}/, ''))
-      .join('\n');
-
-    const usp = new URLSearchParams(window.location.search);
-
-    const editor = ace.edit('source-editor');
-
-    const $sourceResetButton = document.getElementById('source-reset');
-    const $sourceTestButton = document.getElementById('source-test');
-    const $debugToggle = document.getElementById('toggle-dev-prod');
-    const $baseUrl = document.getElementById('base-url');
-    const $libCSS = document.getElementById('lib-css');
-    const $libJS = document.getElementById('lib-js');
-    const $errorTitle = document.getElementById('error-title');
-    const $error = document.getElementById('error');
-
-    async function checkIfWebpackRunning() {
-      try {
-        const response = await fetch(
-          'http://localhost:9100/algoliasearchNetlify.css',
-          {
-            method: 'HEAD',
-          }
-        );
-        return response.status === 200;
-      } catch (err) {
-        console.log(err);
-        return false;
-      }
-    }
-
-    function reloadWithNewUsp() {
-      const { origin, pathname } = window.location;
-      const search = `?${usp.toString()}`;
-      const newUrl = `${origin}${pathname}${search === '?' ? '' : search}`;
-      window.location.href = newUrl;
-    }
-
-    function reloadWithNewSource(source) {
-      if (source === DEFAULT_SOURCE) {
-        usp.delete('force_source');
-      } else {
-        usp.set('force_source', btoa(source));
-      }
-      reloadWithNewUsp();
-    }
-
-    (async () => {
-      // Editor
-      editor.setTheme('ace/theme/monokai');
-      editor.session.setMode('ace/mode/javascript');
-      editor.session.setTabSize(2);
-      editor.session.setUseSoftTabs(true);
-
-      // Source
-      const source = usp.get('force_source')
-        ? atob(usp.get('force_source'))
-        : DEFAULT_SOURCE;
-      editor.setValue(source, -1);
-
-      // Source actions
-      $sourceResetButton.addEventListener('click', () => {
-        reloadWithNewSource(DEFAULT_SOURCE);
-      });
-      $sourceTestButton.addEventListener('click', () => {
-        reloadWithNewSource(editor.getValue().trim());
-      });
-      // Test on Ctrl + S
-      const handleKeyDown = (e) => {
-        if (
-          e.keyCode === 83 &&
-          (e.metaKey || e.ctrlKey) &&
-          !(e.altKey || e.shiftKey)
-        ) {
-          e.preventDefault();
-          reloadWithNewSource(editor.getValue().trim());
-        }
-      };
-      document.addEventListener('keydown', handleKeyDown);
-
-      // Base URL
-      const webpackReady = await checkIfWebpackRunning();
-      let usingDev = webpackReady;
-      if (usp.get('force_env') === 'dev') usingDev = true;
-      if (usp.get('force_env') === 'prod') usingDev = false;
-
-      // Toggle dev <-> prod
-      $debugToggle.innerText = usingDev
-        ? 'Switch to cdn.jsdelivr.net'
-        : 'Switch to localhost:9100';
-      $debugToggle.addEventListener('click', () => {
-        usp.delete('force_env');
-        if (usingDev && webpackReady) usp.set('force_env', 'prod');
-        if (!usingDev && !webpackReady) usp.set('force_env', 'dev');
-        reloadWithNewUsp();
-      });
-
-      // Base Url
-      const baseUrl = usingDev
-        ? 'http://localhost:9100'
-        : 'https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist';
-
-      // Debug info
-      $baseUrl.innerText = baseUrl;
-      $libCSS.innerText = `${baseUrl}/algoliasearchNetlify.css`;
-      $libJS.innerText = `${baseUrl}/algoliasearchNetlify.js`;
-
-      // Error Handler
-      const handleError = (err) => {
-        $errorTitle.style.display = 'block';
-        $error.innerHTML = err instanceof Error ? err.message : err;
-      };
-      // Loading lib & script source
-      try {
-        // Library's CSS
-        let libStyleResolve;
-        let libStyleReject;
-        const libStylePromise = new Promise((resolve, reject) => {
-          libStyleResolve = resolve;
-          libStyleReject = reject;
-        });
-        const $libStyle = document.createElement('link');
-        $libStyle.rel = 'stylesheet';
-        $libStyle.href = `${baseUrl}/algoliasearchNetlify.css`;
-        $libStyle.onload = libStyleResolve;
-        $libStyle.onerror = () =>
-          libStyleReject(new Error("Could not load lib's CSS"));
-
-        // Library's JS
-        const $libScript = document.createElement('script');
-        $libScript.type = 'text/javascript';
-        $libScript.src = `${baseUrl}/algoliasearchNetlify.js`;
-        let libScriptResolve;
-        let libScriptReject;
-        const libScriptPromise = new Promise((resolve, reject) => {
-          libScriptResolve = resolve;
-          libScriptReject = reject;
-        });
-        $libScript.onload = libScriptResolve;
-        $libScript.onerror = libScriptReject;
-        $libScript.onerror = () =>
-          libScriptReject(new Error("Could not load lib's JS"));
-
-        // JS lib invocation
-        const $script = document.createElement('script');
-        $script.type = 'text/javascript';
-        window.scriptHandleError = handleError;
-        $script.innerHTML = `try { ${source}; } catch (err) { window.scriptHandleError(err); }`;
-        let scriptResolve;
-        let scriptReject;
-        const scriptPromise = new Promise((resolve, reject) => {
-          scriptResolve = resolve;
-          scriptReject = reject;
-        });
-        $script.onload = scriptResolve;
-        $script.onerror = () =>
-          scriptReject(
-            new Error('Failed to run code script, check the console')
-          );
-
-        // Actually load elements
-        document.head.appendChild($libStyle);
-        await libStylePromise;
-        document.head.appendChild($libScript);
-        await libScriptPromise;
-        document.head.appendChild($script);
-        await scriptPromise;
-      } catch (err) {
-        handleError(err);
-      }
-    })();
-  </script>
 </body>
 
 </html>
