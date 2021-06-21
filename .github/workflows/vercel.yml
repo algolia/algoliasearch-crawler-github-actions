@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
       # Action to retrieve the Preview URL in case it's a pull request
       - name: Get deployment URL
-        if: github.ref != 'refs/heads/main'
+        #if: github.ref != 'refs/heads/main'
         id: deployment-get-url
         uses: dorshinar/get-deployment-url@master
         timeout-minutes: 1 
