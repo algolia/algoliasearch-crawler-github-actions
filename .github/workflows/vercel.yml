@@ -13,8 +13,6 @@ jobs:
       # checkout this repo
       - name: Checkout Repo
         uses: actions/checkout@v2
-      # set default env for pushes on main
-      - run: export ENV_TO_CRAWL=algoliasearch-crawler-github-actions.vercel.app && echo "::set-env name=ENV_TO_CRAWL::$ENV_TO_CRAWL"
       # Action to retrieve the Preview URL in case it's a pull request
       - name: Get deployment URL
         if: github.ref != 'refs/heads/main'
@@ -23,10 +21,6 @@ jobs:
         timeout-minutes: 1 
         with:
           token: ${{ secrets.GIT_HUB_TOKEN }}
-      # Replace default url with preview
-      - id: set-preview-url
-        if: github.ref != 'refs/heads/main'
-        run: export ENV_TO_CRAWL=${{ steps.deployment.outputs.deployment }} && echo "::set-env name=ENV_TO_CRAWL::$ENV_TO_CRAWL"
       # checkout the private repo containing the action to run
       - name: Checkout GitHub Action Repo
         uses: actions/checkout@v2
@@ -34,6 +28,7 @@ jobs:
           repository: algolia/algoliasearch-crawler-github-actions 
           ref: v0.4.2
       - name: Vercel-PR => Algolia crawler creation and reindex on preview (Pull Request)
+        if: github.ref != 'refs/heads/main'
         uses: ./
         id: crawler_pr
         with:
@@ -43,4 +38,17 @@ jobs:
           crawler-name: vercel-github-actions-test-${{ github.ref }}
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
-          site-url: $ENV_TO_CRAWL
+          site-url: ${{ steps.deployment.outputs.deployment }}
+      - name: Vercel-MAIN => Algolia crawler creation and reindex on preview (Push on Main branch)
+        if: github.ref == 'refs/heads/main'
+        uses: ./
+        id: crawler_pr
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          crawler-api-base-url: 'https://crawler-dev.algolia.com/api/1/'
+          crawler-name: vercel-github-actions-test-${{ github.ref }}
+          algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
+          algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
+          site-url: 'https://algoliasearch-crawler-github-actions.vercel.app'
+
