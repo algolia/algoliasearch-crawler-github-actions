@@ -4,8 +4,8 @@ on:
     types: ['opened', 'edited', 'reopened', 'synchronize']
 
 jobs:
-  algolia_reindex:
-    name: Algolia Reindex
+  algolia_recrawl:
+    name: Algolia Recrawl
     runs-on: ubuntu-latest
     steps:
       # checkout this repo
@@ -23,7 +23,7 @@ jobs:
         with:
           repository: algolia/algoliasearch-crawler-github-actions 
           ref: v0.4.2
-      - name: Vercel-PR => Algolia crawler creation and reindex on preview (Pull Request)
+      - name: Vercel-PR => Algolia crawler creation and recrawl on preview (Pull Request)
         uses: ./
         id: crawler_pr
         with:
