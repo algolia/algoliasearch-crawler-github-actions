@@ -1,5 +1,7 @@
 name: Vercel automatic reindexing with Algolia Crawler
 on:
+  push:
+    branches: [ main ]
   pull_request:
     types: ['opened', 'edited', 'reopened', 'synchronize']
 
@@ -11,12 +13,24 @@ jobs:
       # checkout this repo
       - name: Checkout Repo
         uses: actions/checkout@v2
+      # set default env for pushes on main
+      - run: |
+        export ENV_TO_CRAWL=algoliasearch-crawler-github-actions.vercel.app
+        echo "::set-env name=ENV_TO_CRAWL::$ENV_TO_CRAWL"
+      # Action to retrieve the Preview URL in case it's a pull request
       - name: Get deployment URL
-        id: deployment
+        if: github.ref != 'refs/heads/main'
+        id: deployment-get-url
         uses: dorshinar/get-deployment-url@master
         timeout-minutes: 1 
         with:
           token: ${{ secrets.GIT_HUB_TOKEN }}
+      # Replace default url with preview
+      - id: set-preview-url
+        if: github.ref != 'refs/heads/main'
+        run: |
+          export ENV_TO_CRAWL=${{ steps.deployment.outputs.deployment }}
+          echo "::set-env name=ENV_TO_CRAWL::$ENV_TO_CRAWL"
       # checkout the private repo containing the action to run
       - name: Checkout GitHub Action Repo
         uses: actions/checkout@v2
@@ -33,4 +47,4 @@ jobs:
           crawler-name: vercel-github-actions-test-${{ github.ref }}
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
-          site-url: ${{ steps.deployment.outputs.deployment }}
+          site-url: $ENV_TO_CRAWL
