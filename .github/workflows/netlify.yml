@@ -1,4 +1,4 @@
-name: Netlify automatic reindexing with Algolia Crawler
+name: Netlify -> Algolia Crawler
 on:
   push:
     branches: [ main ]

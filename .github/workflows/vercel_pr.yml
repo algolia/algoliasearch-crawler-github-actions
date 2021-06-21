@@ -1,4 +1,4 @@
-name: Vercel automatic reindexing with Algolia Crawler on Pull Request
+name: Vercel -> Algolia Crawler (PR)
 on:
   pull_request:
     types: ['opened', 'edited', 'reopened', 'synchronize']

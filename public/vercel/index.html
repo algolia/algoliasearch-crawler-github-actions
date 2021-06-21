@@ -2,140 +2,15 @@
 <html>
 
 <head>
-  <title>Algoliasearch Netlify Test Website</title>
+  <title>Algoliasearch Vercel Test Website</title>
   <meta name="description" content="Algolia x Vercel testing website." />
 
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/necolas/normalize.css@8.0.1/normalize.css" />
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      max-width: 1024px;
-      margin: auto;
-      font-family: 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
-        'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif',
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    button {
-      padding: 4px 8px;
-      border-radius: 2px;
-      border: 1px solid #ccc;
-    }
-
-    #search {
-      display: flex;
-      gap: 16px;
-    }
-
-    #searchBig {
-      width: 60%;
-      height: 32px;
-    }
-
-    #searchSmall {
-      height: 32px;
-      width: 20%;
-    }
-
-    #debug-script {
-      background: #2d3155;
-      color: white;
-      border-radius: 4px;
-      padding: 16px;
-    }
-
-    #debug-script-grid {
-      display: grid;
-      grid-template-columns: 1fr 20fr;
-      align-items: baseline;
-      column-gap: 16px;
-      row-gap: 8px;
-    }
-
-    #debug-script-grid>*:nth-child(2n - 1),
-    #error-title {
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    #debug-script-grid>*:nth-child(2n) {
-      font-family: monospace;
-    }
-
-    #toggle-dev-prod-container {
-      text-align: right;
-    }
-
-    #toggle-dev-prod {
-      font-size: 0.8em;
-    }
-
-    #source-editor {
-      height: 300px;
-      margin-top: 4px;
-      border-radius: 4px;
-    }
-
-    #error-title {
-      display: none;
-      margin-top: 16px;
-    }
-
-    #error {
-      color: #f86e7e;
-      margin-top: 8px;
-      font-family: monospace;
-      font-size: 1.2em;
-    }
-
-    #source-buttons {
-      text-align: right;
-      margin-top: 8px;
-    }
-  </style>
 </head>
 
 <body>
   <h1>Algoliasearch Vercel Test Website</h1>
-
-  <div id="search">
-    <div id="searchBig"></div>
-    <div id="searchSmall"></div>
-  </div>
-
-  <h2>Script</h2>
-  <div id="debug-script">
-    <div id="toggle-dev-prod-container">
-      <button id="toggle-dev-prod">Pending...</button>
-    </div>
-    <div id="debug-script-grid">
-      <div>Base URL</div>
-      <div id="base-url"></div>
-      <div>CSS</div>
-      <div id="lib-css"></div>
-      <div>JS</div>
-      <div id="lib-js"></div>
-      <div>Code</div>
-      <div></div>
-    </div>
-    <div id="source-editor">Test before</div>
-    <div id="error-title">Error</div>
-    <pre id="error"></pre>
-    <div id="source-buttons">
-      <button id="source-reset">Reset</button>
-      <button id="source-test">Test</button>
-    </div>
-  </div>
 
   <h2>Test content</h2>
 

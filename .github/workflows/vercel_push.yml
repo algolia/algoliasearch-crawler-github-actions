@@ -1,4 +1,4 @@
-name: Vercel automatic reindexing with Algolia Crawler on push on Main branch
+name: Vercel -> Algolia Crawler (push on main)
 on:
   push:
     branches: [ main ]
