@@ -1,7 +1,7 @@
-name: Vercel automatic reindexing with Algolia Crawler
+name: Vercel automatic reindexing with Algolia Crawler on push on Main branch
 on:
-  pull_request:
-    types: ['opened', 'edited', 'reopened', 'synchronize']
+  push:
+    branches: [ main ]
 
 jobs:
   algolia_reindex:
@@ -11,21 +11,15 @@ jobs:
       # checkout this repo
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - name: Get deployment URL
-        id: deployment
-        uses: dorshinar/get-deployment-url@master
-        timeout-minutes: 1 
-        with:
-          token: ${{ secrets.GIT_HUB_TOKEN }}
       # checkout the private repo containing the action to run
       - name: Checkout GitHub Action Repo
         uses: actions/checkout@v2
         with:
           repository: algolia/algoliasearch-crawler-github-actions 
           ref: v0.4.2
-      - name: Vercel-PR => Algolia crawler creation and reindex on preview (Pull Request)
+      - name: Vercel-MAIN => Algolia crawler creation and reindex on preview (Push on Main branch)
         uses: ./
-        id: crawler_pr
+        id: crawler_push
         with:
           crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
           crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
@@ -33,4 +27,4 @@ jobs:
           crawler-name: vercel-github-actions-test-${{ github.ref }}
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
-          site-url: ${{ steps.deployment.outputs.deployment }}
+          site-url: 'https://algoliasearch-crawler-github-actions.vercel.app'
