@@ -42,7 +42,7 @@ jobs:
       - name: Vercel-MAIN => Algolia crawler creation and reindex on preview (Push on Main branch)
         if: github.ref == 'refs/heads/main'
         uses: ./
-        id: crawler_pr
+        id: crawler_push
         with:
           crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
           crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
