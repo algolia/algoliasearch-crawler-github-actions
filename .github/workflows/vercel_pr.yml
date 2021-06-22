@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.GIT_HUB_TOKEN }}
       # checkout the private repo containing the action to run
       - name: Checkout GitHub Action Repo
-        uses: algolia/algoliasearch-crawler-github-actions@latest
+        uses: algolia/algoliasearch-crawler-github-actions@main
       - name: Vercel-PR => Algolia crawler creation and recrawl on preview (Pull Request)
         uses: ./
         id: crawler_pr
