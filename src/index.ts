@@ -15,6 +15,7 @@ const CRAWLER_NAME = core.getInput('crawler-name').replace(/\//g, '-');
 const ALGOLIA_APP_ID = core.getInput('algolia-app-id');
 const ALGOLIA_API_KEY = core.getInput('algolia-api-key');
 const SITE_URL = core.getInput('site-url');
+const OVERRIDE_CONFIG = core.getInput('override-config');
 
 const client = new CrawlerApiClient({
   crawlerApiBaseUrl: CRAWLER_API_BASE_URL,
@@ -79,8 +80,10 @@ async function crawlerReindex(): Promise<void> {
   if (filteredCrawlers.length !== 0) {
     // If the crawler exists : update it
     crawlerId = filteredCrawlers[0].id;
-    const config = getConfig();
-    await client.updateConfig(crawlerId, config);
+    if (OVERRIDE_CONFIG) {
+      const config = getConfig();
+      await client.updateConfig(crawlerId, config);
+    }
   } else {
     // If it doesn't exist yet: create it
     const crawler = await client.createCrawler(CRAWLER_NAME, getConfig());
