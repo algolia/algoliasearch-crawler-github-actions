@@ -33,6 +33,7 @@ jobs:
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
           site-url: 'https://deploy-preview-${{ github.event.pull_request.number }}--algolia-ga-actions-netlify.netlify.app/'
+          override-config: true
       - name: Netlify-MAIN => Algolia crawler creation and recrawl (Push on Main branch)
         if: github.ref == 'refs/heads/main'
         uses: ./
@@ -45,4 +46,5 @@ jobs:
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
           site-url: 'https://algolia-ga-actions-netlify.netlify.app/'
+          override-config: true
 

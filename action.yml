@@ -26,6 +26,10 @@ inputs:
   site-url:
     description: 'url of the site to crawl'
     required: true
+  override-config:
+    description: 'Override config in case the crawler is already existing'
+    required: false
+    default: false
 
 runs:
   using: 'node12'
