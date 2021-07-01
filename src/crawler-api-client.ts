@@ -151,6 +151,8 @@ class CrawlerApiClient {
    *
    * @param itemsPerPage - The number of crawlers to return per page.
    * @param page - The page to fetch.
+   * @param name - Name of the crawler to get.
+   * @param appId - Application of the crawlers to get.
    * @returns A promise that will resolve with an object looking like:
    * {
    * items: [{ id: 'crawler_1_id', name: 'crawler_1_name' },  { id: 'crawler_2_id, ... }],
@@ -162,11 +164,15 @@ class CrawlerApiClient {
    */
   async getCrawlers(
     itemsPerPage: number,
-    page: number
+    page: number,
+    name?: string,
+    appId?: string
   ): Promise<GetCrawlersResponseBody> {
     const searchParams: SearchParams = {};
     if (itemsPerPage) searchParams.itemsPerPage = itemsPerPage;
     if (page) searchParams.page = page;
+    if (name) searchParams.name = name;
+    if (appId) searchParams.appId = appId;
     const qs = Object.keys(searchParams)
       .map(
         (k) => `${encodeURIComponent(k)}=${encodeURIComponent(searchParams[k])}`

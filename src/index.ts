@@ -55,31 +55,19 @@ function getRecordExtractorSource(): string {
 }
 
 async function crawlerReindex(): Promise<void> {
-  const filteredCrawlers = [];
   let crawlerId = '';
-  let currentPage = 1;
-  let nbFetchedCrawlers = 0;
-  let crawlers: GetCrawlersResponseBody | undefined;
 
-  // Searching for the crawler, based on the name
-  do {
-    crawlers = await client.getCrawlers(100, currentPage++);
+  // Searching for the crawler, based on the name and application ID
+  const crawlers: GetCrawlersResponseBody | undefined =
+    await client.getCrawlers(100, 1, CRAWLER_NAME, ALGOLIA_APP_ID);
 
-    if (typeof crawlers === 'undefined') {
-      break;
-    }
+  if (typeof crawlers === 'undefined') {
+    return;
+  }
 
-    nbFetchedCrawlers += crawlers.items.length;
-    filteredCrawlers.push(
-      ...crawlers.items.filter(({ name }) => {
-        return name.indexOf(CRAWLER_NAME) === 0;
-      })
-    );
-  } while (crawlers.total > nbFetchedCrawlers);
-
-  if (filteredCrawlers.length !== 0) {
+  if (crawlers.items.length !== 0) {
     // If the crawler exists : update it
-    crawlerId = filteredCrawlers[0].id;
+    crawlerId = crawlers.items[0].id;
     if (OVERRIDE_CONFIG) {
       const config = getConfig();
       await client.updateConfig(crawlerId, config);
