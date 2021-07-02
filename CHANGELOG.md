@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.5.0...v0.6.0) (2021-07-02)
+
+
+### Features
+
+* use new crawler parameters name and appId ([#19](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/19)) ([7b5c1a3](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/7b5c1a3ab4b1cb6c1e2bcadb8be866006aef8bc1))
+
 # [0.5.0](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.4.2...v0.5.0) (2021-06-30)
 
 
