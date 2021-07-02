@@ -59,7 +59,7 @@ async function crawlerReindex(): Promise<void> {
 
   // Searching for the crawler, based on the name and application ID
   const crawlers: GetCrawlersResponseBody | undefined =
-    await client.getCrawlers(100, 1, CRAWLER_NAME, ALGOLIA_APP_ID);
+    await client.getCrawlers({ name: CRAWLER_NAME, appId: ALGOLIA_APP_ID });
 
   if (typeof crawlers === 'undefined') {
     return;
