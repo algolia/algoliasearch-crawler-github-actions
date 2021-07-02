@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: algolia/algoliasearch-crawler-github-actions 
-          ref: v0.4.2
+          ref: v0.5.0
       - name: Vercel-MAIN => Algolia crawler creation and recrawl on preview (Push on Main branch)
         uses: ./
         id: crawler_push
