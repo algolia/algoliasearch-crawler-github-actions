@@ -12,6 +12,9 @@ inputs:
     description: 'Crawler API URL'
     required: false
     default: 'https://crawler.algolia.com/api/1/'
+  github-token:
+    description: 'Github token'
+    required: true
 
   # CRAWLER CONFIGURATION
   crawler-name:

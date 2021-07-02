@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import * as core from '@actions/core';
+import * as github from '@actions/github';
 
 import { CrawlerApiClient } from './crawler-api-client';
 import type { ConfigJson } from './types/configJson';
@@ -9,6 +10,7 @@ import type { GetCrawlersResponseBody } from './types/publicApiJsonResponses';
 const CRAWLER_USER_ID = core.getInput('crawler-user-id');
 const CRAWLER_API_KEY = core.getInput('crawler-api-key');
 const CRAWLER_API_BASE_URL = core.getInput('crawler-api-base-url');
+const GITHUB_TOKEN = core.getInput('github-token');
 
 // CRAWLER CONFIGURATION
 const CRAWLER_NAME = core.getInput('crawler-name').replace(/\//g, '-');
@@ -54,6 +56,28 @@ function getRecordExtractorSource(): string {
 }`;
 }
 
+function addComment(): void {
+  try {
+    const message = 'Test msg';
+
+    const context = github.context;
+    if (context.payload.pull_request === undefined) {
+      core.setFailed('No pull request found.');
+      return;
+    }
+    const prNumber = context.payload.pull_request.number;
+
+    const octokit = github.getOctokit(GITHUB_TOKEN);
+    octokit.rest.issues.createComment({
+      ...context.repo,
+      issue_number: prNumber,
+      body: message,
+    });
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+
 async function crawlerReindex(): Promise<void> {
   let crawlerId = '';
 
@@ -80,6 +104,7 @@ async function crawlerReindex(): Promise<void> {
 
   console.log(`---------- Reindexing crawler ${crawlerId} ----------`);
   await client.reindex(crawlerId);
+  addComment();
 }
 
 console.log('---------CRAWLER CONFIG---------');
