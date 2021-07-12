@@ -56,9 +56,15 @@ function getRecordExtractorSource(): string {
 }`;
 }
 
-function addComment(): void {
+function addComment(crawlerId: string): void {
   try {
-    const message = 'Test msg';
+    const pathArray = CRAWLER_API_BASE_URL.split('/');
+    const protocol = pathArray[0];
+    const host = pathArray[2];
+    const baseUrl = `${protocol}//${host}`;
+
+    const message = `<p>Check Crawler: ${baseUrl}/admin/crawlers/${crawlerId}/overview</p>
+    <p>Check Application: https://www.algolia.com/apps/${ALGOLIA_APP_ID}/explorer/browse/${CRAWLER_NAME}</p>`;
 
     const context = github.context;
     if (context.payload.pull_request === undefined) {
@@ -104,7 +110,7 @@ async function crawlerReindex(): Promise<void> {
 
   console.log(`---------- Reindexing crawler ${crawlerId} ----------`);
   await client.reindex(crawlerId);
-  addComment();
+  addComment(crawlerId);
 }
 
 console.log('---------CRAWLER CONFIG---------');
