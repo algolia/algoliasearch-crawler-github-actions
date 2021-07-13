@@ -63,12 +63,12 @@ function addComment(crawlerId: string): void {
     const host = pathArray[2];
     const baseUrl = `${protocol}//${host}`;
 
-    const message = `<p>Check Crawler: ${baseUrl}/admin/crawlers/${crawlerId}/overview</p>
-    <p>Check Application: https://www.algolia.com/apps/${ALGOLIA_APP_ID}/explorer/browse/${CRAWLER_NAME}</p>`;
+    const message = `<p>Check your created <a href="${baseUrl}/admin/crawlers/${crawlerId}/overview" target="_blank">Crawler</a></p>
+    <p>Check your created index on your <a href="https://www.algolia.com/apps/${ALGOLIA_APP_ID}/explorer/browse/${CRAWLER_NAME}" target="_blank">Algolia Application</a></p>`;
 
     const context = github.context;
     if (context.payload.pull_request === undefined) {
-      core.setFailed('No pull request found.');
+      core.info('No pull request found.');
       return;
     }
     const prNumber = context.payload.pull_request.number;

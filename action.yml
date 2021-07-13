@@ -15,6 +15,7 @@ inputs:
   github-token:
     description: 'Github token'
     required: true
+    default: ${{ github.token }}
 
   # CRAWLER CONFIGURATION
   crawler-name:
