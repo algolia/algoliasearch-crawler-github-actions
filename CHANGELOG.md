@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.6.0...v0.7.0) (2021-07-13)
+
+
+### Features
+
+* Add comment on PR ([#20](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/20)) ([6ed9d2c](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/6ed9d2c6cf0293afd1703537572daccf2d65ddb7))
+
 # [0.6.0](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.5.0...v0.6.0) (2021-07-02)
 
 
