@@ -1,3 +1,10 @@
+## [0.7.1](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.7.0...v0.7.1) (2021-07-13)
+
+
+### Bug Fixes
+
+* update readme ([646ff1d](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/646ff1d6cd50b7b111990d1ff2d681b995522345))
+
 # [0.7.0](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.6.0...v0.7.0) (2021-07-13)
 
 
