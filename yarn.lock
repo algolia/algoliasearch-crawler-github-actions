@@ -9,7 +9,7 @@
 
 "@actions/github@5.0.0":
   version "5.0.0"
-  resolved "https://registry.npmjs.org/@actions/github/-/github-5.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/@actions/github/-/github-5.0.0.tgz#1754127976c50bd88b2e905f10d204d76d1472f8"
   integrity sha512-QvE9eAAfEsS+yOOk0cylLBIO/d6WyWIOvsxxzdrPFaud39G6BOkUwScXZn1iBzQzHyu9SBkkLSWlohDWdsasAQ==
   dependencies:
     "@actions/http-client" "^1.0.11"
