@@ -113,6 +113,7 @@ async function crawlerReindex(): Promise<void> {
   addComment(crawlerId);
 }
 
+console.log('TESTING BRANCH');
 console.log('---------CRAWLER CONFIG---------');
 console.log(`CRAWLER_NAME : ${CRAWLER_NAME}`);
 
