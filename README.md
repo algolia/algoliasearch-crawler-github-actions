@@ -46,6 +46,7 @@ jobs:
 - `algolia-app-id`: Algolia Application ID 
 - `algolia-api-key`: Algolia API Key
 - `site-url`: URL of the website to crawl
+- `override-config`: Boolean to define if you want your crawler config to be overriden or not (default set to false)
 
 ## Create the following Github secrets on your repository (in Settings > Secrets)
 - `ALGOLIA_API_KEY`: Algolia Application ID 
