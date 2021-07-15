@@ -67,6 +67,7 @@ function getRecordExtractorSource(): string {
 }
 
 function findCommentPredicate(crawlerId: string, comment: Comment): boolean {
+  console.log(comment.user);
   return (
     (comment.user ? comment.user.login === 'github-actions' : false) &&
     (comment.body ? comment.body.includes(crawlerId) : false)
