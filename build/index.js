@@ -441,7 +441,8 @@ function getRecordExtractorSource() {
     return "({ helpers }) => {\n  return helpers.netlifyExtractor({ template: 'default' });\n}";
 }
 function findCommentPredicate(crawlerId, comment) {
-    return comment.body ? comment.body.includes(crawlerId) : true;
+    return ((comment.user ? comment.user.login === 'github-actions' : false) &&
+        (comment.body ? comment.body.includes(crawlerId) : false));
 }
 function findComment(prNumber, crawlerId) {
     var e_1, _a;
@@ -499,7 +500,7 @@ function addComment(crawlerId) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    _a.trys.push([0, 4, , 5]);
                     context = github.context;
                     if (context.payload.pull_request === undefined) {
                         core.info('No pull request found.');
@@ -509,22 +510,26 @@ function addComment(crawlerId) {
                     return [4, findComment(prNumber, crawlerId)];
                 case 1:
                     comment = _a.sent();
-                    if (comment !== undefined) {
-                        core.info('Existing comment found.');
-                        return [2];
-                    }
                     pathArray = CRAWLER_API_BASE_URL.split('/');
                     protocol = pathArray[0];
                     host = pathArray[2];
                     baseUrl = protocol + "//" + host;
                     message = "<p>Check your created <a href=\"" + baseUrl + "/admin/crawlers/" + crawlerId + "/overview\" target=\"_blank\">Crawler</a></p>\n    <p>Check your created index on your <a href=\"https://www.algolia.com/apps/" + ALGOLIA_APP_ID + "/explorer/browse/" + CRAWLER_NAME + "\" target=\"_blank\">Algolia Application</a></p>";
-                    octokit.rest.issues.createComment(__assign(__assign({}, context.repo), { issue_number: prNumber, body: message }));
-                    return [3, 3];
+                    if (!(comment !== undefined)) return [3, 3];
+                    core.info('Existing comment found.');
+                    return [4, octokit.rest.issues.updateComment(__assign(__assign({}, context.repo), { comment_id: comment.id, body: message }))];
                 case 2:
+                    _a.sent();
+                    core.info("Updated comment id '" + comment.id + "'.");
+                    return [2];
+                case 3:
+                    octokit.rest.issues.createComment(__assign(__assign({}, context.repo), { issue_number: prNumber, body: message }));
+                    return [3, 5];
+                case 4:
                     error_1 = _a.sent();
                     core.setFailed(error_1.message);
-                    return [3, 3];
-                case 3: return [2];
+                    return [3, 5];
+                case 5: return [2];
             }
         });
     });

@@ -67,7 +67,10 @@ function getRecordExtractorSource(): string {
 }
 
 function findCommentPredicate(crawlerId: string, comment: Comment): boolean {
-  return comment.body ? comment.body.includes(crawlerId) : true;
+  return (
+    (comment.user ? comment.user.login === 'github-actions' : false) &&
+    (comment.body ? comment.body.includes(crawlerId) : false)
+  );
 }
 
 async function findComment(
@@ -106,11 +109,6 @@ async function addComment(crawlerId: string): Promise<void> {
     // First check if the comment doesn't already exist
     const comment = await findComment(prNumber, crawlerId);
 
-    if (comment !== undefined) {
-      core.info('Existing comment found.');
-      return;
-    }
-
     const pathArray = CRAWLER_API_BASE_URL.split('/');
     const protocol = pathArray[0];
     const host = pathArray[2];
@@ -118,6 +116,18 @@ async function addComment(crawlerId: string): Promise<void> {
 
     const message = `<p>Check your created <a href="${baseUrl}/admin/crawlers/${crawlerId}/overview" target="_blank">Crawler</a></p>
     <p>Check your created index on your <a href="https://www.algolia.com/apps/${ALGOLIA_APP_ID}/explorer/browse/${CRAWLER_NAME}" target="_blank">Algolia Application</a></p>`;
+
+    // If the comment exists, we update it
+    if (comment !== undefined) {
+      core.info('Existing comment found.');
+      await octokit.rest.issues.updateComment({
+        ...context.repo,
+        comment_id: comment.id,
+        body: message,
+      });
+      core.info(`Updated comment id '${comment.id}'.`);
+      return;
+    }
 
     octokit.rest.issues.createComment({
       ...context.repo,
