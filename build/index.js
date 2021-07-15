@@ -387,6 +387,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var core = __nccwpck_require__(2186);
 var github = __nccwpck_require__(5438);
@@ -405,6 +412,7 @@ var client = new crawler_api_client_1.CrawlerApiClient({
     crawlerUserId: CRAWLER_USER_ID,
     crawlerApiKey: CRAWLER_API_KEY,
 });
+var octokit = github.getOctokit(GITHUB_TOKEN);
 function getConfig() {
     return {
         appId: ALGOLIA_APP_ID,
@@ -432,25 +440,93 @@ function getConfig() {
 function getRecordExtractorSource() {
     return "({ helpers }) => {\n  return helpers.netlifyExtractor({ template: 'default' });\n}";
 }
+function findCommentPredicate(crawlerId, comment) {
+    return comment.body ? comment.body.includes(crawlerId) : true;
+}
+function findComment(prNumber, crawlerId) {
+    var e_1, _a;
+    return __awaiter(this, void 0, void 0, function () {
+        var parameters, _b, _c, comments, gaComment, e_1_1;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
+                case 0:
+                    parameters = {
+                        owner: github.context.repo.owner,
+                        repo: github.context.repo.repo,
+                        issue_number: prNumber,
+                    };
+                    _d.label = 1;
+                case 1:
+                    _d.trys.push([1, 6, 7, 12]);
+                    _b = __asyncValues(octokit.paginate.iterator(octokit.rest.issues.listComments, parameters));
+                    _d.label = 2;
+                case 2: return [4, _b.next()];
+                case 3:
+                    if (!(_c = _d.sent(), !_c.done)) return [3, 5];
+                    comments = _c.value.data;
+                    gaComment = comments.find(function (comment) {
+                        return findCommentPredicate(crawlerId, comment);
+                    });
+                    if (gaComment)
+                        return [2, gaComment];
+                    _d.label = 4;
+                case 4: return [3, 2];
+                case 5: return [3, 12];
+                case 6:
+                    e_1_1 = _d.sent();
+                    e_1 = { error: e_1_1 };
+                    return [3, 12];
+                case 7:
+                    _d.trys.push([7, , 10, 11]);
+                    if (!(_c && !_c.done && (_a = _b.return))) return [3, 9];
+                    return [4, _a.call(_b)];
+                case 8:
+                    _d.sent();
+                    _d.label = 9;
+                case 9: return [3, 11];
+                case 10:
+                    if (e_1) throw e_1.error;
+                    return [7];
+                case 11: return [7];
+                case 12: return [2, undefined];
+            }
+        });
+    });
+}
 function addComment(crawlerId) {
-    try {
-        var pathArray = CRAWLER_API_BASE_URL.split('/');
-        var protocol = pathArray[0];
-        var host = pathArray[2];
-        var baseUrl = protocol + "//" + host;
-        var message = "<p>Check your created <a href=\"" + baseUrl + "/admin/crawlers/" + crawlerId + "/overview\" target=\"_blank\">Crawler</a></p>\n    <p>Check your created index on your <a href=\"https://www.algolia.com/apps/" + ALGOLIA_APP_ID + "/explorer/browse/" + CRAWLER_NAME + "\" target=\"_blank\">Algolia Application</a></p>";
-        var context = github.context;
-        if (context.payload.pull_request === undefined) {
-            core.info('No pull request found.');
-            return;
-        }
-        var prNumber = context.payload.pull_request.number;
-        var octokit = github.getOctokit(GITHUB_TOKEN);
-        octokit.rest.issues.createComment(__assign(__assign({}, context.repo), { issue_number: prNumber, body: message }));
-    }
-    catch (error) {
-        core.setFailed(error.message);
-    }
+    return __awaiter(this, void 0, void 0, function () {
+        var context, prNumber, comment, pathArray, protocol, host, baseUrl, message, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    context = github.context;
+                    if (context.payload.pull_request === undefined) {
+                        core.info('No pull request found.');
+                        return [2];
+                    }
+                    prNumber = context.payload.pull_request.number;
+                    return [4, findComment(prNumber, crawlerId)];
+                case 1:
+                    comment = _a.sent();
+                    if (comment !== undefined) {
+                        return [2];
+                    }
+                    pathArray = CRAWLER_API_BASE_URL.split('/');
+                    protocol = pathArray[0];
+                    host = pathArray[2];
+                    baseUrl = protocol + "//" + host;
+                    message = "<p>Check your created <a href=\"" + baseUrl + "/admin/crawlers/" + crawlerId + "/overview\" target=\"_blank\">Crawler</a></p>\n    <p>Check your created index on your <a href=\"https://www.algolia.com/apps/" + ALGOLIA_APP_ID + "/explorer/browse/" + CRAWLER_NAME + "\" target=\"_blank\">Algolia Application</a></p>";
+                    octokit.rest.issues.createComment(__assign(__assign({}, context.repo), { issue_number: prNumber, body: message }));
+                    return [3, 3];
+                case 2:
+                    error_1 = _a.sent();
+                    core.setFailed(error_1.message);
+                    return [3, 3];
+                case 3: return [2];
+            }
+        });
+    });
 }
 function crawlerReindex() {
     return __awaiter(this, void 0, void 0, function () {

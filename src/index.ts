@@ -19,11 +19,21 @@ const ALGOLIA_API_KEY = core.getInput('algolia-api-key');
 const SITE_URL = core.getInput('site-url');
 const OVERRIDE_CONFIG = core.getInput('override-config');
 
+interface Comment {
+  id: number;
+  body?: string;
+  user: {
+    login: string;
+  } | null;
+}
+
 const client = new CrawlerApiClient({
   crawlerApiBaseUrl: CRAWLER_API_BASE_URL,
   crawlerUserId: CRAWLER_USER_ID,
   crawlerApiKey: CRAWLER_API_KEY,
 });
+
+const octokit = github.getOctokit(GITHUB_TOKEN);
 
 function getConfig(): ConfigJson {
   return {
@@ -56,8 +66,50 @@ function getRecordExtractorSource(): string {
 }`;
 }
 
-function addComment(crawlerId: string): void {
+function findCommentPredicate(crawlerId: string, comment: Comment): boolean {
+  return comment.body ? comment.body.includes(crawlerId) : true;
+}
+
+async function findComment(
+  prNumber: number,
+  crawlerId: string
+): Promise<Comment | undefined> {
+  const parameters = {
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
+    issue_number: prNumber,
+  };
+
+  for await (const { data: comments } of octokit.paginate.iterator(
+    octokit.rest.issues.listComments,
+    parameters
+  )) {
+    // Search each page for the comment
+    const gaComment = comments.find((comment) =>
+      findCommentPredicate(crawlerId, comment)
+    );
+    if (gaComment) return gaComment;
+  }
+
+  return undefined;
+}
+
+async function addComment(crawlerId: string): Promise<void> {
   try {
+    const context = github.context;
+    if (context.payload.pull_request === undefined) {
+      core.info('No pull request found.');
+      return;
+    }
+    const prNumber = context.payload.pull_request.number;
+
+    // First check if the comment doesn't already exist
+    const comment = await findComment(prNumber, crawlerId);
+
+    if (comment !== undefined) {
+      return;
+    }
+
     const pathArray = CRAWLER_API_BASE_URL.split('/');
     const protocol = pathArray[0];
     const host = pathArray[2];
@@ -66,14 +118,6 @@ function addComment(crawlerId: string): void {
     const message = `<p>Check your created <a href="${baseUrl}/admin/crawlers/${crawlerId}/overview" target="_blank">Crawler</a></p>
     <p>Check your created index on your <a href="https://www.algolia.com/apps/${ALGOLIA_APP_ID}/explorer/browse/${CRAWLER_NAME}" target="_blank">Algolia Application</a></p>`;
 
-    const context = github.context;
-    if (context.payload.pull_request === undefined) {
-      core.info('No pull request found.');
-      return;
-    }
-    const prNumber = context.payload.pull_request.number;
-
-    const octokit = github.getOctokit(GITHUB_TOKEN);
     octokit.rest.issues.createComment({
       ...context.repo,
       issue_number: prNumber,
