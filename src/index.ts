@@ -107,6 +107,7 @@ async function addComment(crawlerId: string): Promise<void> {
     const comment = await findComment(prNumber, crawlerId);
 
     if (comment !== undefined) {
+      core.info('Existing comment found.');
       return;
     }
 

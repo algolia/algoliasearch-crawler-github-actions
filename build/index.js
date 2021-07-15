@@ -510,6 +510,7 @@ function addComment(crawlerId) {
                 case 1:
                     comment = _a.sent();
                     if (comment !== undefined) {
+                        core.info('Existing comment found.');
                         return [2];
                     }
                     pathArray = CRAWLER_API_BASE_URL.split('/');
