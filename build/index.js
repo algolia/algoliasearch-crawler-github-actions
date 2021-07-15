@@ -441,8 +441,7 @@ function getRecordExtractorSource() {
     return "({ helpers }) => {\n  return helpers.netlifyExtractor({ template: 'default' });\n}";
 }
 function findCommentPredicate(crawlerId, comment) {
-    console.log(comment.user);
-    return ((comment.user ? comment.user.login === 'github-actions' : false) &&
+    return ((comment.user ? comment.user.login === 'github-actions[bot]' : false) &&
         (comment.body ? comment.body.includes(crawlerId) : false));
 }
 function findComment(prNumber, crawlerId) {
