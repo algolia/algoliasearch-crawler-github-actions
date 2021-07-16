@@ -9,8 +9,12 @@ module.exports = {
     },
     '@semantic-release/npm',
     {
+      path: '@semantic-release/exec',
+      prepareCmd: 'yarn compile',
+    },
+    {
       path: '@semantic-release/git',
-      assets: ['package.json', 'CHANGELOG.md'],
+      assets: ['package.json', 'CHANGELOG.md', 'build/index.js'],
       message:
         'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
     },
