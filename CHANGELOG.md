@@ -1,3 +1,10 @@
+## [0.7.3](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.7.2...v0.7.3) (2021-07-19)
+
+
+### Bug Fixes
+
+* add compile to release process ([#23](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/23)) ([9669048](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/966904857d2c29cdb8eff9e5c499f4c4c798785f))
+
 ## [0.7.2](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.7.1...v0.7.2) (2021-07-16)
 
 
