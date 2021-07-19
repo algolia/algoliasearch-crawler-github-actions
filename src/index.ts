@@ -40,7 +40,6 @@ function getConfig(): ConfigJson {
     appId: ALGOLIA_APP_ID,
     apiKey: ALGOLIA_API_KEY,
     indexPrefix: 'crawler_',
-    maxUrls: 50, // @todo TO BE REMOVED
     rateLimit: 8,
     startUrls: [SITE_URL],
     ignoreQueryParams: ['source', 'utm_*'],
