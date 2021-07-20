@@ -16,7 +16,7 @@ jobs:
         uses: dorshinar/get-deployment-url@master
         timeout-minutes: 1 
         with:
-          token: ${{ secrets.GIT_HUB_TOKEN }}
+          token: ${{ github.token }}
       # checkout the private repo containing the action to run
       - name: Checkout GitHub Action Repo
         uses: actions/checkout@v2
