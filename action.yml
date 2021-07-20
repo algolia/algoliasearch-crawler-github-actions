@@ -21,7 +21,7 @@ inputs:
   crawler-name:
     description: 'Name of the crawler'
     required: true
-    default: [Github] ${{ github.repository }} ${{ github.ref }}
+    default: [Github]${{ github.repository }} ${{ github.ref }}
   algolia-app-id:
     description: 'Algolia Application ID'
     required: true
