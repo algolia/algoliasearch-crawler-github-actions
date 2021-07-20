@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.7.3...v0.8.0) (2021-07-20)
+
+
+### Features
+
+* automatic crawler name ([#24](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/24)) ([d6861c2](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/d6861c20f5ca277178bcc79f301150d7c67e0ab8))
+
 ## [0.7.3](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.7.2...v0.7.3) (2021-07-19)
 
 
