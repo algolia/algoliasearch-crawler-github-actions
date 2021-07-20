@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: algolia/algoliasearch-crawler-github-actions 
-          ref: v0.6.0
+          ref: v0.7.3
       - name: Sleep for 30s
         run: sleep 30
       - name: Github-pages-MAIN => Algolia crawler creation and recrawl (Push on Main branch)

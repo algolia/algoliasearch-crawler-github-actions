@@ -402,7 +402,8 @@ var CRAWLER_USER_ID = core.getInput('crawler-user-id');
 var CRAWLER_API_KEY = core.getInput('crawler-api-key');
 var CRAWLER_API_BASE_URL = core.getInput('crawler-api-base-url');
 var GITHUB_TOKEN = core.getInput('github-token');
-var CRAWLER_NAME = core.getInput('crawler-name').replace(/\//g, '-');
+var CRAWLER_NAME = core.getInput('crawler-name').replace(/[ /]/g, '-');
+var INDEX_NAME = CRAWLER_NAME.replace(/[/~,[\]`&|;$*\\]/g, '');
 var ALGOLIA_APP_ID = core.getInput('algolia-app-id');
 var ALGOLIA_API_KEY = core.getInput('algolia-api-key');
 var SITE_URL = core.getInput('site-url');
@@ -418,7 +419,6 @@ function getConfig() {
         appId: ALGOLIA_APP_ID,
         apiKey: ALGOLIA_API_KEY,
         indexPrefix: 'crawler_',
-        maxUrls: 50,
         rateLimit: 8,
         startUrls: [SITE_URL],
         ignoreQueryParams: ['source', 'utm_*'],
@@ -427,7 +427,7 @@ function getConfig() {
         ignoreRobotsTxtRules: false,
         actions: [
             {
-                indexName: CRAWLER_NAME + "_index",
+                indexName: INDEX_NAME + "_index",
                 pathsToMatch: [SITE_URL + "**"],
                 recordExtractor: {
                     __type: 'function',

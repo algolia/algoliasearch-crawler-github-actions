@@ -16,13 +16,13 @@ jobs:
         uses: dorshinar/get-deployment-url@master
         timeout-minutes: 1 
         with:
-          token: ${{ secrets.GIT_HUB_TOKEN }}
+          token: ${{ github.token }}
       # checkout the private repo containing the action to run
       - name: Checkout GitHub Action Repo
         uses: actions/checkout@v2
         with:
           repository: algolia/algoliasearch-crawler-github-actions 
-          ref: v0.6.0
+          ref: v0.7.3
       - name: Vercel-PR => Algolia crawler creation and recrawl on preview (Pull Request)
         uses: ./
         id: crawler_pr

@@ -13,7 +13,11 @@ const CRAWLER_API_BASE_URL = core.getInput('crawler-api-base-url');
 const GITHUB_TOKEN = core.getInput('github-token');
 
 // CRAWLER CONFIGURATION
-const CRAWLER_NAME = core.getInput('crawler-name').replace(/\//g, '-');
+const CRAWLER_NAME = core.getInput('crawler-name');
+const INDEX_NAME = CRAWLER_NAME.replace(/[ /]/g, '-').replace(
+  /[/~,[\]`&|;$*\\]/g,
+  ''
+);
 const ALGOLIA_APP_ID = core.getInput('algolia-app-id');
 const ALGOLIA_API_KEY = core.getInput('algolia-api-key');
 const SITE_URL = core.getInput('site-url');
@@ -40,7 +44,6 @@ function getConfig(): ConfigJson {
     appId: ALGOLIA_APP_ID,
     apiKey: ALGOLIA_API_KEY,
     indexPrefix: 'crawler_',
-    maxUrls: 50, // @todo TO BE REMOVED
     rateLimit: 8,
     startUrls: [SITE_URL],
     ignoreQueryParams: ['source', 'utm_*'],
@@ -49,7 +52,7 @@ function getConfig(): ConfigJson {
     ignoreRobotsTxtRules: false,
     actions: [
       {
-        indexName: `${CRAWLER_NAME}_index`,
+        indexName: `${INDEX_NAME}_index`,
         pathsToMatch: [`${SITE_URL}**`],
         recordExtractor: {
           __type: 'function',
