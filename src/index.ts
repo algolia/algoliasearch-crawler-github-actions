@@ -13,8 +13,11 @@ const CRAWLER_API_BASE_URL = core.getInput('crawler-api-base-url');
 const GITHUB_TOKEN = core.getInput('github-token');
 
 // CRAWLER CONFIGURATION
-const CRAWLER_NAME = core.getInput('crawler-name').replace(/[ /]/g, '-');
-const INDEX_NAME = CRAWLER_NAME.replace(/[/~,[\]`&|;$*\\]/g, '');
+const CRAWLER_NAME = core.getInput('crawler-name');
+const INDEX_NAME = CRAWLER_NAME.replace(/[ /]/g, '-').replace(
+  /[/~,[\]`&|;$*\\]/g,
+  ''
+);
 const ALGOLIA_APP_ID = core.getInput('algolia-app-id');
 const ALGOLIA_API_KEY = core.getInput('algolia-api-key');
 const SITE_URL = core.getInput('site-url');
