@@ -1,5 +1,7 @@
 # Algolia Crawler Github Action
 
+**IMPORTANT**: This Github Action is currently in Beta and only available for selected Algolia customers.
+
 ## Compatibility with platforms
 
 This Github Action has been tested with the following platforms:
