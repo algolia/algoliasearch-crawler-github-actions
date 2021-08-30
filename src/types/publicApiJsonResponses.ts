@@ -63,7 +63,7 @@ export interface AlgoliaRecord {
 
 export interface RecordsPerExtractor {
   index: number;
-  type: 'custom' | 'algoliaCache';
+  type: 'algoliaCache' | 'custom';
   records: Array<Optional<AlgoliaRecord, 'objectID'>>;
 }
 
