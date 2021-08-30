@@ -52,7 +52,7 @@ export interface AlgoliaSettings {
   /**
    * Controls how facet values are sorted.
    */
-  sortFacetValuesBy?: 'count' | 'alpha';
+  sortFacetValuesBy?: 'alpha' | 'count';
   /**
    * List of attributes to highlight.
    */
@@ -96,7 +96,7 @@ export interface AlgoliaSettings {
   /**
    * Controls whether typo tolerance is enabled and how it is applied.
    */
-  typoTolerance?: string | boolean;
+  typoTolerance?: boolean | string;
   /**
    * Hether to allow typos on numbers (“numeric tokens”) in the query string.
    */
@@ -132,11 +132,11 @@ export interface AlgoliaSettings {
   /**
    * Controls if and how query words are interpreted as prefixes.
    */
-  queryType?: 'prefixLast' | 'prefixAll' | 'prefixNone';
+  queryType?: 'prefixAll' | 'prefixLast' | 'prefixNone';
   /**
    * Selects a strategy to remove words from the query when it doesn’t match any hits.
    */
-  removeWordsIfNoResults?: 'none' | 'lastWords' | 'firstWords' | 'allOptional';
+  removeWordsIfNoResults?: 'allOptional' | 'firstWords' | 'lastWords' | 'none';
   /**
    * Enables the advanced query syntax.
    */
@@ -165,12 +165,12 @@ export interface AlgoliaSettings {
    * List of alternatives that should be considered an exact match by the exact ranking criterion.
    */
   alternativesAsExact?: Array<
-    'ignorePlurals' | 'singleWordSynonym' | 'multiWordsSynonym'
+    'ignorePlurals' | 'multiWordsSynonym' | 'singleWordSynonym'
   >;
   /**
    * Removes stop (common) words from the query before executing it.
    */
-  removeStopWords?: boolean | string[];
+  removeStopWords?: string[] | boolean;
   /**
    * List of numeric attributes that can be used as numerical filters.
    */

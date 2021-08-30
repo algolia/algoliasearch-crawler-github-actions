@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /// <reference types="@types/cheerio" />
 
 import type { AlgoliaSettings } from './algoliaSettings';
@@ -13,7 +12,7 @@ export interface ExternalDataSourceGoogleAnalytics {
   metrics: string[];
   startDate?: string;
   endDate?: string;
-  samplingLevel?: 'DEFAULT' | 'SMALL' | 'LARGE';
+  samplingLevel?: 'DEFAULT' | 'LARGE' | 'SMALL';
   credentials: {
     type: 'service_account';
     client_email: string;
@@ -83,11 +82,11 @@ export interface ExtractionHelpers {
      * - { from, to } = from lvl to lvl only.
      */
     indexHeadings?:
+      | false
       | {
           from: number;
           to: number;
-        }
-      | false;
+        };
   }) => Array<{
     objectID: string;
     [key: string]: any;
@@ -441,7 +440,7 @@ export interface Config {
    * ```
    */
   externalDataSources?: Array<
-    ExternalDataSourceGoogleAnalytics | ExternalDataSourceCSV
+    ExternalDataSourceCSV | ExternalDataSourceGoogleAnalytics
   >;
 
   /**

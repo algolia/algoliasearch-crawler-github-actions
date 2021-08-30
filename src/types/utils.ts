@@ -39,11 +39,12 @@ export type OptionalKeys<T> = {
  * }
  *
  */
+// eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members
 export type Optional<T, K extends keyof T> = {
-  [P in Exclude<keyof T, OptionalKeys<T> | K>]: T[P];
+  [P in Exclude<keyof T, Exclude<keyof T, K | OptionalKeys<T>>>]?: T[P];
 } &
   {
-    [P in Exclude<keyof T, Exclude<keyof T, OptionalKeys<T> | K>>]?: T[P];
+    [P in Exclude<keyof T, K | OptionalKeys<T>>]: T[P];
   };
 
 /**
@@ -82,10 +83,13 @@ export type Modify<T, R> = Omit<T, keyof R> & R;
  *  bar: string;
  * }
  */
-export type RequireSome<T, K extends string> = {
-  [P in Exclude<keyof T, Exclude<keyof T, K>>]: Exclude<T[P], undefined | null>;
-} &
-  Omit<T, keyof K>;
+export type RequireSome<T, K extends string> = Omit<T, keyof K> &
+  {
+    [P in Exclude<keyof T, Exclude<keyof T, K>>]: Exclude<
+      T[P],
+      null | undefined
+    >;
+  };
 
 // stackoverflow.com/questions/49285864/is-there-a-valueof-similar-to-keyof-in-typescript
 /**
