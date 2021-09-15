@@ -50,7 +50,7 @@ jobs:
           site-url: 'https://crawler.algolia.com/test-website/'
 ```
 
-More examples on the [workflows section](https://github.com/algolia/algoliasearch-crawler-github-actions/tree/main/.github/workflows) of this repo.
+More examples on the [workflows](https://github.com/algolia/algoliasearch-crawler-github-actions/tree/main/.github/workflows) and [other_workflow_examples](https://github.com/algolia/algoliasearch-crawler-github-actions/tree/main/other_workflow_examples) sections of this repo.
 
 ## Parameters to provide
 
