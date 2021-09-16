@@ -1,3 +1,10 @@
+## [0.8.2](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.8.1...v0.8.2) (2021-09-16)
+
+
+### Bug Fixes
+
+* handle error in catch ([#57](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/57)) ([2fc63bb](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/2fc63bb64fb96b907ace4a965ea4df9820712498))
+
 ## [0.8.1](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.8.0...v0.8.1) (2021-08-27)
 
 
