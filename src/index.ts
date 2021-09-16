@@ -138,7 +138,15 @@ async function addComment(crawlerId: string): Promise<void> {
       body: message,
     });
   } catch (error) {
-    core.setFailed(error.message);
+    let errorMessage = 'An unexpected error happened.';
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else {
+      console.log(error);
+    }
+
+    core.setFailed(errorMessage);
   }
 }
 
