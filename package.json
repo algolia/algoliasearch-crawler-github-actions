@@ -39,7 +39,7 @@
     "@types/cheerio": "0.22.30",
     "@types/jest": "27.0.1",
     "@types/node": "15.6.1",
-    "@types/node-fetch": "2.5.12",
+    "@types/node-fetch": "3.0.2",
     "@typescript-eslint/eslint-plugin": "4.31.1",
     "@typescript-eslint/parser": "4.31.1",
     "@vercel/ncc": "0.31.1",
@@ -61,6 +61,6 @@
   "dependencies": {
     "@actions/core": "1.5.0",
     "@actions/github": "5.0.0",
-    "node-fetch": "2.6.2"
+    "node-fetch": "3.0.0"
   }
 }
