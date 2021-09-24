@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.8.4...v0.9.0) (2021-09-24)
+
+
+### Features
+
+* BREAKING CHANGE v1 ([8fcfee3](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/8fcfee3a5c727f2cfbfc6555d0392b17a3bfe74e))
+
 ## [0.8.4](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.8.3...v0.8.4) (2021-09-24)
 
 
