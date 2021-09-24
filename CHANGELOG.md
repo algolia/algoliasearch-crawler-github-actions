@@ -1,3 +1,11 @@
+## [0.8.4](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.8.3...v0.8.4) (2021-09-24)
+
+
+### Bug Fixes
+
+* typing issue ([8afa9a0](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/8afa9a07515e632e8516a9bd00e3a1b236065cb1))
+* **deps:** update dependency node-fetch to v3 ([#48](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/48)) ([9341f6a](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/9341f6a2fa2fe583f63a7bae178a65eb0a821e1c))
+
 ## [0.8.3](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v0.8.2...v0.8.3) (2021-09-17)
 
 
