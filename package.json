@@ -10,7 +10,8 @@
     "test": "jest",
     "lint": "eslint src/**/*",
     "semantic-release": "semantic-release",
-    "compile": "ncc build ./dist/index.js -o ./build"
+    "compile": "ncc build ./dist/index.js -o ./build",
+    "hot:runtime": "tsc -b -w --preserveWatchOutput"
   },
   "repository": {
     "type": "git",

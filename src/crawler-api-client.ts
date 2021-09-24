@@ -12,7 +12,7 @@ import type {
   UrlTestResponseBody,
 } from './types/publicApiJsonResponses';
 
-type SearchParams = { [key: string]: string | number | boolean };
+type SearchParams = { [key: string]: boolean | number | string };
 
 export interface ClientParams {
   crawlerUserId: string;
@@ -81,7 +81,7 @@ class CrawlerApiClient {
 
   static async __handleResponse<TBody>(res: Response): Promise<TBody> {
     if (res.ok) {
-      return await res.json();
+      return (await res.json()) as TBody;
     }
     const error = await res.json();
     throw new Error(
@@ -342,7 +342,7 @@ class CrawlerApiClient {
         },
       }
     );
-    const { pending } = await res.json();
+    const { pending } = (await res.json()) as any;
     if (pending) {
       // console.log(`Task ${taskId} is pending, waiting...`);
       await new Promise((resolve) => {
@@ -379,7 +379,7 @@ class CrawlerApiClient {
         body: JSON.stringify({ url, config }),
       }
     );
-    return await res.json();
+    return (await res.json()) as UrlTestResponseBody;
   }
 }
 
