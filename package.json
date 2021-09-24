@@ -20,13 +20,17 @@
     "Crawler",
     "Algolia",
     "Github",
-    "Action"
+    "Action",
+    "indexing",
+    "crawl",
+    "algoliasearch",
+    "search"
   ],
   "author": {
     "name": "Algolia, Inc.",
     "url": "https://www.algolia.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/algolia/algoliasearch-crawler-github-actions/issues"
   },

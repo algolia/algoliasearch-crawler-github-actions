@@ -1,4 +1,5 @@
-## Commands
+##  Commands
+
 ```sh
 yarn test                       # runs tests within src/ directory
 yarn build                      # builds the project

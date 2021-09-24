@@ -1,5 +1,9 @@
-name: 'Algolia Crawler Reindex'
-description: 'Algolia Crawler reindexing'
+name: 'Algolia Crawler Automatic Crawl'
+description: 'Automatically trigger a crawl and push to Algolia, when deploying a website using the Algolia Crawler.'
+branding:
+  icon: "upload-cloud"
+  color: "blue"
+
 inputs:
   # CREDENTIALS
   crawler-user-id:
@@ -37,5 +41,5 @@ inputs:
     default: false
 
 runs:
-  using: 'node12'
+  using: 'node14'
   main: 'build/index.js'
