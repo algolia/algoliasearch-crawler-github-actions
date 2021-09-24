@@ -1,0 +1,31 @@
+name: Algolia Recrawl Example
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize']
+
+jobs:
+  algolia_crawl:
+    name: Algolia Recrawl
+    runs-on: ubuntu-latest
+    steps:
+      # checkout this repo
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      # checkout the private repo containing the action to run
+      - name: Checkout GitHub Action Repo
+        uses: actions/checkout@v2
+        with:
+          repository: algolia/algoliasearch-crawler-github-actions
+          ref: v0.8.0 # version of the release you want to use
+      - name: Algolia crawler creation and crawl
+        uses: ./
+        id: algolia_crawler
+        with: # mandatory parameters
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
+          algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
+          site-url: 'https://crawler.algolia.com/test-website/'
