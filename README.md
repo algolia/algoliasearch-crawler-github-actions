@@ -1,3 +1,8 @@
+
+<img alt="Algolia Crawler Github Action"  src="/cover.jpg" width="100%"/>
+
+[![CircleCI](https://circleci.com/gh/algolia/algoliasearch-crawler-github-actions/tree/main.svg?style=svg)](https://circleci.com/gh/algolia/algoliasearch-crawler-github-actions/tree/main)
+
 # Algolia Crawler Github Action
 
 **IMPORTANT**: This Github Action is currently in Beta and only available for selected Algolia customers.
