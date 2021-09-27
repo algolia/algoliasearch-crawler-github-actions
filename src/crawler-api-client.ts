@@ -1,6 +1,10 @@
 import fetch from 'node-fetch';
 import type { Response } from 'node-fetch';
 
+// eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+// @ts-ignore
+import { version } from '../package.json';
+
 import type { ConfigJson } from './types/configJson';
 import type {
   GetCrawlersResponseBody,
@@ -41,6 +45,8 @@ export interface TestUrlParams {
   url: string;
   config?: JSON;
 }
+
+const USER_AGENT = `algolia_crawler_github_actions/${version}`;
 
 /**
  * Example of class that can be used to hit the Crawler API.
@@ -109,6 +115,7 @@ class CrawlerApiClient {
       headers: {
         Authorization: this.basicAuthToken,
         'Content-Type': 'application/json',
+        'User-Agent': USER_AGENT,
       },
       body: JSON.stringify(body),
     });
@@ -140,6 +147,7 @@ class CrawlerApiClient {
       headers: {
         Authorization: this.basicAuthToken,
         'Content-Type': 'application/json',
+        'User-Agent': USER_AGENT,
       },
       body: JSON.stringify(body),
     });
@@ -189,6 +197,7 @@ class CrawlerApiClient {
       {
         headers: {
           Authorization: this.basicAuthToken,
+          'User-Agent': USER_AGENT,
         },
       }
     );
@@ -217,6 +226,7 @@ class CrawlerApiClient {
       headers: {
         Authorization: this.basicAuthToken,
         'Content-Type': 'application/json',
+        'User-Agent': USER_AGENT,
       },
       body: JSON.stringify(partialJsonConfig),
     });
@@ -253,6 +263,7 @@ class CrawlerApiClient {
     const res = await fetch(`${this.crawlerApiBaseUrl}/crawlers/${id}`, {
       headers: {
         Authorization: this.basicAuthToken,
+        'User-Agent': USER_AGENT,
       },
     });
     return CrawlerApiClient.__handleResponse<CrawlerStatusResponseBody>(res);
@@ -270,6 +281,7 @@ class CrawlerApiClient {
       {
         headers: {
           Authorization: this.basicAuthToken,
+          'User-Agent': USER_AGENT,
         },
       }
     );
@@ -315,6 +327,7 @@ class CrawlerApiClient {
         headers: {
           Authorization: this.basicAuthToken,
           'Content-Type': 'application/json',
+          'User-Agent': USER_AGENT,
         },
       }
     );
@@ -339,6 +352,7 @@ class CrawlerApiClient {
       {
         headers: {
           Authorization: this.basicAuthToken,
+          'User-Agent': USER_AGENT,
         },
       }
     );
@@ -375,6 +389,7 @@ class CrawlerApiClient {
         headers: {
           Authorization: this.basicAuthToken,
           'Content-Type': 'application/json',
+          'User-Agent': USER_AGENT,
         },
         body: JSON.stringify({ url, config }),
       }

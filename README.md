@@ -103,7 +103,7 @@ We highly recommend not to define sensitive information such as Algolia and/or C
 
 ## Troubleshooting
 
-- Need help? We have you covered in our [Discourse forum](https://discourse.algolia.com/c/netlify/28)
+- Need help? We have you covered in our [Discourse forum](https://discourse.algolia.com/)
 - Found a bug in the plugin? Please read our [contributing guide](/CONTRIBUTING.md) and either open an [issue](https://github.com/algolia/algoliasearch-crawler-github-actions/issues) or a [pull request](https://github.com/algolia/algoliasearch-crawler-github-actions/pulls)
 - Can't find the answer to your issue? Please reach out to [support@algolia.com](support@algolia.com)
 
