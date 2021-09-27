@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.1...v1.0.2) (2021-09-27)
+
+
+### Bug Fixes
+
+* add user-agent ([36addeb](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/36addebf7d200ea17d17d311207a1a873e99d29a))
+
 ## [1.0.1](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.0...v1.0.1) (2021-09-24)
 
 
