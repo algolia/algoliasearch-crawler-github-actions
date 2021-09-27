@@ -11,20 +11,13 @@ jobs:
       # checkout this repo
       - name: Checkout Repo
         uses: actions/checkout@v2
-      # checkout the private repo containing the action to run
-      - name: Checkout GitHub Action Repo
-        uses: actions/checkout@v2
-        with:
-          repository: algolia/algoliasearch-crawler-github-actions 
-          ref: v0.7.3
+
       - name: Vercel-MAIN => Algolia crawler creation and recrawl on preview (Push on Main branch)
-        uses: ./
+        uses: algolia/algoliasearch-crawler-github-actions@v1
         id: crawler_push
         with:
           crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
           crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
-          crawler-api-base-url: 'https://crawler-dev.algolia.com/api/1/'
-          crawler-name: vercel-github-actions-test-${{ github.ref }}
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
           site-url: 'https://algoliasearch-crawler-github-actions.vercel.app/'

@@ -14,14 +14,9 @@ jobs:
       # checkout this repo
       - name: Checkout Repo
         uses: actions/checkout@v2
-      # checkout the private repo containing the action to run
-      - name: Checkout GitHub Action Repo
-        uses: actions/checkout@v2
-        with:
-          repository: algolia/algoliasearch-crawler-github-actions
-          ref: v0.8.0 # version of the release you want to use
+
       - name: Algolia crawler creation and crawl
-        uses: ./
+        uses: algolia/algoliasearch-crawler-github-actions@v1
         id: algolia_crawler
         with: # mandatory parameters
           crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}

@@ -30,7 +30,7 @@ On your repository:
 
 ```yaml
   - name: Algolia crawler creation and crawl
-    uses: ./
+    uses: algolia/algoliasearch-crawler-github-actions@v1
     id: algolia_crawler
     with: # mandatory parameters
       crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
@@ -42,10 +42,10 @@ On your repository:
 
 ## Example
 
-- [Generic](/other_workflow_examples/full.yml)
-- [Github Pages](/.github/workflows/github_pages.yml)
-- [Netlify](/.github/workflows/netlify.yml)
-- [Vercel PR](/other_workflow_examples/vercel_pr.yml), [Vercel Main branch](/other_workflow_examples/vercel_push.yml)
+- [Basic](/examples/basic.yml)
+- [Github Pages](/examples/github_pages.yml)
+- [Netlify](/examples/netlify.yml)
+- Vercel: [PR](/examples/vercel_pr.yml), [Main branch](/examples/vercel_push.yml)
 
 ## Parameters to provide
 
