@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.2...v1.0.3) (2021-09-27)
+
+
+### Bug Fixes
+
+* remove unnecessary lock ([428ef97](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/428ef97a8b3ecf4e7ab4bd6e7566c1d301a8b7ec))
+
 ## [1.0.2](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.1...v1.0.2) (2021-09-27)
 
 
