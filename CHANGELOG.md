@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.4...v1.0.5) (2021-11-02)
+
+
+### Bug Fixes
+
+* lint ([5d4c532](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/5d4c53267622ea0d45d2e39bf5abc74341fa0392))
+
 ## [1.0.4](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.3...v1.0.4) (2021-10-01)
 
 
