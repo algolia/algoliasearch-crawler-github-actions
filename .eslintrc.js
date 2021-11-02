@@ -3,5 +3,8 @@ module.exports = {
   rules: {
     'import/no-commonjs': 'off',
     'spaced-comment': 'off',
+
+    // TMP
+    'jsdoc/check-examples': ['off'],
   },
 };
