@@ -42,7 +42,7 @@
     "@semantic-release/git": "10.0.1",
     "@semantic-release/npm": "8.0.3",
     "@types/cheerio": "0.22.30",
-    "@types/jest": "27.0.2",
+    "@types/jest": "27.0.3",
     "@types/node": "16.11.7",
     "@types/node-fetch": "3.0.2",
     "@typescript-eslint/eslint-plugin": "5.4.0",
