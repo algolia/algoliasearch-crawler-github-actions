@@ -182,4 +182,6 @@ async function crawlerReindex(): Promise<void> {
 console.log('---------CRAWLER CONFIG---------');
 console.log(`CRAWLER_NAME : ${CRAWLER_NAME}`);
 
-crawlerReindex().catch((error) => console.log(error));
+crawlerReindex().catch((error) => {
+  core.setFailed(error);
+});
