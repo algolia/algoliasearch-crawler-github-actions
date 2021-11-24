@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.7...v1.0.8) (2021-11-24)
+
+
+### Reverts
+
+* Revert "fix(deps): update dependency node-fetch to v3.1.0" ([359b47e](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/359b47e0c8c54f612196aa8728e386a79d0c4b63))
+
 ## [1.0.7](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.6...v1.0.7) (2021-11-24)
 
 

@@ -42,7 +42,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CrawlerApiClient = void 0;
-var node_fetch_1 = __nccwpck_require__(7580);
+var node_fetch_1 = __nccwpck_require__(9233);
 var package_json_1 = __nccwpck_require__(4147);
 var USER_AGENT = "algolia_crawler_github_actions/".concat(package_json_1.version);
 var CrawlerApiClient = (function () {
@@ -8400,6 +8400,67 @@ function removeHook(state, name, method) {
 
 /***/ }),
 
+/***/ 2371:
+/***/ ((module) => {
+
+"use strict";
+
+/**
+ * Returns a `Buffer` instance from the given data URI `uri`.
+ *
+ * @param {String} uri Data URI to turn into a Buffer instance
+ * @return {Buffer} Buffer instance from Data URI
+ * @api public
+ */
+function dataUriToBuffer(uri) {
+    if (!/^data:/i.test(uri)) {
+        throw new TypeError('`uri` does not appear to be a Data URI (must begin with "data:")');
+    }
+    // strip newlines
+    uri = uri.replace(/\r?\n/g, '');
+    // split the URI up into the "metadata" and the "data" portions
+    const firstComma = uri.indexOf(',');
+    if (firstComma === -1 || firstComma <= 4) {
+        throw new TypeError('malformed data: URI');
+    }
+    // remove the "data:" scheme and parse the metadata
+    const meta = uri.substring(5, firstComma).split(';');
+    let charset = '';
+    let base64 = false;
+    const type = meta[0] || 'text/plain';
+    let typeFull = type;
+    for (let i = 1; i < meta.length; i++) {
+        if (meta[i] === 'base64') {
+            base64 = true;
+        }
+        else {
+            typeFull += `;${meta[i]}`;
+            if (meta[i].indexOf('charset=') === 0) {
+                charset = meta[i].substring(8);
+            }
+        }
+    }
+    // defaults to US-ASCII only if type is not provided
+    if (!meta[0] && !charset.length) {
+        typeFull += ';charset=US-ASCII';
+        charset = 'US-ASCII';
+    }
+    // get the encoded data portion and decode URI-encoded chars
+    const encoding = base64 ? 'base64' : 'ascii';
+    const data = unescape(uri.substring(firstComma + 1));
+    const buffer = Buffer.from(data, encoding);
+    // set `.type` and `.typeFull` properties to MIME type
+    buffer.type = type;
+    buffer.typeFull = typeFull;
+    // set the `.charset` property
+    buffer.charset = charset;
+    return buffer;
+}
+module.exports = dataUriToBuffer;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
 /***/ 8932:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -16264,22 +16325,6 @@ module.exports = require("net");
 
 /***/ }),
 
-/***/ 7561:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("node:fs");
-
-/***/ }),
-
-/***/ 9411:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("node:path");
-
-/***/ }),
-
 /***/ 7742:
 /***/ ((module) => {
 
@@ -16293,14 +16338,6 @@ module.exports = require("node:process");
 
 "use strict";
 module.exports = require("node:stream/web");
-
-/***/ }),
-
-/***/ 4086:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("node:worker_threads");
 
 /***/ }),
 
@@ -16434,72 +16471,39 @@ try {
 
 /***/ }),
 
-/***/ 3213:
+/***/ 9233:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* unused harmony export File */
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1410);
+// ESM COMPAT FLAG
+__nccwpck_require__.r(__webpack_exports__);
 
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  "AbortError": () => (/* reexport */ AbortError),
+  "FetchError": () => (/* reexport */ FetchError),
+  "Headers": () => (/* reexport */ Headers),
+  "Request": () => (/* reexport */ Request),
+  "Response": () => (/* reexport */ Response),
+  "default": () => (/* binding */ fetch),
+  "isRedirect": () => (/* reexport */ isRedirect)
+});
 
-const _File = class File extends _index_js__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z {
-  #lastModified = 0
-  #name = ''
-
-  /**
-   * @param {*[]} fileBits
-   * @param {string} fileName
-   * @param {{lastModified?: number, type?: string}} options
-   */// @ts-ignore
-  constructor (fileBits, fileName, options = {}) {
-    if (arguments.length < 2) {
-      throw new TypeError(`Failed to construct 'File': 2 arguments required, but only ${arguments.length} present.`)
-    }
-    super(fileBits, options)
-
-    if (options === null) options = {}
-
-    // Simulate WebIDL type casting for NaN value in lastModified option.
-    const lastModified = options.lastModified === undefined ? Date.now() : Number(options.lastModified)
-    if (!Number.isNaN(lastModified)) {
-      this.#lastModified = lastModified
-    }
-
-    this.#name = String(fileName)
-  }
-
-  get name () {
-    return this.#name
-  }
-
-  get lastModified () {
-    return this.#lastModified
-  }
-
-  get [Symbol.toStringTag] () {
-    return 'File'
-  }
-}
-
-/** @type {typeof globalThis.File} */// @ts-ignore
-const File = _File
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (File);
-
-
-/***/ }),
-
-/***/ 1410:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* unused harmony export Blob */
-/* harmony import */ var _streams_cjs__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(8572);
+// EXTERNAL MODULE: external "http"
+var external_http_ = __nccwpck_require__(3685);
+// EXTERNAL MODULE: external "https"
+var external_https_ = __nccwpck_require__(5687);
+// EXTERNAL MODULE: external "zlib"
+var external_zlib_ = __nccwpck_require__(9796);
+// EXTERNAL MODULE: external "stream"
+var external_stream_ = __nccwpck_require__(2781);
+// EXTERNAL MODULE: ./node_modules/data-uri-to-buffer/dist/src/index.js
+var src = __nccwpck_require__(2371);
+// EXTERNAL MODULE: external "util"
+var external_util_ = __nccwpck_require__(3837);
+// EXTERNAL MODULE: ./node_modules/fetch-blob/streams.cjs
+var streams = __nccwpck_require__(8572);
+;// CONCATENATED MODULE: ./node_modules/fetch-blob/index.js
 /*! fetch-blob. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
 
 // TODO (jimmywarting): in the feature use conditional loading with top level await (requires 14.x)
@@ -16750,152 +16754,8 @@ Object.defineProperties(_Blob.prototype, {
 
 /** @type {typeof globalThis.Blob} */
 const Blob = _Blob
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Blob);
+/* harmony default export */ const fetch_blob = (Blob);
 
-
-/***/ }),
-
-/***/ 8010:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "Ct": () => (/* binding */ FormData),
-/* harmony export */   "au": () => (/* binding */ formDataToBlob)
-/* harmony export */ });
-/* unused harmony export File */
-/* harmony import */ var fetch_blob__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1410);
-/* harmony import */ var fetch_blob_file_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3213);
-/*! formdata-polyfill. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
-
-
-
-
-var {toStringTag:t,iterator:i,hasInstance:h}=Symbol,
-r=Math.random,
-m='append,set,get,getAll,delete,keys,values,entries,forEach,constructor'.split(','),
-f=(a,b,c)=>(a+='',/^(Blob|File)$/.test(b && b[t])?[(c=c!==void 0?c+'':b[t]=='File'?b.name:'blob',a),b.name!==c||b[t]=='blob'?new fetch_blob_file_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z([b],c,b):b]:[a,b+'']),
-e=(c,f)=>(f?c:c.replace(/\r?\n|\r/g,'\r\n')).replace(/\n/g,'%0A').replace(/\r/g,'%0D').replace(/"/g,'%22'),
-x=(n, a, e)=>{if(a.length<e){throw new TypeError(`Failed to execute '${n}' on 'FormData': ${e} arguments required, but only ${a.length} present.`)}}
-
-const File = (/* unused pure expression or super */ null && (F))
-
-/** @type {typeof globalThis.FormData} */
-const FormData = class FormData {
-#d=[];
-constructor(...a){if(a.length)throw new TypeError(`Failed to construct 'FormData': parameter 1 is not of type 'HTMLFormElement'.`)}
-get [t]() {return 'FormData'}
-[i](){return this.entries()}
-static [h](o) {return o&&typeof o==='object'&&o[t]==='FormData'&&!m.some(m=>typeof o[m]!='function')}
-append(...a){x('append',arguments,2);this.#d.push(f(...a))}
-delete(a){x('delete',arguments,1);a+='';this.#d=this.#d.filter(([b])=>b!==a)}
-get(a){x('get',arguments,1);a+='';for(var b=this.#d,l=b.length,c=0;c<l;c++)if(b[c][0]===a)return b[c][1];return null}
-getAll(a,b){x('getAll',arguments,1);b=[];a+='';this.#d.forEach(c=>c[0]===a&&b.push(c[1]));return b}
-has(a){x('has',arguments,1);a+='';return this.#d.some(b=>b[0]===a)}
-forEach(a,b){x('forEach',arguments,1);for(var [c,d]of this)a.call(b,d,c,this)}
-set(...a){x('set',arguments,2);var b=[],c=!0;a=f(...a);this.#d.forEach(d=>{d[0]===a[0]?c&&(c=!b.push(a)):b.push(d)});c&&b.push(a);this.#d=b}
-*entries(){yield*this.#d}
-*keys(){for(var[a]of this)yield a}
-*values(){for(var[,a]of this)yield a}}
-
-/** @param {FormData} F */
-function formDataToBlob (F,B=fetch_blob__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z){
-var b=`${r()}${r()}`.replace(/\./g, '').slice(-28).padStart(32, '-'),c=[],p=`--${b}\r\nContent-Disposition: form-data; name="`
-F.forEach((v,n)=>typeof v=='string'
-?c.push(p+e(n)+`"\r\n\r\n${v.replace(/\r(?!\n)|(?<!\r)\n/g, '\r\n')}\r\n`)
-:c.push(p+e(n)+`"; filename="${e(v.name, 1)}"\r\nContent-Type: ${v.type||"application/octet-stream"}\r\n\r\n`, v, '\r\n'))
-c.push(`--${b}--`)
-return new B(c,{type:"multipart/form-data; boundary="+b})}
-
-
-/***/ }),
-
-/***/ 7580:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-// ESM COMPAT FLAG
-__nccwpck_require__.r(__webpack_exports__);
-
-// EXPORTS
-__nccwpck_require__.d(__webpack_exports__, {
-  "AbortError": () => (/* reexport */ AbortError),
-  "FetchError": () => (/* reexport */ FetchError),
-  "Headers": () => (/* reexport */ Headers),
-  "Request": () => (/* reexport */ Request),
-  "Response": () => (/* reexport */ Response),
-  "default": () => (/* binding */ fetch),
-  "isRedirect": () => (/* reexport */ isRedirect)
-});
-
-;// CONCATENATED MODULE: external "node:http"
-const external_node_http_namespaceObject = require("node:http");
-;// CONCATENATED MODULE: external "node:https"
-const external_node_https_namespaceObject = require("node:https");
-;// CONCATENATED MODULE: external "node:zlib"
-const external_node_zlib_namespaceObject = require("node:zlib");
-;// CONCATENATED MODULE: external "node:stream"
-const external_node_stream_namespaceObject = require("node:stream");
-;// CONCATENATED MODULE: ./node_modules/data-uri-to-buffer/dist/index.js
-/**
- * Returns a `Buffer` instance from the given data URI `uri`.
- *
- * @param {String} uri Data URI to turn into a Buffer instance
- * @returns {Buffer} Buffer instance from Data URI
- * @api public
- */
-function dataUriToBuffer(uri) {
-    if (!/^data:/i.test(uri)) {
-        throw new TypeError('`uri` does not appear to be a Data URI (must begin with "data:")');
-    }
-    // strip newlines
-    uri = uri.replace(/\r?\n/g, '');
-    // split the URI up into the "metadata" and the "data" portions
-    const firstComma = uri.indexOf(',');
-    if (firstComma === -1 || firstComma <= 4) {
-        throw new TypeError('malformed data: URI');
-    }
-    // remove the "data:" scheme and parse the metadata
-    const meta = uri.substring(5, firstComma).split(';');
-    let charset = '';
-    let base64 = false;
-    const type = meta[0] || 'text/plain';
-    let typeFull = type;
-    for (let i = 1; i < meta.length; i++) {
-        if (meta[i] === 'base64') {
-            base64 = true;
-        }
-        else {
-            typeFull += `;${meta[i]}`;
-            if (meta[i].indexOf('charset=') === 0) {
-                charset = meta[i].substring(8);
-            }
-        }
-    }
-    // defaults to US-ASCII only if type is not provided
-    if (!meta[0] && !charset.length) {
-        typeFull += ';charset=US-ASCII';
-        charset = 'US-ASCII';
-    }
-    // get the encoded data portion and decode URI-encoded chars
-    const encoding = base64 ? 'base64' : 'ascii';
-    const data = unescape(uri.substring(firstComma + 1));
-    const buffer = Buffer.from(data, encoding);
-    // set `.type` and `.typeFull` properties to MIME type
-    buffer.type = type;
-    buffer.typeFull = typeFull;
-    // set the `.charset` property
-    buffer.charset = charset;
-    return buffer;
-}
-/* harmony default export */ const dist = (dataUriToBuffer);
-//# sourceMappingURL=index.js.map
-;// CONCATENATED MODULE: external "node:util"
-const external_node_util_namespaceObject = require("node:util");
-// EXTERNAL MODULE: ./node_modules/fetch-blob/index.js
-var fetch_blob = __nccwpck_require__(1410);
-// EXTERNAL MODULE: ./node_modules/formdata-polyfill/esm.min.js
-var esm_min = __nccwpck_require__(8010);
 ;// CONCATENATED MODULE: ./node_modules/node-fetch/src/errors/base.js
 class FetchBaseError extends Error {
 	constructor(message, type) {
@@ -16943,6 +16803,8 @@ class FetchError extends FetchBaseError {
 	}
 }
 
+;// CONCATENATED MODULE: external "crypto"
+const external_crypto_namespaceObject = require("crypto");
 ;// CONCATENATED MODULE: ./node_modules/node-fetch/src/utils/is.js
 /**
  * Is.js
@@ -16955,7 +16817,8 @@ const NAME = Symbol.toStringTag;
 /**
  * Check if `obj` is a URLSearchParams object
  * ref: https://github.com/node-fetch/node-fetch/issues/296#issuecomment-307598143
- * @param {*} object - Object to check for
+ *
+ * @param  {*} obj
  * @return {boolean}
  */
 const isURLSearchParameters = object => {
@@ -16974,12 +16837,12 @@ const isURLSearchParameters = object => {
 
 /**
  * Check if `object` is a W3C `Blob` object (which `File` inherits from)
- * @param {*} object - Object to check for
+ *
+ * @param  {*} obj
  * @return {boolean}
  */
 const isBlob = object => {
 	return (
-		object &&
 		typeof object === 'object' &&
 		typeof object.arrayBuffer === 'function' &&
 		typeof object.type === 'string' &&
@@ -16990,8 +16853,31 @@ const isBlob = object => {
 };
 
 /**
+ * Check if `obj` is a spec-compliant `FormData` object
+ *
+ * @param {*} object
+ * @return {boolean}
+ */
+function isFormData(object) {
+	return (
+		typeof object === 'object' &&
+		typeof object.append === 'function' &&
+		typeof object.set === 'function' &&
+		typeof object.get === 'function' &&
+		typeof object.getAll === 'function' &&
+		typeof object.delete === 'function' &&
+		typeof object.keys === 'function' &&
+		typeof object.values === 'function' &&
+		typeof object.entries === 'function' &&
+		typeof object.constructor === 'function' &&
+		object[NAME] === 'FormData'
+	);
+}
+
+/**
  * Check if `obj` is an instance of AbortSignal.
- * @param {*} object - Object to check for
+ *
+ * @param  {*} obj
  * @return {boolean}
  */
 const isAbortSignal = object => {
@@ -17002,6 +16888,87 @@ const isAbortSignal = object => {
 		)
 	);
 };
+
+
+;// CONCATENATED MODULE: ./node_modules/node-fetch/src/utils/form-data.js
+
+
+
+
+const carriage = '\r\n';
+const dashes = '-'.repeat(2);
+const carriageLength = Buffer.byteLength(carriage);
+
+/**
+ * @param {string} boundary
+ */
+const getFooter = boundary => `${dashes}${boundary}${dashes}${carriage.repeat(2)}`;
+
+/**
+ * @param {string} boundary
+ * @param {string} name
+ * @param {*} field
+ *
+ * @return {string}
+ */
+function getHeader(boundary, name, field) {
+	let header = '';
+
+	header += `${dashes}${boundary}${carriage}`;
+	header += `Content-Disposition: form-data; name="${name}"`;
+
+	if (isBlob(field)) {
+		header += `; filename="${field.name}"${carriage}`;
+		header += `Content-Type: ${field.type || 'application/octet-stream'}`;
+	}
+
+	return `${header}${carriage.repeat(2)}`;
+}
+
+/**
+ * @return {string}
+ */
+const getBoundary = () => (0,external_crypto_namespaceObject.randomBytes)(8).toString('hex');
+
+/**
+ * @param {FormData} form
+ * @param {string} boundary
+ */
+async function * formDataIterator(form, boundary) {
+	for (const [name, value] of form) {
+		yield getHeader(boundary, name, value);
+
+		if (isBlob(value)) {
+			yield * value.stream();
+		} else {
+			yield value;
+		}
+
+		yield carriage;
+	}
+
+	yield getFooter(boundary);
+}
+
+/**
+ * @param {FormData} form
+ * @param {string} boundary
+ */
+function getFormDataLength(form, boundary) {
+	let length = 0;
+
+	for (const [name, value] of form) {
+		length += Buffer.byteLength(getHeader(boundary, name, value));
+
+		length += isBlob(value) ? value.size : Buffer.byteLength(String(value));
+
+		length += carriageLength;
+	}
+
+	length += Buffer.byteLength(getFooter(boundary));
+
+	return length;
+}
 
 ;// CONCATENATED MODULE: ./node_modules/node-fetch/src/body.js
 
@@ -17042,48 +17009,39 @@ class Body {
 			// Body is undefined or null
 			body = null;
 		} else if (isURLSearchParameters(body)) {
-			// Body is a URLSearchParams
+		// Body is a URLSearchParams
 			body = Buffer.from(body.toString());
 		} else if (isBlob(body)) {
 			// Body is blob
 		} else if (Buffer.isBuffer(body)) {
 			// Body is Buffer
-		} else if (external_node_util_namespaceObject.types.isAnyArrayBuffer(body)) {
+		} else if (external_util_.types.isAnyArrayBuffer(body)) {
 			// Body is ArrayBuffer
 			body = Buffer.from(body);
 		} else if (ArrayBuffer.isView(body)) {
 			// Body is ArrayBufferView
 			body = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
-		} else if (body instanceof external_node_stream_namespaceObject) {
+		} else if (body instanceof external_stream_) {
 			// Body is stream
-		} else if (body instanceof esm_min/* FormData */.Ct) {
-			// Body is FormData
-			body = (0,esm_min/* formDataToBlob */.au)(body);
-			boundary = body.type.split('=')[1];
+		} else if (isFormData(body)) {
+			// Body is an instance of formdata-node
+			boundary = `NodeFetchFormDataBoundary${getBoundary()}`;
+			body = external_stream_.Readable.from(formDataIterator(body, boundary));
 		} else {
 			// None of the above
 			// coerce to string then buffer
 			body = Buffer.from(String(body));
 		}
 
-		let stream = body;
-
-		if (Buffer.isBuffer(body)) {
-			stream = external_node_stream_namespaceObject.Readable.from(body);
-		} else if (isBlob(body)) {
-			stream = external_node_stream_namespaceObject.Readable.from(body.stream());
-		}
-
 		this[INTERNALS] = {
 			body,
-			stream,
 			boundary,
 			disturbed: false,
 			error: null
 		};
 		this.size = size;
 
-		if (body instanceof external_node_stream_namespaceObject) {
+		if (body instanceof external_stream_) {
 			body.on('error', error_ => {
 				const error = error_ instanceof FetchBaseError ?
 					error_ :
@@ -17094,7 +17052,7 @@ class Body {
 	}
 
 	get body() {
-		return this[INTERNALS].stream;
+		return this[INTERNALS].body;
 	}
 
 	get bodyUsed() {
@@ -17111,24 +17069,6 @@ class Body {
 		return buffer.slice(byteOffset, byteOffset + byteLength);
 	}
 
-	async formData() {
-		const ct = this.headers.get('content-type');
-
-		if (ct.startsWith('application/x-www-form-urlencoded')) {
-			const formData = new esm_min/* FormData */.Ct();
-			const parameters = new URLSearchParams(await this.text());
-
-			for (const [name, value] of parameters) {
-				formData.append(name, value);
-			}
-
-			return formData;
-		}
-
-		const {toFormData} = await __nccwpck_require__.e(/* import() */ 905).then(__nccwpck_require__.bind(__nccwpck_require__, 9905));
-		return toFormData(this.body, ct);
-	}
-
 	/**
 	 * Return raw response as Blob
 	 *
@@ -17138,7 +17078,7 @@ class Body {
 		const ct = (this.headers && this.headers.get('content-type')) || (this[INTERNALS].body && this[INTERNALS].body.type) || '';
 		const buf = await this.buffer();
 
-		return new fetch_blob/* default */.Z([buf], {
+		return new fetch_blob([buf], {
 			type: ct
 		});
 	}
@@ -17173,8 +17113,6 @@ class Body {
 	}
 }
 
-Body.prototype.buffer = (0,external_node_util_namespaceObject.deprecate)(Body.prototype.buffer, 'Please use \'response.arrayBuffer()\' instead of \'response.buffer()\'', 'node-fetch#buffer');
-
 // In browsers, all properties are enumerable.
 Object.defineProperties(Body.prototype, {
 	body: {enumerable: true},
@@ -17203,15 +17141,25 @@ async function consumeBody(data) {
 		throw data[INTERNALS].error;
 	}
 
-	const {body} = data;
+	let {body} = data;
 
 	// Body is null
 	if (body === null) {
 		return Buffer.alloc(0);
 	}
 
+	// Body is blob
+	if (isBlob(body)) {
+		body = external_stream_.Readable.from(body.stream());
+	}
+
+	// Body is buffer
+	if (Buffer.isBuffer(body)) {
+		return body;
+	}
+
 	/* c8 ignore next 3 */
-	if (!(body instanceof external_node_stream_namespaceObject)) {
+	if (!(body instanceof external_stream_)) {
 		return Buffer.alloc(0);
 	}
 
@@ -17261,7 +17209,7 @@ async function consumeBody(data) {
 const clone = (instance, highWaterMark) => {
 	let p1;
 	let p2;
-	let {body} = instance[INTERNALS];
+	let {body} = instance;
 
 	// Don't allow cloning a used body
 	if (instance.bodyUsed) {
@@ -17270,25 +17218,19 @@ const clone = (instance, highWaterMark) => {
 
 	// Check that body is a stream and not form-data object
 	// note: we can't clone the form-data object without having it as a dependency
-	if ((body instanceof external_node_stream_namespaceObject) && (typeof body.getBoundary !== 'function')) {
+	if ((body instanceof external_stream_) && (typeof body.getBoundary !== 'function')) {
 		// Tee instance body
-		p1 = new external_node_stream_namespaceObject.PassThrough({highWaterMark});
-		p2 = new external_node_stream_namespaceObject.PassThrough({highWaterMark});
+		p1 = new external_stream_.PassThrough({highWaterMark});
+		p2 = new external_stream_.PassThrough({highWaterMark});
 		body.pipe(p1);
 		body.pipe(p2);
 		// Set instance body to teed body and return the other teed body
-		instance[INTERNALS].stream = p1;
+		instance[INTERNALS].body = p1;
 		body = p2;
 	}
 
 	return body;
 };
-
-const getNonSpecFormDataBoundary = (0,external_node_util_namespaceObject.deprecate)(
-	body => body.getBoundary(),
-	'form-data doesn\'t follow the spec and requires special treatment. Use alternative package',
-	'https://github.com/node-fetch/node-fetch/issues/1167'
-);
 
 /**
  * Performs the operation "extract a `Content-Type` value from |object|" as
@@ -17322,21 +17264,21 @@ const extractContentType = (body, request) => {
 	}
 
 	// Body is a Buffer (Buffer, ArrayBuffer or ArrayBufferView)
-	if (Buffer.isBuffer(body) || external_node_util_namespaceObject.types.isAnyArrayBuffer(body) || ArrayBuffer.isView(body)) {
+	if (Buffer.isBuffer(body) || external_util_.types.isAnyArrayBuffer(body) || ArrayBuffer.isView(body)) {
 		return null;
-	}
-
-	if (body instanceof esm_min/* FormData */.Ct) {
-		return `multipart/form-data; boundary=${request[INTERNALS].boundary}`;
 	}
 
 	// Detect form data input from form-data module
 	if (body && typeof body.getBoundary === 'function') {
-		return `multipart/form-data;boundary=${getNonSpecFormDataBoundary(body)}`;
+		return `multipart/form-data;boundary=${body.getBoundary()}`;
+	}
+
+	if (isFormData(body)) {
+		return `multipart/form-data; boundary=${request[INTERNALS].boundary}`;
 	}
 
 	// Body is stream - can't really do much about this
-	if (body instanceof external_node_stream_namespaceObject) {
+	if (body instanceof external_stream_) {
 		return null;
 	}
 
@@ -17354,7 +17296,7 @@ const extractContentType = (body, request) => {
  * @returns {number | null}
  */
 const getTotalBytes = request => {
-	const {body} = request[INTERNALS];
+	const {body} = request;
 
 	// Body is null or undefined
 	if (body === null) {
@@ -17376,6 +17318,11 @@ const getTotalBytes = request => {
 		return body.hasKnownLength && body.hasKnownLength() ? body.getLengthSync() : null;
 	}
 
+	// Body is a spec-compliant form-data
+	if (isFormData(body)) {
+		return getFormDataLength(request[INTERNALS].boundary);
+	}
+
 	// Body is stream
 	return null;
 };
@@ -17390,6 +17337,13 @@ const getTotalBytes = request => {
 const writeToStream = (dest, {body}) => {
 	if (body === null) {
 		// Body is null
+		dest.end();
+	} else if (isBlob(body)) {
+		// Body is Blob
+		external_stream_.Readable.from(body.stream()).pipe(dest);
+	} else if (Buffer.isBuffer(body)) {
+		// Body is buffer
+		dest.write(body);
 		dest.end();
 	} else {
 		// Body is stream
@@ -17407,8 +17361,8 @@ const writeToStream = (dest, {body}) => {
 
 
 
-const validateHeaderName = typeof external_node_http_namespaceObject.validateHeaderName === 'function' ?
-	external_node_http_namespaceObject.validateHeaderName :
+const validateHeaderName = typeof external_http_.validateHeaderName === 'function' ?
+	external_http_.validateHeaderName :
 	name => {
 		if (!/^[\^`\-\w!#$%&'*+.|~]+$/.test(name)) {
 			const error = new TypeError(`Header name must be a valid HTTP token [${name}]`);
@@ -17417,8 +17371,8 @@ const validateHeaderName = typeof external_node_http_namespaceObject.validateHea
 		}
 	};
 
-const validateHeaderValue = typeof external_node_http_namespaceObject.validateHeaderValue === 'function' ?
-	external_node_http_namespaceObject.validateHeaderValue :
+const validateHeaderValue = typeof external_http_.validateHeaderValue === 'function' ?
+	external_http_.validateHeaderValue :
 	(name, value) => {
 		if (/[^\t\u0020-\u007E\u0080-\u00FF]/.test(value)) {
 			const error = new TypeError(`Invalid character in header content ["${name}"]`);
@@ -17457,7 +17411,7 @@ class Headers extends URLSearchParams {
 			}
 		} else if (init == null) { // eslint-disable-line no-eq-null, eqeqeq
 			// No op
-		} else if (typeof init === 'object' && !external_node_util_namespaceObject.types.isBoxedPrimitive(init)) {
+		} else if (typeof init === 'object' && !external_util_.types.isBoxedPrimitive(init)) {
 			const method = init[Symbol.iterator];
 			// eslint-disable-next-line no-eq-null, eqeqeq
 			if (method == null) {
@@ -17473,7 +17427,7 @@ class Headers extends URLSearchParams {
 				result = [...init]
 					.map(pair => {
 						if (
-							typeof pair !== 'object' || external_node_util_namespaceObject.types.isBoxedPrimitive(pair)
+							typeof pair !== 'object' || external_util_.types.isBoxedPrimitive(pair)
 						) {
 							throw new TypeError('Each header pair must be an iterable object');
 						}
@@ -17709,7 +17663,7 @@ class Response extends Body {
 		const headers = new Headers(options.headers);
 
 		if (body !== null && !headers.has('Content-Type')) {
-			const contentType = extractContentType(body, this);
+			const contentType = extractContentType(body);
 			if (contentType) {
 				headers.append('Content-Type', contentType);
 			}
@@ -17775,8 +17729,7 @@ class Response extends Body {
 			headers: this.headers,
 			ok: this.ok,
 			redirected: this.redirected,
-			size: this.size,
-			highWaterMark: this.highWaterMark
+			size: this.size
 		});
 	}
 
@@ -17820,8 +17773,8 @@ Object.defineProperties(Response.prototype, {
 	clone: {enumerable: true}
 });
 
-;// CONCATENATED MODULE: external "node:url"
-const external_node_url_namespaceObject = require("node:url");
+// EXTERNAL MODULE: external "url"
+var external_url_ = __nccwpck_require__(7310);
 ;// CONCATENATED MODULE: ./node_modules/node-fetch/src/utils/get-search.js
 const getSearch = parsedURL => {
 	if (parsedURL.search) {
@@ -17833,350 +17786,6 @@ const getSearch = parsedURL => {
 	return parsedURL.href[lastOffset - hash.length] === '?' ? '?' : '';
 };
 
-// EXTERNAL MODULE: external "net"
-var external_net_ = __nccwpck_require__(1808);
-;// CONCATENATED MODULE: ./node_modules/node-fetch/src/utils/referrer.js
-
-
-/**
- * @external URL
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL|URL}
- */
-
-/**
- * @module utils/referrer
- * @private
- */
-
-/**
- * @see {@link https://w3c.github.io/webappsec-referrer-policy/#strip-url|Referrer Policy §8.4. Strip url for use as a referrer}
- * @param {string} URL
- * @param {boolean} [originOnly=false]
- */
-function stripURLForUseAsAReferrer(url, originOnly = false) {
-	// 1. If url is null, return no referrer.
-	if (url == null) { // eslint-disable-line no-eq-null, eqeqeq
-		return 'no-referrer';
-	}
-
-	url = new URL(url);
-
-	// 2. If url's scheme is a local scheme, then return no referrer.
-	if (/^(about|blob|data):$/.test(url.protocol)) {
-		return 'no-referrer';
-	}
-
-	// 3. Set url's username to the empty string.
-	url.username = '';
-
-	// 4. Set url's password to null.
-	// Note: `null` appears to be a mistake as this actually results in the password being `"null"`.
-	url.password = '';
-
-	// 5. Set url's fragment to null.
-	// Note: `null` appears to be a mistake as this actually results in the fragment being `"#null"`.
-	url.hash = '';
-
-	// 6. If the origin-only flag is true, then:
-	if (originOnly) {
-		// 6.1. Set url's path to null.
-		// Note: `null` appears to be a mistake as this actually results in the path being `"/null"`.
-		url.pathname = '';
-
-		// 6.2. Set url's query to null.
-		// Note: `null` appears to be a mistake as this actually results in the query being `"?null"`.
-		url.search = '';
-	}
-
-	// 7. Return url.
-	return url;
-}
-
-/**
- * @see {@link https://w3c.github.io/webappsec-referrer-policy/#enumdef-referrerpolicy|enum ReferrerPolicy}
- */
-const ReferrerPolicy = new Set([
-	'',
-	'no-referrer',
-	'no-referrer-when-downgrade',
-	'same-origin',
-	'origin',
-	'strict-origin',
-	'origin-when-cross-origin',
-	'strict-origin-when-cross-origin',
-	'unsafe-url'
-]);
-
-/**
- * @see {@link https://w3c.github.io/webappsec-referrer-policy/#default-referrer-policy|default referrer policy}
- */
-const DEFAULT_REFERRER_POLICY = 'strict-origin-when-cross-origin';
-
-/**
- * @see {@link https://w3c.github.io/webappsec-referrer-policy/#referrer-policies|Referrer Policy §3. Referrer Policies}
- * @param {string} referrerPolicy
- * @returns {string} referrerPolicy
- */
-function validateReferrerPolicy(referrerPolicy) {
-	if (!ReferrerPolicy.has(referrerPolicy)) {
-		throw new TypeError(`Invalid referrerPolicy: ${referrerPolicy}`);
-	}
-
-	return referrerPolicy;
-}
-
-/**
- * @see {@link https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy|Referrer Policy §3.2. Is origin potentially trustworthy?}
- * @param {external:URL} url
- * @returns `true`: "Potentially Trustworthy", `false`: "Not Trustworthy"
- */
-function isOriginPotentiallyTrustworthy(url) {
-	// 1. If origin is an opaque origin, return "Not Trustworthy".
-	// Not applicable
-
-	// 2. Assert: origin is a tuple origin.
-	// Not for implementations
-
-	// 3. If origin's scheme is either "https" or "wss", return "Potentially Trustworthy".
-	if (/^(http|ws)s:$/.test(url.protocol)) {
-		return true;
-	}
-
-	// 4. If origin's host component matches one of the CIDR notations 127.0.0.0/8 or ::1/128 [RFC4632], return "Potentially Trustworthy".
-	const hostIp = url.host.replace(/(^\[)|(]$)/g, '');
-	const hostIPVersion = (0,external_net_.isIP)(hostIp);
-
-	if (hostIPVersion === 4 && /^127\./.test(hostIp)) {
-		return true;
-	}
-
-	if (hostIPVersion === 6 && /^(((0+:){7})|(::(0+:){0,6}))0*1$/.test(hostIp)) {
-		return true;
-	}
-
-	// 5. If origin's host component is "localhost" or falls within ".localhost", and the user agent conforms to the name resolution rules in [let-localhost-be-localhost], return "Potentially Trustworthy".
-	// We are returning FALSE here because we cannot ensure conformance to
-	// let-localhost-be-loalhost (https://tools.ietf.org/html/draft-west-let-localhost-be-localhost)
-	if (/^(.+\.)*localhost$/.test(url.host)) {
-		return false;
-	}
-
-	// 6. If origin's scheme component is file, return "Potentially Trustworthy".
-	if (url.protocol === 'file:') {
-		return true;
-	}
-
-	// 7. If origin's scheme component is one which the user agent considers to be authenticated, return "Potentially Trustworthy".
-	// Not supported
-
-	// 8. If origin has been configured as a trustworthy origin, return "Potentially Trustworthy".
-	// Not supported
-
-	// 9. Return "Not Trustworthy".
-	return false;
-}
-
-/**
- * @see {@link https://w3c.github.io/webappsec-secure-contexts/#is-url-trustworthy|Referrer Policy §3.3. Is url potentially trustworthy?}
- * @param {external:URL} url
- * @returns `true`: "Potentially Trustworthy", `false`: "Not Trustworthy"
- */
-function isUrlPotentiallyTrustworthy(url) {
-	// 1. If url is "about:blank" or "about:srcdoc", return "Potentially Trustworthy".
-	if (/^about:(blank|srcdoc)$/.test(url)) {
-		return true;
-	}
-
-	// 2. If url's scheme is "data", return "Potentially Trustworthy".
-	if (url.protocol === 'data:') {
-		return true;
-	}
-
-	// Note: The origin of blob: and filesystem: URLs is the origin of the context in which they were
-	// created. Therefore, blobs created in a trustworthy origin will themselves be potentially
-	// trustworthy.
-	if (/^(blob|filesystem):$/.test(url.protocol)) {
-		return true;
-	}
-
-	// 3. Return the result of executing §3.2 Is origin potentially trustworthy? on url's origin.
-	return isOriginPotentiallyTrustworthy(url);
-}
-
-/**
- * Modifies the referrerURL to enforce any extra security policy considerations.
- * @see {@link https://w3c.github.io/webappsec-referrer-policy/#determine-requests-referrer|Referrer Policy §8.3. Determine request's Referrer}, step 7
- * @callback module:utils/referrer~referrerURLCallback
- * @param {external:URL} referrerURL
- * @returns {external:URL} modified referrerURL
- */
-
-/**
- * Modifies the referrerOrigin to enforce any extra security policy considerations.
- * @see {@link https://w3c.github.io/webappsec-referrer-policy/#determine-requests-referrer|Referrer Policy §8.3. Determine request's Referrer}, step 7
- * @callback module:utils/referrer~referrerOriginCallback
- * @param {external:URL} referrerOrigin
- * @returns {external:URL} modified referrerOrigin
- */
-
-/**
- * @see {@link https://w3c.github.io/webappsec-referrer-policy/#determine-requests-referrer|Referrer Policy §8.3. Determine request's Referrer}
- * @param {Request} request
- * @param {object} o
- * @param {module:utils/referrer~referrerURLCallback} o.referrerURLCallback
- * @param {module:utils/referrer~referrerOriginCallback} o.referrerOriginCallback
- * @returns {external:URL} Request's referrer
- */
-function determineRequestsReferrer(request, {referrerURLCallback, referrerOriginCallback} = {}) {
-	// There are 2 notes in the specification about invalid pre-conditions.  We return null, here, for
-	// these cases:
-	// > Note: If request's referrer is "no-referrer", Fetch will not call into this algorithm.
-	// > Note: If request's referrer policy is the empty string, Fetch will not call into this
-	// > algorithm.
-	if (request.referrer === 'no-referrer' || request.referrerPolicy === '') {
-		return null;
-	}
-
-	// 1. Let policy be request's associated referrer policy.
-	const policy = request.referrerPolicy;
-
-	// 2. Let environment be request's client.
-	// not applicable to node.js
-
-	// 3. Switch on request's referrer:
-	if (request.referrer === 'about:client') {
-		return 'no-referrer';
-	}
-
-	// "a URL": Let referrerSource be request's referrer.
-	const referrerSource = request.referrer;
-
-	// 4. Let request's referrerURL be the result of stripping referrerSource for use as a referrer.
-	let referrerURL = stripURLForUseAsAReferrer(referrerSource);
-
-	// 5. Let referrerOrigin be the result of stripping referrerSource for use as a referrer, with the
-	//    origin-only flag set to true.
-	let referrerOrigin = stripURLForUseAsAReferrer(referrerSource, true);
-
-	// 6. If the result of serializing referrerURL is a string whose length is greater than 4096, set
-	//    referrerURL to referrerOrigin.
-	if (referrerURL.toString().length > 4096) {
-		referrerURL = referrerOrigin;
-	}
-
-	// 7. The user agent MAY alter referrerURL or referrerOrigin at this point to enforce arbitrary
-	//    policy considerations in the interests of minimizing data leakage. For example, the user
-	//    agent could strip the URL down to an origin, modify its host, replace it with an empty
-	//    string, etc.
-	if (referrerURLCallback) {
-		referrerURL = referrerURLCallback(referrerURL);
-	}
-
-	if (referrerOriginCallback) {
-		referrerOrigin = referrerOriginCallback(referrerOrigin);
-	}
-
-	// 8.Execute the statements corresponding to the value of policy:
-	const currentURL = new URL(request.url);
-
-	switch (policy) {
-		case 'no-referrer':
-			return 'no-referrer';
-
-		case 'origin':
-			return referrerOrigin;
-
-		case 'unsafe-url':
-			return referrerURL;
-
-		case 'strict-origin':
-			// 1. If referrerURL is a potentially trustworthy URL and request's current URL is not a
-			//    potentially trustworthy URL, then return no referrer.
-			if (isUrlPotentiallyTrustworthy(referrerURL) && !isUrlPotentiallyTrustworthy(currentURL)) {
-				return 'no-referrer';
-			}
-
-			// 2. Return referrerOrigin.
-			return referrerOrigin.toString();
-
-		case 'strict-origin-when-cross-origin':
-			// 1. If the origin of referrerURL and the origin of request's current URL are the same, then
-			//    return referrerURL.
-			if (referrerURL.origin === currentURL.origin) {
-				return referrerURL;
-			}
-
-			// 2. If referrerURL is a potentially trustworthy URL and request's current URL is not a
-			//    potentially trustworthy URL, then return no referrer.
-			if (isUrlPotentiallyTrustworthy(referrerURL) && !isUrlPotentiallyTrustworthy(currentURL)) {
-				return 'no-referrer';
-			}
-
-			// 3. Return referrerOrigin.
-			return referrerOrigin;
-
-		case 'same-origin':
-			// 1. If the origin of referrerURL and the origin of request's current URL are the same, then
-			//    return referrerURL.
-			if (referrerURL.origin === currentURL.origin) {
-				return referrerURL;
-			}
-
-			// 2. Return no referrer.
-			return 'no-referrer';
-
-		case 'origin-when-cross-origin':
-			// 1. If the origin of referrerURL and the origin of request's current URL are the same, then
-			//    return referrerURL.
-			if (referrerURL.origin === currentURL.origin) {
-				return referrerURL;
-			}
-
-			// Return referrerOrigin.
-			return referrerOrigin;
-
-		case 'no-referrer-when-downgrade':
-			// 1. If referrerURL is a potentially trustworthy URL and request's current URL is not a
-			//    potentially trustworthy URL, then return no referrer.
-			if (isUrlPotentiallyTrustworthy(referrerURL) && !isUrlPotentiallyTrustworthy(currentURL)) {
-				return 'no-referrer';
-			}
-
-			// 2. Return referrerURL.
-			return referrerURL;
-
-		default:
-			throw new TypeError(`Invalid referrerPolicy: ${policy}`);
-	}
-}
-
-/**
- * @see {@link https://w3c.github.io/webappsec-referrer-policy/#parse-referrer-policy-from-header|Referrer Policy §8.1. Parse a referrer policy from a Referrer-Policy header}
- * @param {Headers} headers Response headers
- * @returns {string} policy
- */
-function parseReferrerPolicyFromHeader(headers) {
-	// 1. Let policy-tokens be the result of extracting header list values given `Referrer-Policy`
-	//    and response’s header list.
-	const policyTokens = (headers.get('referrer-policy') || '').split(/[,\s]+/);
-
-	// 2. Let policy be the empty string.
-	let policy = '';
-
-	// 3. For each token in policy-tokens, if token is a referrer policy and token is not the empty
-	//    string, then set policy to token.
-	// Note: This algorithm loops over multiple policy values to allow deployment of new policy
-	// values with fallbacks for older user agents, as described in § 11.1 Unknown Policy Values.
-	for (const token of policyTokens) {
-		if (token && ReferrerPolicy.has(token)) {
-			policy = token;
-		}
-	}
-
-	// 4. Return policy.
-	return policy;
-}
-
 ;// CONCATENATED MODULE: ./node_modules/node-fetch/src/request.js
 
 /**
@@ -18186,7 +17795,6 @@ function parseReferrerPolicyFromHeader(headers) {
  *
  * All spec algorithm step numbers are based on https://fetch.spec.whatwg.org/commit-snapshots/ae716822cb3a61843226cd090eefc6589446c1d2/.
  */
-
 
 
 
@@ -18230,10 +17838,6 @@ class Request extends Body {
 			input = {};
 		}
 
-		if (parsedURL.username !== '' || parsedURL.password !== '') {
-			throw new TypeError(`${parsedURL} is an url with embedded credentails.`);
-		}
-
 		let method = init.method || input.method || 'GET';
 		method = method.toUpperCase();
 
@@ -18258,7 +17862,7 @@ class Request extends Body {
 		if (inputBody !== null && !headers.has('Content-Type')) {
 			const contentType = extractContentType(inputBody, this);
 			if (contentType) {
-				headers.set('Content-Type', contentType);
+				headers.append('Content-Type', contentType);
 			}
 		}
 
@@ -18274,28 +17878,12 @@ class Request extends Body {
 			throw new TypeError('Expected signal to be an instanceof AbortSignal or EventTarget');
 		}
 
-		// §5.4, Request constructor steps, step 15.1
-		// eslint-disable-next-line no-eq-null, eqeqeq
-		let referrer = init.referrer == null ? input.referrer : init.referrer;
-		if (referrer === '') {
-			// §5.4, Request constructor steps, step 15.2
-			referrer = 'no-referrer';
-		} else if (referrer) {
-			// §5.4, Request constructor steps, step 15.3.1, 15.3.2
-			const parsedReferrer = new URL(referrer);
-			// §5.4, Request constructor steps, step 15.3.3, 15.3.4
-			referrer = /^about:(\/\/)?client$/.test(parsedReferrer) ? 'client' : parsedReferrer;
-		} else {
-			referrer = undefined;
-		}
-
 		this[request_INTERNALS] = {
 			method,
 			redirect: init.redirect || input.redirect || 'follow',
 			headers,
 			parsedURL,
-			signal,
-			referrer
+			signal
 		};
 
 		// Node-fetch-only options
@@ -18305,10 +17893,6 @@ class Request extends Body {
 		this.agent = init.agent || input.agent;
 		this.highWaterMark = init.highWaterMark || input.highWaterMark || 16384;
 		this.insecureHTTPParser = init.insecureHTTPParser || input.insecureHTTPParser || false;
-
-		// §5.4, Request constructor steps, step 16.
-		// Default is empty string per https://fetch.spec.whatwg.org/#concept-request-referrer-policy
-		this.referrerPolicy = init.referrerPolicy || input.referrerPolicy || '';
 	}
 
 	get method() {
@@ -18316,7 +17900,7 @@ class Request extends Body {
 	}
 
 	get url() {
-		return (0,external_node_url_namespaceObject.format)(this[request_INTERNALS].parsedURL);
+		return (0,external_url_.format)(this[request_INTERNALS].parsedURL);
 	}
 
 	get headers() {
@@ -18329,31 +17913,6 @@ class Request extends Body {
 
 	get signal() {
 		return this[request_INTERNALS].signal;
-	}
-
-	// https://fetch.spec.whatwg.org/#dom-request-referrer
-	get referrer() {
-		if (this[request_INTERNALS].referrer === 'no-referrer') {
-			return '';
-		}
-
-		if (this[request_INTERNALS].referrer === 'client') {
-			return 'about:client';
-		}
-
-		if (this[request_INTERNALS].referrer) {
-			return this[request_INTERNALS].referrer.toString();
-		}
-
-		return undefined;
-	}
-
-	get referrerPolicy() {
-		return this[request_INTERNALS].referrerPolicy;
-	}
-
-	set referrerPolicy(referrerPolicy) {
-		this[request_INTERNALS].referrerPolicy = validateReferrerPolicy(referrerPolicy);
 	}
 
 	/**
@@ -18376,9 +17935,7 @@ Object.defineProperties(Request.prototype, {
 	headers: {enumerable: true},
 	redirect: {enumerable: true},
 	clone: {enumerable: true},
-	signal: {enumerable: true},
-	referrer: {enumerable: true},
-	referrerPolicy: {enumerable: true}
+	signal: {enumerable: true}
 });
 
 /**
@@ -18414,29 +17971,6 @@ const getNodeRequestOptions = request => {
 		headers.set('Content-Length', contentLengthValue);
 	}
 
-	// 4.1. Main fetch, step 2.6
-	// > If request's referrer policy is the empty string, then set request's referrer policy to the
-	// > default referrer policy.
-	if (request.referrerPolicy === '') {
-		request.referrerPolicy = DEFAULT_REFERRER_POLICY;
-	}
-
-	// 4.1. Main fetch, step 2.7
-	// > If request's referrer is not "no-referrer", set request's referrer to the result of invoking
-	// > determine request's referrer.
-	if (request.referrer && request.referrer !== 'no-referrer') {
-		request[request_INTERNALS].referrer = determineRequestsReferrer(request);
-	} else {
-		request[request_INTERNALS].referrer = 'no-referrer';
-	}
-
-	// 4.5. HTTP-network-or-cache fetch, step 6.9
-	// > If httpRequest's referrer is a URL, then append `Referer`/httpRequest's referrer, serialized
-	// >  and isomorphic encoded, to httpRequest's header list.
-	if (request[request_INTERNALS].referrer instanceof URL) {
-		headers.set('Referer', request.referrer);
-	}
-
 	// HTTP-network-or-cache fetch step 2.11
 	if (!headers.has('User-Agent')) {
 		headers.set('User-Agent', 'node-fetch');
@@ -18461,22 +17995,24 @@ const getNodeRequestOptions = request => {
 
 	const search = getSearch(parsedURL);
 
-	// Pass the full URL directly to request(), but overwrite the following
-	// options:
-	const options = {
-		// Overwrite search to retain trailing ? (issue #776)
+	// Manually spread the URL object instead of spread syntax
+	const requestOptions = {
 		path: parsedURL.pathname + search,
-		// The following options are not expressed in the URL
+		pathname: parsedURL.pathname,
+		hostname: parsedURL.hostname,
+		protocol: parsedURL.protocol,
+		port: parsedURL.port,
+		hash: parsedURL.hash,
+		search: parsedURL.search,
+		query: parsedURL.query,
+		href: parsedURL.href,
 		method: request.method,
 		headers: headers[Symbol.for('nodejs.util.inspect.custom')](),
 		insecureHTTPParser: request.insecureHTTPParser,
 		agent
 	};
 
-	return {
-		parsedURL,
-		options
-	};
+	return requestOptions;
 };
 
 ;// CONCATENATED MODULE: ./node_modules/node-fetch/src/errors/abort-error.js
@@ -18516,7 +18052,6 @@ class AbortError extends FetchBaseError {
 
 
 
-
 const supportedSchemas = new Set(['data:', 'http:', 'https:']);
 
 /**
@@ -18530,27 +18065,27 @@ async function fetch(url, options_) {
 	return new Promise((resolve, reject) => {
 		// Build request object
 		const request = new Request(url, options_);
-		const {parsedURL, options} = getNodeRequestOptions(request);
-		if (!supportedSchemas.has(parsedURL.protocol)) {
-			throw new TypeError(`node-fetch cannot load ${url}. URL scheme "${parsedURL.protocol.replace(/:$/, '')}" is not supported.`);
+		const options = getNodeRequestOptions(request);
+		if (!supportedSchemas.has(options.protocol)) {
+			throw new TypeError(`node-fetch cannot load ${url}. URL scheme "${options.protocol.replace(/:$/, '')}" is not supported.`);
 		}
 
-		if (parsedURL.protocol === 'data:') {
-			const data = dist(request.url);
+		if (options.protocol === 'data:') {
+			const data = src(request.url);
 			const response = new Response(data, {headers: {'Content-Type': data.typeFull}});
 			resolve(response);
 			return;
 		}
 
 		// Wrap http.request into fetch
-		const send = (parsedURL.protocol === 'https:' ? external_node_https_namespaceObject : external_node_http_namespaceObject).request;
+		const send = (options.protocol === 'https:' ? external_https_ : external_http_).request;
 		const {signal} = request;
 		let response = null;
 
 		const abort = () => {
 			const error = new AbortError('The operation was aborted.');
 			reject(error);
-			if (request.body && request.body instanceof external_node_stream_namespaceObject.Readable) {
+			if (request.body && request.body instanceof external_stream_.Readable) {
 				request.body.destroy(error);
 			}
 
@@ -18572,7 +18107,7 @@ async function fetch(url, options_) {
 		};
 
 		// Send request
-		const request_ = send(parsedURL, options);
+		const request_ = send(options);
 
 		if (signal) {
 			signal.addEventListener('abort', abortAndFinalize);
@@ -18661,15 +18196,13 @@ async function fetch(url, options_) {
 							agent: request.agent,
 							compress: request.compress,
 							method: request.method,
-							body: clone(request),
+							body: request.body,
 							signal: request.signal,
-							size: request.size,
-							referrer: request.referrer,
-							referrerPolicy: request.referrerPolicy
+							size: request.size
 						};
 
 						// HTTP-redirect fetch step 9
-						if (response_.statusCode !== 303 && request.body && options_.body instanceof external_node_stream_namespaceObject.Readable) {
+						if (response_.statusCode !== 303 && request.body && options_.body instanceof external_stream_.Readable) {
 							reject(new FetchError('Cannot follow redirect with body being a readable stream', 'unsupported-redirect'));
 							finalize();
 							return;
@@ -18680,12 +18213,6 @@ async function fetch(url, options_) {
 							requestOptions.method = 'GET';
 							requestOptions.body = undefined;
 							requestOptions.headers.delete('content-length');
-						}
-
-						// HTTP-redirect fetch step 14
-						const responseReferrerPolicy = parseReferrerPolicyFromHeader(headers);
-						if (responseReferrerPolicy) {
-							requestOptions.referrerPolicy = responseReferrerPolicy;
 						}
 
 						// HTTP-redirect fetch step 15
@@ -18706,7 +18233,7 @@ async function fetch(url, options_) {
 				});
 			}
 
-			let body = (0,external_node_stream_namespaceObject.pipeline)(response_, new external_node_stream_namespaceObject.PassThrough(), reject);
+			let body = (0,external_stream_.pipeline)(response_, new external_stream_.PassThrough(), reject);
 			// see https://github.com/nodejs/node/pull/29376
 			if (process.version < 'v12.10') {
 				response_.on('aborted', abortAndFinalize);
@@ -18745,13 +18272,13 @@ async function fetch(url, options_) {
 			// by common browsers.
 			// Always using Z_SYNC_FLUSH is what cURL does.
 			const zlibOptions = {
-				flush: external_node_zlib_namespaceObject.Z_SYNC_FLUSH,
-				finishFlush: external_node_zlib_namespaceObject.Z_SYNC_FLUSH
+				flush: external_zlib_.Z_SYNC_FLUSH,
+				finishFlush: external_zlib_.Z_SYNC_FLUSH
 			};
 
 			// For gzip
 			if (codings === 'gzip' || codings === 'x-gzip') {
-				body = (0,external_node_stream_namespaceObject.pipeline)(body, external_node_zlib_namespaceObject.createGunzip(zlibOptions), reject);
+				body = (0,external_stream_.pipeline)(body, external_zlib_.createGunzip(zlibOptions), reject);
 				response = new Response(body, responseOptions);
 				resolve(response);
 				return;
@@ -18761,10 +18288,10 @@ async function fetch(url, options_) {
 			if (codings === 'deflate' || codings === 'x-deflate') {
 				// Handle the infamous raw deflate response from old servers
 				// a hack for old IIS and Apache servers
-				const raw = (0,external_node_stream_namespaceObject.pipeline)(response_, new external_node_stream_namespaceObject.PassThrough(), reject);
+				const raw = (0,external_stream_.pipeline)(response_, new external_stream_.PassThrough(), reject);
 				raw.once('data', chunk => {
 					// See http://stackoverflow.com/questions/37519828
-					body = (chunk[0] & 0x0F) === 0x08 ? (0,external_node_stream_namespaceObject.pipeline)(body, external_node_zlib_namespaceObject.createInflate(), reject) : (0,external_node_stream_namespaceObject.pipeline)(body, external_node_zlib_namespaceObject.createInflateRaw(), reject);
+					body = (chunk[0] & 0x0F) === 0x08 ? (0,external_stream_.pipeline)(body, external_zlib_.createInflate(), reject) : (0,external_stream_.pipeline)(body, external_zlib_.createInflateRaw(), reject);
 
 					response = new Response(body, responseOptions);
 					resolve(response);
@@ -18774,7 +18301,7 @@ async function fetch(url, options_) {
 
 			// For br
 			if (codings === 'br') {
-				body = (0,external_node_stream_namespaceObject.pipeline)(body, external_node_zlib_namespaceObject.createBrotliDecompress(), reject);
+				body = (0,external_stream_.pipeline)(body, external_zlib_.createBrotliDecompress(), reject);
 				response = new Response(body, responseOptions);
 				resolve(response);
 				return;
@@ -18911,7 +18438,7 @@ module.exports = JSON.parse('[["0","\\u0000",128],["a1","｡",62],["8140","　�
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"private":true,"name":"algoliasearch-crawler-github-actions","version":"1.0.7","description":"Github action for Algolia crawler indexing","main":"index.js","scripts":{"build":"yarn clean && tsc","clean":"rm -rf dist/","test":"jest","lint":"eslint src/**/*","semantic-release":"semantic-release","compile":"ncc build ./dist/index.js -o ./build","hot:runtime":"tsc -b -w --preserveWatchOutput"},"repository":{"type":"git","url":"git+https://github.com/algolia/algoliasearch-crawler-github-actions.git"},"keywords":["Crawler","Algolia","Github","Action","indexing","crawl","algoliasearch","search"],"author":{"name":"Algolia, Inc.","url":"https://www.algolia.com"},"license":"MIT","bugs":{"url":"https://github.com/algolia/algoliasearch-crawler-github-actions/issues"},"homepage":"https://github.com/algolia/algoliasearch-crawler-github-actions#readme","devDependencies":{"@semantic-release/changelog":"6.0.1","@semantic-release/exec":"6.0.2","@semantic-release/git":"10.0.1","@semantic-release/npm":"8.0.3","@types/cheerio":"0.22.30","@types/jest":"27.0.3","@types/node":"16.11.7","@types/node-fetch":"3.0.2","@typescript-eslint/eslint-plugin":"5.4.0","@typescript-eslint/parser":"5.4.0","@vercel/ncc":"0.32.0","eslint":"8.2.0","eslint-config-algolia":"19.0.2","eslint-config-prettier":"8.3.0","eslint-plugin-eslint-comments":"3.2.0","eslint-plugin-import":"2.25.3","eslint-plugin-jest":"25.2.4","eslint-plugin-jsdoc":"37.0.3","eslint-plugin-prettier":"4.0.0","jest":"27.3.1","prettier":"2.4.1","semantic-release":"18.0.0","ts-jest":"27.0.7","ts-node":"10.4.0","typescript":"4.5.2"},"dependencies":{"@actions/core":"1.6.0","@actions/github":"5.0.0","node-fetch":"3.1.0"}}');
+module.exports = JSON.parse('{"private":true,"name":"algoliasearch-crawler-github-actions","version":"1.0.8","description":"Github action for Algolia crawler indexing","main":"index.js","scripts":{"build":"yarn clean && tsc","clean":"rm -rf dist/","test":"jest","lint":"eslint src/**/*","semantic-release":"semantic-release","compile":"ncc build ./dist/index.js -o ./build","hot:runtime":"tsc -b -w --preserveWatchOutput"},"repository":{"type":"git","url":"git+https://github.com/algolia/algoliasearch-crawler-github-actions.git"},"keywords":["Crawler","Algolia","Github","Action","indexing","crawl","algoliasearch","search"],"author":{"name":"Algolia, Inc.","url":"https://www.algolia.com"},"license":"MIT","bugs":{"url":"https://github.com/algolia/algoliasearch-crawler-github-actions/issues"},"homepage":"https://github.com/algolia/algoliasearch-crawler-github-actions#readme","devDependencies":{"@semantic-release/changelog":"6.0.1","@semantic-release/exec":"6.0.2","@semantic-release/git":"10.0.1","@semantic-release/npm":"8.0.3","@types/cheerio":"0.22.30","@types/jest":"27.0.3","@types/node":"16.11.7","@types/node-fetch":"3.0.2","@typescript-eslint/eslint-plugin":"5.4.0","@typescript-eslint/parser":"5.4.0","@vercel/ncc":"0.32.0","eslint":"8.2.0","eslint-config-algolia":"19.0.2","eslint-config-prettier":"8.3.0","eslint-plugin-eslint-comments":"3.2.0","eslint-plugin-import":"2.25.3","eslint-plugin-jest":"25.2.4","eslint-plugin-jsdoc":"37.0.3","eslint-plugin-prettier":"4.0.0","jest":"27.3.1","prettier":"2.4.1","semantic-release":"18.0.0","ts-jest":"27.0.7","ts-node":"10.4.0","typescript":"4.5.2"},"dependencies":{"@actions/core":"1.6.0","@actions/github":"5.0.0","node-fetch":"3.0.0"}}');
 
 /***/ })
 
@@ -18947,9 +18474,6 @@ module.exports = JSON.parse('{"private":true,"name":"algoliasearch-crawler-githu
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__nccwpck_require__.m = __webpack_modules__;
-/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
@@ -18960,28 +18484,6 @@ module.exports = JSON.parse('{"private":true,"name":"algoliasearch-crawler-githu
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/ensure chunk */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.f = {};
-/******/ 		// This file contains only the entry chunk.
-/******/ 		// The chunk loading function for additional chunks
-/******/ 		__nccwpck_require__.e = (chunkId) => {
-/******/ 			return Promise.all(Object.keys(__nccwpck_require__.f).reduce((promises, key) => {
-/******/ 				__nccwpck_require__.f[key](chunkId, promises);
-/******/ 				return promises;
-/******/ 			}, []));
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/get javascript chunk filename */
-/******/ 	(() => {
-/******/ 		// This function allow to reference async chunks
-/******/ 		__nccwpck_require__.u = (chunkId) => {
-/******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".index.js";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -19004,48 +18506,6 @@ module.exports = JSON.parse('{"private":true,"name":"algoliasearch-crawler-githu
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/ 	
-/******/ 	/* webpack/runtime/require chunk loading */
-/******/ 	(() => {
-/******/ 		// no baseURI
-/******/ 		
-/******/ 		// object to store loaded chunks
-/******/ 		// "1" means "loaded", otherwise not loaded yet
-/******/ 		var installedChunks = {
-/******/ 			179: 1
-/******/ 		};
-/******/ 		
-/******/ 		// no on chunks loaded
-/******/ 		
-/******/ 		var installChunk = (chunk) => {
-/******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids, runtime = chunk.runtime;
-/******/ 			for(var moduleId in moreModules) {
-/******/ 				if(__nccwpck_require__.o(moreModules, moduleId)) {
-/******/ 					__nccwpck_require__.m[moduleId] = moreModules[moduleId];
-/******/ 				}
-/******/ 			}
-/******/ 			if(runtime) runtime(__nccwpck_require__);
-/******/ 			for(var i = 0; i < chunkIds.length; i++)
-/******/ 				installedChunks[chunkIds[i]] = 1;
-/******/ 		
-/******/ 		};
-/******/ 		
-/******/ 		// require() chunk loading for javascript
-/******/ 		__nccwpck_require__.f.require = (chunkId, promises) => {
-/******/ 			// "1" is the signal for "already loaded"
-/******/ 			if(!installedChunks[chunkId]) {
-/******/ 				if(true) { // all chunks have JS
-/******/ 					installChunk(require("./" + __nccwpck_require__.u(chunkId)));
-/******/ 				} else installedChunks[chunkId] = 1;
-/******/ 			}
-/******/ 		};
-/******/ 		
-/******/ 		// no external install chunk
-/******/ 		
-/******/ 		// no HMR
-/******/ 		
-/******/ 		// no HMR manifest
-/******/ 	})();
 /******/ 	
 /************************************************************************/
 /******/ 	
