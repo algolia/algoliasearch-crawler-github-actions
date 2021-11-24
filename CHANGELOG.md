@@ -1,3 +1,10 @@
+## [1.0.10](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.9...v1.0.10) (2021-11-24)
+
+
+### Bug Fixes
+
+* cast boolean ([8593541](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/85935415e86157bede081bff58dfc07b4d33b5c1))
+
 ## [1.0.9](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.8...v1.0.9) (2021-11-24)
 
 
