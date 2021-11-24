@@ -30,7 +30,7 @@ On your repository:
 
 ```yaml
   - name: Algolia crawler creation and crawl
-    uses: algolia/algoliasearch-crawler-github-actions@v1
+    uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
     id: algolia_crawler
     with: # mandatory parameters
       crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
