@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.8...v1.0.9) (2021-11-24)
+
+
+### Bug Fixes
+
+* core.setFailed ([956f188](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/956f188ad9c78db5d3473730c48347f833a93464))
+
 ## [1.0.8](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.7...v1.0.8) (2021-11-24)
 
 

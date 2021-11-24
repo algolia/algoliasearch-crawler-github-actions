@@ -592,7 +592,9 @@ function crawlerReindex() {
 }
 console.log('---------CRAWLER CONFIG---------');
 console.log("CRAWLER_NAME : ".concat(CRAWLER_NAME));
-crawlerReindex().catch(function (error) { return console.log(error); });
+crawlerReindex().catch(function (error) {
+    core.setFailed(error);
+});
 
 
 /***/ }),
@@ -18438,7 +18440,7 @@ module.exports = JSON.parse('[["0","\\u0000",128],["a1","｡",62],["8140","　�
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"private":true,"name":"algoliasearch-crawler-github-actions","version":"1.0.8","description":"Github action for Algolia crawler indexing","main":"index.js","scripts":{"build":"yarn clean && tsc","clean":"rm -rf dist/","test":"jest","lint":"eslint src/**/*","semantic-release":"semantic-release","compile":"ncc build ./dist/index.js -o ./build","hot:runtime":"tsc -b -w --preserveWatchOutput"},"repository":{"type":"git","url":"git+https://github.com/algolia/algoliasearch-crawler-github-actions.git"},"keywords":["Crawler","Algolia","Github","Action","indexing","crawl","algoliasearch","search"],"author":{"name":"Algolia, Inc.","url":"https://www.algolia.com"},"license":"MIT","bugs":{"url":"https://github.com/algolia/algoliasearch-crawler-github-actions/issues"},"homepage":"https://github.com/algolia/algoliasearch-crawler-github-actions#readme","devDependencies":{"@semantic-release/changelog":"6.0.1","@semantic-release/exec":"6.0.2","@semantic-release/git":"10.0.1","@semantic-release/npm":"8.0.3","@types/cheerio":"0.22.30","@types/jest":"27.0.3","@types/node":"16.11.7","@types/node-fetch":"3.0.2","@typescript-eslint/eslint-plugin":"5.4.0","@typescript-eslint/parser":"5.4.0","@vercel/ncc":"0.32.0","eslint":"8.2.0","eslint-config-algolia":"19.0.2","eslint-config-prettier":"8.3.0","eslint-plugin-eslint-comments":"3.2.0","eslint-plugin-import":"2.25.3","eslint-plugin-jest":"25.2.4","eslint-plugin-jsdoc":"37.0.3","eslint-plugin-prettier":"4.0.0","jest":"27.3.1","prettier":"2.4.1","semantic-release":"18.0.0","ts-jest":"27.0.7","ts-node":"10.4.0","typescript":"4.5.2"},"dependencies":{"@actions/core":"1.6.0","@actions/github":"5.0.0","node-fetch":"3.0.0"}}');
+module.exports = JSON.parse('{"private":true,"name":"algoliasearch-crawler-github-actions","version":"1.0.9","description":"Github action for Algolia crawler indexing","main":"index.js","scripts":{"build":"yarn clean && tsc","clean":"rm -rf dist/","test":"jest","lint":"eslint src/**/*","semantic-release":"semantic-release","compile":"ncc build ./dist/index.js -o ./build","hot:runtime":"tsc -b -w --preserveWatchOutput"},"repository":{"type":"git","url":"git+https://github.com/algolia/algoliasearch-crawler-github-actions.git"},"keywords":["Crawler","Algolia","Github","Action","indexing","crawl","algoliasearch","search"],"author":{"name":"Algolia, Inc.","url":"https://www.algolia.com"},"license":"MIT","bugs":{"url":"https://github.com/algolia/algoliasearch-crawler-github-actions/issues"},"homepage":"https://github.com/algolia/algoliasearch-crawler-github-actions#readme","devDependencies":{"@semantic-release/changelog":"6.0.1","@semantic-release/exec":"6.0.2","@semantic-release/git":"10.0.1","@semantic-release/npm":"8.0.3","@types/cheerio":"0.22.30","@types/jest":"27.0.3","@types/node":"16.11.7","@types/node-fetch":"3.0.2","@typescript-eslint/eslint-plugin":"5.4.0","@typescript-eslint/parser":"5.4.0","@vercel/ncc":"0.32.0","eslint":"8.2.0","eslint-config-algolia":"19.0.2","eslint-config-prettier":"8.3.0","eslint-plugin-eslint-comments":"3.2.0","eslint-plugin-import":"2.25.3","eslint-plugin-jest":"25.2.4","eslint-plugin-jsdoc":"37.0.3","eslint-plugin-prettier":"4.0.0","jest":"27.3.1","prettier":"2.4.1","semantic-release":"18.0.0","ts-jest":"27.0.7","ts-node":"10.4.0","typescript":"4.5.2"},"dependencies":{"@actions/core":"1.6.0","@actions/github":"5.0.0","node-fetch":"3.0.0"}}');
 
 /***/ })
 
