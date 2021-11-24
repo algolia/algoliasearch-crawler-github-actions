@@ -21,7 +21,7 @@ const INDEX_NAME = CRAWLER_NAME.replace(/[ /]/g, '-').replace(
 const ALGOLIA_APP_ID = core.getInput('algolia-app-id');
 const ALGOLIA_API_KEY = core.getInput('algolia-api-key');
 const SITE_URL = core.getInput('site-url');
-const OVERRIDE_CONFIG = core.getInput('override-config');
+const OVERRIDE_CONFIG = core.getInput('override-config') === 'true';
 
 interface Comment {
   id: number;
