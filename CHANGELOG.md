@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.6...v1.0.7) (2021-11-24)
+
+
+### Bug Fixes
+
+* **action:** use node12 runner ([#111](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/111)) ([2559b93](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/2559b93e2d76d94fa043c560b5571d8d83fc13bb))
+
 ## [1.0.6](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.5...v1.0.6) (2021-11-13)
 
 

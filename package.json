@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "algoliasearch-crawler-github-actions",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Github action for Algolia crawler indexing",
   "main": "index.js",
   "scripts": {
