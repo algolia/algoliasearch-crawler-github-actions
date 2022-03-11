@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.11...v1.0.12) (2022-03-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency node-fetch to v3.2.2 ([#173](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/173)) ([30f04a3](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/30f04a3c7f0241085fcb5b27ab9525d93386e819))
+
 ## [1.0.11](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.10...v1.0.11) (2022-01-24)
 
 
