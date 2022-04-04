@@ -1,3 +1,10 @@
+## [1.0.14](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.13...v1.0.14) (2022-04-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @actions/github to v5.0.1 ([#196](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/196)) ([c2a0c9a](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/c2a0c9ac09056730da31827d7b89fd56e2b03480))
+
 ## [1.0.13](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.12...v1.0.13) (2022-03-18)
 
 
