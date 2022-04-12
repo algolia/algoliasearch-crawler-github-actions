@@ -90,6 +90,7 @@ export class CrawlerApiClient {
       try {
         return (await res.json()) as TBody;
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.log('Body', await res.text());
         throw new Error('Cant decode success body');
       }
