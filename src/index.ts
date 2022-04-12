@@ -37,19 +37,27 @@ async function run(): Promise<void> {
   console.log('---------CRAWLER CONFIG---------');
   console.log(`CRAWLER_NAME : ${CRAWLER_NAME}`);
 
-  const crawlerId = await getCrawlerId(
-    {
-      client,
-      override: OVERRIDE_CONFIG,
-      name,
-    },
-    {
-      appId,
-      apiKey: ALGOLIA_API_KEY,
-      indexName: INDEX_NAME,
-      siteUrl: SITE_URL,
-    }
-  );
+  let crawlerId: string;
+  try {
+    crawlerId = await getCrawlerId(
+      {
+        client,
+        override: OVERRIDE_CONFIG,
+        name,
+      },
+      {
+        appId,
+        apiKey: ALGOLIA_API_KEY,
+        indexName: INDEX_NAME,
+        siteUrl: SITE_URL,
+      }
+    );
+  } catch (err) {
+    core.error(new Error('Can not upsert crawler'), {
+      title: err instanceof Error ? err.message : '',
+    });
+    return;
+  }
 
   console.log(`---------- Reindexing crawler ${crawlerId} ----------`);
   await client.reindex(crawlerId);
