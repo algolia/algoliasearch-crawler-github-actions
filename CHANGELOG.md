@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.14...v1.1.0) (2022-04-12)
+
+
+### Features
+
+* add testing ([#203](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/203)) ([cc499fb](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/cc499fbc73cc6221f91f12f7c89501123e2d6c53))
+
 ## [1.0.14](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.0.13...v1.0.14) (2022-04-04)
 
 
