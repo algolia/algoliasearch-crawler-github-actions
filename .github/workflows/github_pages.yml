@@ -19,7 +19,7 @@ jobs:
         with:
           crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
           crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
-          crawler-api-base-url: 'https://crawler.algolia.com/api/1'
+          crawler-api-base-url: 'https://crawler-dev.algolia.com/api/1'
           crawler-name: gpages-github-actions-test-${{ github.ref }}
           algolia-app-id: ${{ secrets.ALGOLIA_APP_ID }}
           algolia-api-key: ${{ secrets.ALGOLIA_API_KEY }}
