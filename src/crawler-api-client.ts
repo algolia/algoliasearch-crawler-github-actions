@@ -87,12 +87,16 @@ export class CrawlerApiClient {
 
   static async __handleResponse<TBody>(res: Response): Promise<TBody> {
     if (res.ok) {
-      return (await res.json()) as TBody;
+      try {
+        return (await res.json()) as TBody;
+      } catch (err) {
+        console.log('Body', await res.text());
+        throw new Error('Cant decode success body');
+      }
     }
-    const error = await res.json();
-    throw new Error(
-      `${res.status}: ${res.statusText}\n${error ? JSON.stringify(error) : ''}`
-    );
+
+    const body = await res.text();
+    throw new Error(`${res.status}: ${res.statusText}\n${body}`);
   }
 
   /**

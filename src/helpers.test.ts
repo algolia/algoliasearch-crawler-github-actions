@@ -5,7 +5,7 @@ jest.mock('./crawler-api-client');
 
 const CRAWLER_USER_ID = '00000000-0000-4000-a000-000000000001';
 const CRAWLER_API_KEY = '00000000-0000-4000-a000-000000000001';
-const CRAWLER_API_BASE_URL = 'https://crawler.algolia.com/api/1/';
+const CRAWLER_API_BASE_URL = 'https://crawler.algolia.com/api/1';
 const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID!;
 
 describe('crawlerReindex', () => {

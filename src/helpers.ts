@@ -98,8 +98,6 @@ export async function addComment({
   appId: string;
   name: string;
 }): Promise<void> {
-  // eslint-disable-next-line no-console
-  console.log('prout');
   try {
     const context = github.context;
     if (context.payload.pull_request === undefined) {

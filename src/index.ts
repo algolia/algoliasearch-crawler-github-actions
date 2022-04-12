@@ -26,6 +26,8 @@ async function run(): Promise<void> {
   const crawlerApiBaseUrl = CRAWLER_API_BASE_URL;
   const appId = ALGOLIA_APP_ID;
   const name = CRAWLER_NAME;
+  const siteUrl = SITE_URL;
+  const indexName = INDEX_NAME;
 
   const client = new CrawlerApiClient({
     crawlerApiBaseUrl,
@@ -35,7 +37,7 @@ async function run(): Promise<void> {
   const octokit = github.getOctokit(GITHUB_TOKEN);
 
   console.log('---------CRAWLER CONFIG---------');
-  console.log(`CRAWLER_NAME : ${CRAWLER_NAME}`);
+  console.log('config', JSON.stringify({ name, appId, siteUrl, indexName }));
 
   let crawlerId: string;
   try {
@@ -48,8 +50,8 @@ async function run(): Promise<void> {
       {
         appId,
         apiKey: ALGOLIA_API_KEY,
-        indexName: INDEX_NAME,
-        siteUrl: SITE_URL,
+        indexName,
+        siteUrl,
       }
     );
   } catch (err) {

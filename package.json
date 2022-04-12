@@ -1,6 +1,5 @@
 {
   "private": true,
-  "type": "module",
   "name": "algoliasearch-crawler-github-actions",
   "version": "1.0.14",
   "description": "Github action for Algolia crawler indexing",
@@ -11,7 +10,7 @@
     "test": "jest",
     "lint": "eslint --ext=jsx,ts,tsx,js src/",
     "semantic-release": "semantic-release",
-    "compile": "ncc build ./dist/index.js -o ./build",
+    "compile": "ncc build ./dist/index.js -o ./build -m -s",
     "hot:runtime": "tsc -b -w --preserveWatchOutput"
   },
   "repository": {
