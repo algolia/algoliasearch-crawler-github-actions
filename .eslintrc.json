@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "algolia",
+    "algolia/typescript",
+    "algolia/jest"
+  ],
+  "env": {
+    "es6": true,
+    "jest": true
+  },
+  "plugins": [
+    "jest"
+  ],
+  "rules": {
+    "import/no-commonjs": "off",
+    "spaced-comment": "off",
+    // TMP
+    "jsdoc/check-examples": [
+      "off"
+    ]
+  }
+}

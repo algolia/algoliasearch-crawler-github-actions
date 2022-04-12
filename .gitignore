@@ -4,3 +4,6 @@
 .scannerwork
 dist/
 node_modules/
+
+.env
+.secrets

@@ -59,7 +59,7 @@ const USER_AGENT = `algolia_crawler_github_actions/${version}`;
  * });
  * await client.reindex('crawler_id');
  */
-class CrawlerApiClient {
+export class CrawlerApiClient {
   crawlerUserId: string;
   crawlerApiKey: string;
   crawlerApiBaseUrl: string;
@@ -87,12 +87,17 @@ class CrawlerApiClient {
 
   static async __handleResponse<TBody>(res: Response): Promise<TBody> {
     if (res.ok) {
-      return (await res.json()) as TBody;
+      try {
+        return (await res.json()) as TBody;
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log('Body', await res.text());
+        throw new Error('Cant decode success body');
+      }
     }
-    const error = await res.json();
-    throw new Error(
-      `${res.status}: ${res.statusText}\n${error ? JSON.stringify(error) : ''}`
-    );
+
+    const body = await res.text();
+    throw new Error(`${res.status}: ${res.statusText}\n${body}`);
   }
 
   /**
@@ -397,5 +402,3 @@ class CrawlerApiClient {
     return (await res.json()) as UrlTestResponseBody;
   }
 }
-
-export { CrawlerApiClient };
