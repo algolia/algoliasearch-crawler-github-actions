@@ -58,6 +58,7 @@ async function run(): Promise<void> {
     core.error(new Error('Can not upsert crawler'), {
       title: err instanceof Error ? err.message : '',
     });
+    core.setFailed('Can not upsert crawler');
     return;
   }
 
