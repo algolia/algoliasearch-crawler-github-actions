@@ -1,14 +1,15 @@
 {
   "private": true,
+  "type": "module",
   "name": "algoliasearch-crawler-github-actions",
   "version": "1.0.14",
   "description": "Github action for Algolia crawler indexing",
-  "main": "index.js",
+  "exports": "./build/index.js",
   "scripts": {
     "build": "yarn clean && tsc",
-    "clean": "rm -rf dist/",
+    "clean": "rm -rf dist/ build/",
     "test": "jest",
-    "lint": "eslint src/**/*",
+    "lint": "eslint --ext=jsx,ts,tsx,js src/",
     "semantic-release": "semantic-release",
     "compile": "ncc build ./dist/index.js -o ./build",
     "hot:runtime": "tsc -b -w --preserveWatchOutput"
@@ -35,6 +36,9 @@
   "bugs": {
     "url": "https://github.com/algolia/algoliasearch-crawler-github-actions/issues"
   },
+  "engines": {
+    "node": "^16.14.2"
+  },
   "homepage": "https://github.com/algolia/algoliasearch-crawler-github-actions#readme",
   "devDependencies": {
     "@semantic-release/changelog": "6.0.1",
@@ -44,17 +48,17 @@
     "@types/cheerio": "0.22.31",
     "@types/jest": "27.4.1",
     "@types/node": "16.11.26",
-    "@types/node-fetch": "3.0.2",
-    "@typescript-eslint/eslint-plugin": "5.18.0",
-    "@typescript-eslint/parser": "5.18.0",
-    "@vercel/ncc": "0.33.3",
-    "eslint": "8.12.0",
+    "@types/node-fetch": "2.6.1",
+    "@typescript-eslint/eslint-plugin": "5.19.0",
+    "@typescript-eslint/parser": "5.19.0",
+    "@vercel/ncc": "0.33.4",
+    "eslint": "8.13.0",
     "eslint-config-algolia": "20.0.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jest": "25.7.0",
-    "eslint-plugin-jsdoc": "37.9.7",
+    "eslint-plugin-jest": "26.1.4",
+    "eslint-plugin-jsdoc": "39.1.1",
     "eslint-plugin-prettier": "4.0.0",
     "jest": "27.5.1",
     "prettier": "2.6.2",
@@ -66,6 +70,6 @@
   "dependencies": {
     "@actions/core": "1.6.0",
     "@actions/github": "5.0.1",
-    "node-fetch": "3.2.3"
+    "node-fetch": "2.6.7"
   }
 }

@@ -59,7 +59,7 @@ const USER_AGENT = `algolia_crawler_github_actions/${version}`;
  * });
  * await client.reindex('crawler_id');
  */
-class CrawlerApiClient {
+export class CrawlerApiClient {
   crawlerUserId: string;
   crawlerApiKey: string;
   crawlerApiBaseUrl: string;
@@ -397,5 +397,3 @@ class CrawlerApiClient {
     return (await res.json()) as UrlTestResponseBody;
   }
 }
-
-export { CrawlerApiClient };
