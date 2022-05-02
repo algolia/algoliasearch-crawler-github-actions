@@ -46,7 +46,7 @@
     "@semantic-release/npm": "9.0.1",
     "@types/cheerio": "0.22.31",
     "@types/jest": "27.4.1",
-    "@types/node": "16.11.32",
+    "@types/node": "16.11.33",
     "@types/node-fetch": "2.6.1",
     "@typescript-eslint/eslint-plugin": "5.21.0",
     "@typescript-eslint/parser": "5.21.0",
