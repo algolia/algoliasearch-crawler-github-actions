@@ -54,11 +54,9 @@ async function run(): Promise<void> {
         siteUrl,
       }
     );
-  } catch (err) {
-    core.error(new Error('Can not upsert crawler'), {
-      title: err instanceof Error ? err.message : '',
-    });
-    core.setFailed('Can not upsert crawler');
+  } catch (err: any) {
+    core.error(err);
+    core.setFailed('Could not create and start crawler.');
     return;
   }
 
