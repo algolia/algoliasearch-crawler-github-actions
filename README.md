@@ -66,6 +66,8 @@ On your repository:
 - `site-url`
 
   URL of the website to crawl
+  
+> Algolia API Key note: If the Algolia API Keys present in you dashboard do not work, try using the one present in your crawler configuration.
 
 ### Optional parameters
 
@@ -74,7 +76,7 @@ On your repository:
   Base URL of the crawler, default: [https://crawler.algolia.com/api/1/](https://crawler.algolia.com/api/1/)
 - `crawler-name`
 
-  Name of the created crawler, default: `'[Github] ${{ github.repository }} ${{ github.ref }}'`
+  Name of the created crawler/index, default: `'[Github] ${{ github.repository }} ${{ github.ref }}'`
 - `override-config`
 
   Boolean to define if you want your crawler config to be overriden or not, default: `false`
@@ -90,10 +92,10 @@ We highly recommend not to define sensitive information such as Algolia and/or C
 
 - `ALGOLIA_API_KEY`
 
-  Algolia Application ID
+  Algolia API Key
 - `ALGOLIA_APP_ID`
 
-  Algolia API Key
+  Algolia Application ID
 - `CRAWLER_API_KEY`
 
   Api Key of your crawler account
