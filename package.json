@@ -57,7 +57,7 @@
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "26.9.0",
-    "eslint-plugin-jsdoc": "39.6.4",
+    "eslint-plugin-jsdoc": "39.6.7",
     "eslint-plugin-prettier": "4.2.1",
     "jest": "27.5.1",
     "prettier": "2.8.2",
