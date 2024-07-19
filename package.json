@@ -58,7 +58,7 @@
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "26.9.0",
     "eslint-plugin-jsdoc": "39.9.1",
-    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-prettier": "5.2.1",
     "jest": "27.5.1",
     "prettier": "2.8.2",
     "semantic-release": "19.0.5",
