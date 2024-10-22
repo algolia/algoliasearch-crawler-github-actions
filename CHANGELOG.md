@@ -1,3 +1,10 @@
+## [1.1.13](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.1.12...v1.1.13) (2024-10-22)
+
+
+### Bug Fixes
+
+* change `site-url` to a more generic example ([#502](https://github.com/algolia/algoliasearch-crawler-github-actions/issues/502)) ([a3d716d](https://github.com/algolia/algoliasearch-crawler-github-actions/commit/a3d716da5704d8ea95e79695912bcc5d853a0e8f))
+
 ## [1.1.12](https://github.com/algolia/algoliasearch-crawler-github-actions/compare/v1.1.11...v1.1.12) (2024-10-05)
 
 
