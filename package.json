@@ -52,7 +52,7 @@
     "@typescript-eslint/parser": "5.44.0",
     "@vercel/ncc": "0.38.3",
     "eslint": "8.57.1",
-    "eslint-config-algolia": "20.1.0",
+    "eslint-config-algolia": "21.0.0",
     "eslint-config-prettier": "8.10.0",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.26.0",
