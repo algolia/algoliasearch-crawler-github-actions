@@ -36,7 +36,7 @@
     "url": "https://github.com/algolia/algoliasearch-crawler-github-actions/issues"
   },
   "engines": {
-    "node": "^16.14.2"
+    "node": "^18.0.0"
   },
   "homepage": "https://github.com/algolia/algoliasearch-crawler-github-actions#readme",
   "devDependencies": {
@@ -46,7 +46,7 @@
     "@semantic-release/npm": "9.0.1",
     "@types/cheerio": "0.22.35",
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.16",
+    "@types/node": "18.19.68",
     "@types/node-fetch": "2.6.2",
     "@typescript-eslint/eslint-plugin": "5.44.0",
     "@typescript-eslint/parser": "5.44.0",
