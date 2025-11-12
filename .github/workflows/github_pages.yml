@@ -10,7 +10,7 @@ jobs:
     steps:
       # checkout this repo
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Sleep for 30s
         run: sleep 30
       - name: Github-pages-MAIN => Algolia crawler creation and recrawl (Push on Main branch)
